@@ -1,0 +1,53 @@
+---
+settings:
+  name: SnapCenter software
+  internal:
+    pdf_enabled: true
+  prod:
+    pdf_enabled: true
+    harmony_enabled: false
+  versions:
+  - version-number: '6.1'
+    url: "/snapcenter-61"
+  - version-number: '6.2'
+    url: "/snapcenter"
+  - version-number: '6.0'
+    url: "/snapcenter-60"
+  - version-number: '5.0'
+    url: "/snapcenter-50"
+  - version-number: '4.9'
+    url: "/snapcenter-49"
+  - version-number: '4.8'
+    url: "/snapcenter-48"
+  - version-number: '4.7'
+    url: "/snapcenter-47"
+  - version-number: '4.6'
+    url: "/snapcenter-46"
+  - version-number: '4.5'
+    url: "/snapcenter-45"
+  langs: zh-tw,us-en,de-de,es-es,fr-fr,it-it,pt-br,ja-jp,ko-kr,zh-cn
+sidebar:
+  entries:
+  - title: SnapCenter software6.1 文件
+    url: "/index.html"
+  - section: release-notes
+  - section: get-started
+  - section: install
+  - section: protect-scsql
+  - section: protect-hana
+  - section: protect-sco
+  - section: protect-scw
+  - section: protect-sce
+  - section: protect-db2
+  - section: protect-postgresql
+  - section: protect-mysql
+  - section: protect-nsp
+  - section: protect-scu
+  - section: protect-azure
+  - section: admin
+  - section: upgrade
+  - section: tech-refresh
+  - section: uninstall
+  - section: sc-automation
+  - title: 法律聲明
+    url: "/legal-notices.html"

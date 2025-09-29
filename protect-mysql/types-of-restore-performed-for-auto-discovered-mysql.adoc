@@ -1,0 +1,30 @@
+---
+permalink: protect-mysql/types-of-restore-performed-for-auto-discovered-mysql.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for mysql 
+summary: SnapCenter支援基於磁碟區的SnapRestore \（VBSR\）、單一檔案SnapRestore以及自動發現的 MySQL 資料庫的連線和複製復原類型。 
+---
+= 自動發現的 MySQL 的復原操作類型
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+適用於 MySQL 的SnapCenter外掛程式支援單一檔案SnapRestore以及自動發現的 MySQL 資料庫的連接和複製還原類型。
+
+
+
+== 單檔SnapRestore在 NFS 環境中針對以下場景執行：
+
+* 如果僅選擇*完整資源*選項
+* 當選擇的備份來自SnapMirror或SnapVault二級位置，並且選擇了「完整資源」選項時
+
+
+
+
+== 單一檔案SnapRestore在 SAN 環境中針對下列場景執行：
+
+* 如果僅選擇*完整資源*選項
+* 從SnapMirror或SnapVault二級位置選擇備份，並選擇「完整資源」選項時
+

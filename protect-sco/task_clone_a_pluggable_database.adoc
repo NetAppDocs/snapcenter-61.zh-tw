@@ -1,0 +1,211 @@
+---
+permalink: protect-sco/task_clone_a_pluggable_database.html 
+sidebar: sidebar 
+keywords: clone, pluggable database, PDB 
+summary: 您可以將可插入資料庫（PDB）複製到同一主機或備用主機上不同或相同的目標 CDB。您也可以將克隆的 PDB 還原到所需的 SCN 或日期和時間。 
+---
+= 克隆可插入資料庫
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以將可插拔資料庫 (PDB) 複製到同一主機或備用主機上不同或相同的目標 CDB。您也可以將克隆的 PDB 還原到所需的 SCN 或日期和時間。
+
+*開始之前*
+
+如果您以非 root 使用者身分安裝了該插件，則應手動為 prescript 和 postscript 目錄指派執行權限。
+
+*步驟*
+
+. 在左側導覽窗格中，按一下“*資源*”，然後從清單中選擇適當的外掛程式。
+. 在資源頁面中，從*視圖*清單中選擇*資料庫*或*資源組*。
+. 從資料庫詳細資料檢視或資源群組詳細資料檢視中選擇單一實例（多租用戶）類型的資料庫。
++
+進入資料庫拓撲頁面。
+
+. 從管理副本檢視中，從本機副本（主副本）、鏡像副本（次副本）或保管庫副本（次副本）中選擇備份。
+. 從表格中選擇備份，然後按一下*image:../media/clone_icon.gif["複製圖示"] *.
+. 在名稱頁面中，執行以下操作：
++
+.. 選擇*PDB 克隆*。
+.. 指定要克隆的 PDB。
++
+
+NOTE: 一次只能克隆一個 PDB。
+
+.. 指定克隆 PDB 的名稱。
+
+
+. 在位置頁面中，執行以下操作：
++
+|===
+
+
+| 對於這個領域... | 這樣做... 
+
+
+ a| 
+複製主機
+ a| 
+預設情況下，來源資料庫主機已填入。
+
+如果要在備用主機上建立克隆，請選擇與來源資料庫主機具有相同 Oracle 版本和作業系統的主機。
+
+
+
+ a| 
+目標 CDB
+ a| 
+選擇要包含克隆的 PDB 的 CDB。
+
+您應該確保目標 CDB 正在運作。
+
+
+
+ a| 
+資料庫狀態
+ a| 
+如果您想以讀寫模式開啟 PDB，請選取*以讀寫模式開啟複製的 PDB*複選框。
+
+
+
+ a| 
+資料檔案位置
+ a| 
+預設情況下，資料檔案位置已填入。
+
+SnapCenter對 SAN 或 NFS 檔案系統的預設命名約定是 FileSystemNameofsourcedatabase_SCJOBID。
+
+SnapCenter 的ASM 磁碟組預設命名約定是 SC_HASHCODEofDISKGROUP_SCJOBID。  HASHCODEofDISKGROUP 是自動產生的數字（2 到 10 位數），每個 ASM 磁碟組都有其唯一性。
+
+
+NOTE: 如果您要自訂 ASM 磁碟組名稱，請確保名稱長度符合 Oracle 支援的最大長度。
+
+如果要指定不同的路徑，則必須輸入用於複製資料庫的資料檔案掛載點或 ASM 磁碟組名稱。
+
+|===
++
+Oracle 主目錄、使用者名稱和群組詳細資訊將從來源資料庫自動填入。您可以根據將建立複製的主機的 Oracle 環境變更這些值。
+
+. 在 PreOps 頁面中，執行下列步驟：
++
+.. 輸入要在克隆操作之前運行的處方的路徑和參數。
++
+您應該將處方儲存在 /var/opt/snapcenter/spl/scripts 或此路徑內的任何資料夾中。預設情況下，填入 /var/opt/snapcenter/spl/scripts 路徑。如果您已將腳本放在此路徑內的任何資料夾中，則需要提供放置腳本的資料夾的完整路徑。
+
++
+SnapCenter可讓您在執行前腳本和後腳本時使用預先定義的環境變數。link:../protect-sco/predefined-environment-variables-prescript-postscript-clone.html["了解更多"^]
+
+.. 在輔助 CDB 克隆資料庫參數設定部分，修改用於初始化資料庫的預先填入資料庫參數的值。
+
+
+. 按一下“*重設*”以取得預設資料庫參數設定。
+. 在 PostOps 頁面中，預設選擇 *Until Cancel* 來執行複製資料庫的復原。
++
+如果SnapCenter無法找到適當的日誌備份，則不會選擇「*直到取消*」選項。如果「指定外部存檔日誌位置」中沒有日誌備份，您可以提供外部存檔日誌位置。您可以指定多個日誌位置。
+
++
+
+NOTE: 如果要複製配置為支援閃回復原區 (FRA) 和 Oracle 管理檔案 (OMF) 的來源資料庫，則復原的日誌目標也必須遵循 OMF 目錄結構。
+
++
+|===
+| 欄位名稱 | 描述 
+
+
+ a| 
+直到取消
+ a| 
+SnapCenter透過在選擇進行複製的資料備份之後安裝具有完整存檔日誌序列的最新日誌備份來執行復原。
+
+日誌和資料備份應在主儲存體上以便在主儲存體上執行克隆，且日誌和資料備份應在輔助儲存體上以便在輔助儲存體上執行複製。克隆的資料庫恢復到遺失或損壞的日誌檔案。
+
+
+
+ a| 
+日期和時間
+ a| 
+SnapCenter將資料庫還原到指定的日期和時間。
+
+
+NOTE: 時間可以 24 小時格式指定。
+
+
+
+ a| 
+直到 SCN（系統變更號）
+ a| 
+SnapCenter將資料庫還原到指定的系統變更號碼 (SCN)。
+
+
+
+ a| 
+指定外部歸檔日誌位置
+ a| 
+指定外部存檔日誌位置。
+
+
+
+ a| 
+建立新的 DBID
+ a| 
+預設情況下，輔助複製資料庫的「建立新 DBID」複選框未選取。
+
+如果要為輔助複製資料庫產生一個唯一編號（DBID）以區別於來源資料庫，請選取此核取方塊。
+
+
+
+ a| 
+為臨時表空間建立臨時文件
+ a| 
+如果要為克隆資料庫的預設臨時表空間建立臨時文件，請選取該複選框。
+
+如果未選取該複選框，則將建立不含臨時檔案的資料庫克隆。
+
+
+
+ a| 
+輸入建立複製時要套用的 SQL 條目
+ a| 
+新增建立克隆時要套用的 SQL 條目。
+
+
+
+ a| 
+輸入克隆操作後運行的腳本
+ a| 
+指定克隆操作後要運行的後記的路徑和參數。
+
+您應該將後記儲存在 _/var/opt/snapcenter/spl/scripts_ 中或此路徑內的任何資料夾中。
+
+預設情況下，填入 _/var/opt/snapcenter/spl/scripts_ 路徑。如果您已將腳本放在此路徑內的任何資料夾中，則需要提供放置腳本的資料夾的完整路徑。
+
+
+NOTE: 如果克隆操作失敗，則不會執行後記，直接觸發清理活動。
+
+|===
+. 在通知頁面中，從*電子郵件首選項*下拉清單中，選擇您想要傳送電子郵件的場景。
++
+您也必須指定寄件者和收件者的電子郵件地址以及電子郵件的主題。如果您想要附加執行的複製操作的報告，請選擇*附加作業報告*。
+
++
+
+NOTE: 對於電子郵件通知，您必須使用 GUI 或 PowerShell 命令 Set-SmSmtpServer 指定 SMTP 伺服器詳細資訊。
+
+. 查看摘要，然後按一下「*完成*」。
+. 透過點選「*監視*」>「*作業*」來監視操作進度。
+
+
+*完成後*
+
+如果要建立克隆的 PDB 的備份，則應該備份克隆 PDB 的目標 CDB，因為僅備份克隆的 PDB 是不可能的。如果您想要建立具有輔助關係的備份，則應該為目標 CDB 建立輔助關係。
+
+在 RAC 設定中，克隆 PDB 的儲存僅附加到執行 PDB 克隆的節點。 RAC其他節點上的PDB處於MOUNT狀態。如果您希望克隆的 PDB 可從其他節點訪問，則應手動將儲存空間附加到其他節點。
+
+*查找更多資訊*
+
+* https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/ORA-00308%3A_cannot_open_archived_log_ORA_LOG_arch1_123_456789012.arc["恢復或複製失敗並出現 ORA-00308 錯誤訊息"^]
+* https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/What_are_the_customizable_parameters_for_backup_restore_and_clone_operations_on_AIX_systems["AIX 系統上備份、還原和克隆作業的可自訂參數"^]
+

@@ -1,0 +1,40 @@
+---
+permalink: protect-hana/task_monitor_the_status_of_installing_plugin_for_sap_hana.html 
+sidebar: sidebar 
+keywords: monitor, install, snapCenter plug-in for SAP HANA 
+summary: 您可以使用「作業」頁面監控SnapCenter插件包的安裝進度。您可能需要檢查安裝進度以確定安裝何時完成或是否有問題。 
+---
+= 監控 SAP HANA 插件安裝狀態
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以使用「作業」頁面監控SnapCenter插件包的安裝進度。您可能需要檢查安裝進度以確定安裝何時完成或是否有問題。
+
+.關於此任務
+以下圖示出現在「作業」頁面上並指示操作的狀態：
+
+* image:../media/progress_icon.gif["正在進行圖示"]進行中
+* image:../media/success_icon.gif["完成的圖標"]成功完成
+* image:../media/failed_icon.gif["失敗圖示"]失敗的
+* image:../media/warning_icon.gif["已完成，帶有警告圖標"]已完成但有警告，或因警告而無法啟動
+* image:../media/verification_job_in_queue.gif["驗證作業已排隊"]排隊
+
+
+.步驟
+. 在左側導覽窗格中，按一下「*監控*」。
+. 在「*監控*」頁面中，按一下「*作業*」。
+. 在 *Jobs* 頁面中，若要篩選清單以便僅列出外掛程式安裝操作，請執行下列操作：
++
+.. 按一下“*過濾器*”。
+.. 可選：指定開始日期和結束日期。
+.. 從類型下拉式選單中，選擇*插件安裝*。
+.. 從狀態下拉式選單中，選擇安裝狀態。
+.. 按一下“*應用*”。
+
+
+. 選擇安裝作業並點擊*詳細資料*以查看作業詳細資料。
+. 在「作業詳情」頁面中，按一下「檢視日誌」。
+

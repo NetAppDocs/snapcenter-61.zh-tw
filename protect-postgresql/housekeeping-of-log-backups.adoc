@@ -1,0 +1,16 @@
+---
+permalink: protect-postgresql/housekeeping-of-log-backups.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for PostgreSQL 
+summary: SnapCenter管理儲存系統和檔案系統層級以及 PostgreSQL 備份目錄中的日誌和資料備份。 
+---
+= SnapCenter如何管理資料備份
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenter管理儲存系統和檔案系統層級的資料備份。
+
+根據保留設定刪除主儲存或輔助儲存上的快照及其在 PostgreSQL 目錄中的對應項目。

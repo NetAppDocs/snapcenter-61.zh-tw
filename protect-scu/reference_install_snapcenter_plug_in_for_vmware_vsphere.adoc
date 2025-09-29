@@ -1,0 +1,30 @@
+---
+permalink: protect-scu/reference_install_snapcenter_plug_in_for_vmware_vsphere.html 
+sidebar: sidebar 
+keywords: install, VMware vSphere 
+summary: '如果您的資料庫儲存在虛擬機器 (VM) 上，或者您想要保護 VM 和資料儲存區，則必須部署SnapCenter Plug-in for VMware vSphere。' 
+---
+= SnapCenter Plug-in for VMware vSphere
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+如果您的資料庫或檔案系統儲存在虛擬機器 (VM) 上，或者您想要保護 VM 和資料儲存區，則必須部署SnapCenter Plug-in for VMware vSphere。
+
+有關部署的信息，請參閱 https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/scpivs44_get_started_overview.html["部署概述"^]。
+
+
+
+== 部署 CA 憑證
+
+若要使用適用SnapCenter Plug-in for VMware vSphere設定 CA 證書，請參閱 https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/How_to_create_and_or_import_an_SSL_certificate_to_SnapCenter_Plug-in_for_VMware_vSphere_(SCV)["建立或匯入 SSL 憑證"^]。
+
+
+
+== 配置 CRL 文件
+
+SnapCenter Plug-in for VMware vSphere在預先設定的目錄中尋找 CRL 檔案。  SnapCenter Plug-in for VMware vSphere的 CRL 檔案的預設目錄是 _/opt/netapp/config/crl_。
+
+您可以在此目錄中放置多個 CRL 檔案。將根據每個 CRL 驗證傳入的憑證。

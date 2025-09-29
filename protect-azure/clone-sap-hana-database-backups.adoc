@@ -1,0 +1,56 @@
+---
+permalink: protect-azure/clone-sap-hana-database-backups.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for SAP HANA Database, clone, database, backups 
+summary: 您可以使用SnapCenter克隆備份。 
+---
+= 克隆 SAP HANA 資料庫備份
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以使用SnapCenter透過資料庫備份克隆 SAP HANA 資料庫。創建的克隆是厚克隆，是在父容量池上創建的。
+
+.步驟
+. 在左側導覽窗格中，按一下“*資源*”，然後從清單中選擇適當的外掛程式。
+. 在資源頁面中，根據資源類型從*檢視*下拉清單中過濾資源。
+. 選擇資源或資源組。
+. 從「管理副本」檢視中，從主儲存系統中選擇「*備份*」。
+. 從表中選擇資料備份，然後按一下image:../media/clone_icon.gif["複製圖示"]。
+. 在位置頁面中，執行以下操作：
++
+.. 選擇安裝了 SAP HANA 插件的主機，用於管理複製的 HANA 系統。
++
+它可以是集中式插件主機，也可以是HANA系統主機。
+
++
+
+NOTE: 如果 HANA 外掛程式安裝在管理其他主機上的 HANA 資料庫的集中式主機上，則在建立或刪除複製時， SnapCenter會故意跳過主機端操作（掛載或卸載檔案系統），因為目標伺服器是集中式主機。您應該使用自訂的克隆前或克隆後腳本來執行掛載和卸載操作。
+
+.. 輸入要從現有備份複製的 SAP HANA SID。
+.. 輸入將會匯出複製磁碟區的 IP 位址或主機名稱。
+.. 如果 SAP HANA 資料庫 ANF 磁碟區是在手動 QOS 容量池中設定的，請指定複製磁碟區的 QOS。
++
+如果未指定複製磁碟區的 QOS，則會使用來源磁碟區的 QOS。如果使用自動QOS容量池，則指定的QOS值將被忽略。
+
+
+
+. 在腳本頁面中，執行以下步驟：
++
+.. 輸入分別應在克隆操作之前或之後運行的預克隆或後克隆命令。
+.. 輸入 mount 指令將檔案系統掛載到主機。
++
+如果來源 HANA 系統自動發現，且複製目標主機外掛程式安裝在 SAP HANA 主機上，則SnapCenter會自動卸載複製目標主機上的現有 HANA 資料卷，並安裝新複製的 HANA 資料磁碟區。
+
+
+
+. 在通知頁面中，從*電子郵件首選項*下拉清單中，選擇您想要傳送電子郵件的場景。
+. 查看摘要，然後按一下「*完成*」。
+. 透過點選「*監視*」>「*作業*」來監視操作進度。
++
+
+NOTE: 克隆分割對於 ANF 克隆是停用的，因為 ANF 克隆已經是從所選快照建立的獨立磁碟區。
+
+

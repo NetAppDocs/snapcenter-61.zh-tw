@@ -1,0 +1,46 @@
+---
+permalink: protect-scsql/task_back_up_sql_server_resource_groups.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for SQL Server 
+summary: 您可以從資源頁面按需備份資源群組。如果資源組附加了策略並配置了計劃，則備份將根據計劃自動進行。 
+---
+= 備份 SQL Server 資源組
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以從資源頁面按需備份資源群組。如果資源組附加了策略並配置了計劃，則備份將根據計劃自動進行。
+
+.步驟
+. 在左側導覽窗格中，選擇*資源*，然後從清單中選擇適當的外掛程式。
+. 在資源頁面中，從*視圖*清單中選擇*資源組*。
++
+您可以透過在搜尋框中輸入資源組名稱或選擇image:../media/filter_icon.gif["篩選器圖標"]，然後選擇標籤。然後您可以選擇image:../media/filter_icon.gif["篩選器圖標"]關閉篩選器窗格。
+
+. 在資源組頁面中，選擇要備份的資源組，然後選擇*立即備份*。
+. 在備份頁面中，執行以下步驟：
++
+.. 如果您已將多個策略與資源群組關聯，請從「*策略*」下拉清單中選擇要用於備份的策略。
++
+如果為按需備份選擇的策略與備份計畫相關聯，則按需備份將根據為計畫類型指定的保留設定進行保留。
+
+.. 備份後，選擇*驗證*來驗證按需備份。
++
+政策中的 *驗證* 選項僅適用於排程作業。
+
+.. 選擇*備份*。
+
+
+. 透過選擇 *Monitor* > *Jobs* 來監控操作進度。
+
+
+.相關資訊
+link:task_create_backup_policies_for_sql_server_databases.html["為 SQL Server 資料庫建立備份策略"]
+
+link:task_create_resource_groups_and_attach_policies_for_sql_server.html["為 SQL Server 建立資源組並附加策略"]
+
+https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/Clone_operation_might_fail_or_take_longer_time_to_complete_with_default_TCP_TIMEOUT_value["由於 TCP_TIMEOUT 延遲，備份操作失敗，並出現 MySQL 連線錯誤"]
+
+https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/Backup_fails_with_Windows_scheduler_error["備份會因 Windows 排程器錯誤而失敗"]

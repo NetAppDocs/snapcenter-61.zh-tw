@@ -1,0 +1,170 @@
+---
+permalink: install/task_log_in_to_snapcenter.html 
+sidebar: sidebar 
+keywords: log in, logging, SnapCenter UI, modify timeout, GUI session timeout, disbale SSL 3.0, SSL 3.0, security 
+summary: 'SnapCenter支援基於角色的存取控制 (RBAC)。  SnapCenter管理員透過SnapCenter RBAC 將角色和資源分配給工作群組或活動目錄中的用戶，或活動目錄中的群組。  RBAC 使用者現在可以使用指派的角色登入SnapCenter 。' 
+---
+= 使用 RBAC 授權登入SnapCenter
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenter支援基於角色的存取控制 (RBAC)。  SnapCenter管理員透過SnapCenter RBAC 將角色和資源分配給工作群組或活動目錄中的用戶，或活動目錄中的群組。  RBAC 使用者現在可以使用指派的角色登入SnapCenter 。
+
+.開始之前
+* 您應該在 Windows 伺服器管理員中啟用 Windows 進程啟動服務 (WAS)。
+* 如果您想要使用 Internet Explorer 作為瀏覽器登入SnapCenter伺服器，則應確保 Internet Explorer 中的保護模式已停用。
+* 如果SnapCenter Server 安裝在 Linux 主機上，則應使用用於安裝SnapCenter Server 的使用者帳號登入。
+
+
+*關於此任務*
+
+在安裝過程中， SnapCenter伺服器安裝精靈會建立一個捷徑並將其放在桌面上和安裝SnapCenter的主機的「開始」功能表中。此外，在安裝結束時，安裝精靈會根據您在安裝期間提供的資訊顯示SnapCenter URL，如果您想從遠端系統登錄，可以複製該 URL。
+
+
+IMPORTANT: 如果您在 Web 瀏覽器中開啟了多個選項卡，則僅關閉SnapCenter瀏覽器標籤並不會將您登出SnapCenter。若要結束與SnapCenter的連接，您必須透過點擊「退出」按鈕或關閉整個 Web 瀏覽器來退出SnapCenter 。
+
+|===
+
+
+| *最佳實務：*出於安全原因，建議您不要啟用瀏覽器來儲存您的SnapCenter密碼。 
+|===
+預設 GUI URL 是與安裝SnapCenter Server 的伺服器上的預設連接埠 8146 的安全連線（_\https://server:8146_）。如果您在SnapCenter安裝期間提供了不同的伺服器端口，則將使用該端口。
+
+對於高可用性 (HA) 部署，您必須使用虛擬叢集 IP _\https://Virtual_Cluster_IP_or_FQDN:8146_ 存取SnapCenter 。如果在 Internet Explorer (IE) 中導覽至 _\https://Virtual_Cluster_IP_or_FQDN:8146_ 時沒有看到SnapCenter UI，則必須在每個外掛程式主機上的 IE 中將虛擬叢集 IP 位址或 FQDN 新增為受信任的網站，或者必須在每個外掛程式主機上停用 IE 增強性。有關更多信息，請參閱 https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/Unable_to_access_cluster_IP_address_from_outside_network["無法從外部網路存取群集 IP 位址"^] 。
+
+除了使用SnapCenter GUI 之外，您還可以使用 PowerShell cmdlet 建立腳本來執行設定、備份和復原作業。每次發布SnapCenter時，某些 cmdlet 可能會發生變化。這 https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["SnapCenter軟體 Cmdlet 參考指南"^]有詳細資料。
+
+
+NOTE: 如果您是第一次登入SnapCenter ，則必須使用安裝過程中提供的憑證登入。
+
+*步驟*
+
+. 從本機主機桌面上的捷徑、安裝結束時提供的 URL 或SnapCenter管理員提供的 URL 啟動SnapCenter 。
+. 輸入使用者憑證。
++
+|===
+| 若要指定以下內容... | 使用以下格式之一... 
+
+
+ a| 
+網域管理員
+ a| 
+** NetBIOS\使用者名
+** 使用者名稱@UPN後綴
++
+例如，\username@netapp.com
+
+** 網域 FQDN\用戶名
+
+
+
+
+ a| 
+本機管理員
+ a| 
+使用者名稱
+
+|===
+. 如果您被指派了多個角色，請從角色方塊中選擇要用於此登入工作階段的角色。
++
+登入後，您目前的使用者和相關角色將顯示在SnapCenter的右上角。
+
+
+
+*結果*
+
+將顯示“儀表板”頁面。
+
+如果日誌記錄失敗並出現無法存取網站的錯誤，則應將 SSL 憑證對應到SnapCenter。 https://kb.netapp.com/?title=Advice_and_Troubleshooting%2FData_Protection_and_Security%2FSnapCenter%2FSnapCenter_will_not_open_with_error_%2522This_site_can%2527t_be_reached%2522["了解更多"^]
+
+*完成後*
+
+首次以 RBAC 使用者登入SnapCenter Server 後，重新整理資源清單。
+
+如果您有不受信任的 Active Directory 網域並且希望SnapCenter支援這些網域，則必須先向SnapCenter註冊這些網域，然後再為不受信任網域上的使用者設定角色。link:../install/task_register_untrusted_active_directory_domains.html["了解更多"^] 。
+
+如果要在 Linux 主機上執行的SnapCenter中新增插件主機，則應從下列位置取得校驗和檔案：_/opt/ NetApp/snapcenter/SnapManagerWeb/Repository_。
+
+從 6.0 版本開始，桌面上會建立SnapCenter PowerShell 的捷徑。您可以使用捷徑直接存取SnapCenter PowerShell cmdlet。
+
+
+
+== 使用多重身份驗證 (MFA) 登入SnapCenter
+
+SnapCenter Server 支援網域帳戶的 MFA，它是活動目錄的一部分。
+
+.開始之前
+您應該啟用 MFA。有關如何啟用 MFA 的信息，請參閱link:../install/enable_multifactor_authentication.html["啟用多重身份驗證"]
+
+*關於此任務*
+
+* 僅支援 FQDN
+* 工作群組和跨網域使用者無法使用 MFA 登入
+
+
+*步驟*
+
+. 從本機主機桌面上的捷徑、安裝結束時提供的 URL 或SnapCenter管理員提供的 URL 啟動SnapCenter 。
+. 在 AD FS 登入頁面，輸入使用者名稱和密碼。
++
+當 AD FS 頁面上顯示使用者名稱或密碼無效錯誤訊息時，您應該檢查以下內容：
+
++
+** 使用者名稱或密碼是否有效
++
+使用者帳戶應該存在於 Active Directory (AD) 中
+
+** 您是否超出了 AD 中設定的最大允許嘗試次數
+** AD 和 AD FS 是否已啟動並執行
+
+
+
+
+
+
+== 修改SnapCenter預設 GUI 會話逾時
+
+您可以修改SnapCenter GUI 會話逾時期限，使其小於或大於預設逾時期限 20 分鐘。
+
+作為一項安全功能，在預設 15 分鐘不活動時間後， SnapCenter會警告您將在 5 分鐘內退出 GUI 工作階段。預設情況下， SnapCenter會在 20 分鐘不活動後將您從 GUI 工作階段中登出，您必須重新登入。
+
+*步驟*
+
+. 在左側導覽窗格中，按一下「*設定*」>「*全域設定*」。
+. 在全域設定頁面中，按一下*配置設定*。
+. 在會話逾時欄位中，輸入新的會話逾時時間（分鐘），然後按一下「*儲存*」。
+
+
+
+
+== 透過停用 SSL 3.0 來保護SnapCenter Web 伺服器
+
+出於安全目的，如果您的SnapCenter Web 伺服器上啟用了安全通訊端層 (SSL) 3.0 協議，則應在 Microsoft IIS 中停用該協定。
+
+SSL 3.0 協定有缺陷，攻擊者可以利用這些缺陷導致連線失敗，或進行中間人攻擊並觀察您的網站與其訪客之間的加密流量。
+
+*步驟*
+
+. 若要在SnapCenter Web 伺服器主機上啟動登錄編輯器，請按一下“*開始*”>“*執行*”，然後輸入 regedit。
+. 在登錄編輯器中，導覽至 HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\SSL 3.0\。
++
+** 如果伺服器金鑰已經存在：
++
+... 選擇已啟用的 DWORD，然後按一下 *編輯* > *修改*。
+... 將值變更為 0，然後按一下“*確定*”。
+
+
+** 如果伺服器金鑰不存在：
++
+... 按一下“*編輯*”>“*新建*”>“*金鑰*”，然後將金鑰命名為“伺服器”。
+... 選擇新的伺服器金鑰後，按一下*編輯* > *新建* > *DWORD*。
+... 將新的 DWORD 命名為 Enabled，然後輸入 0 作為值。
+
+
+
+
+. 關閉登錄編輯程式。
+

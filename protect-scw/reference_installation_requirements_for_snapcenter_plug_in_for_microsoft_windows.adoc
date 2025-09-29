@@ -1,0 +1,209 @@
+---
+permalink: protect-scw/reference_installation_requirements_for_snapcenter_plug_in_for_microsoft_windows.html 
+sidebar: sidebar 
+keywords: requirements 
+summary: 在安裝適用於 Windows 的插件之前，您應該了解某些安裝要求。 
+---
+= 適用於 Microsoft Windows 的SnapCenter外掛程式的安裝需求
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+在安裝適用於 Windows 的插件之前，您應該了解某些安裝要求。
+
+在開始使用適用於 Windows 的插件之前， SnapCenter管理員必須安裝和設定SnapCenter伺服器並執行先決條件任務。
+
+* 您必須具有SnapCenter管理員權限才能安裝適用於 Windows 的插件。
++
+SnapCenter管理員角色必須具有管理員權限。
+
+* 您必須已安裝並設定SnapCenter伺服器。
+* 在 Windows 主機上安裝插件時，如果指定非內建的憑證或使用者屬於本機工作群組用戶，則必須在主機上停用 UAC。
+* 如果您想要備份複製，則必須設定SnapMirror和SnapVault 。
+
+
+
+
+== 安裝適用於 Windows 的SnapCenter插件包的主機需求
+
+在安裝適用於 Windows 的SnapCenter插件包之前，您應該熟悉一些基本的主機系統空間需求和大小需求。
+
+|===
+| 物品 | 要求 
+
+
+ a| 
+作業系統
+ a| 
+微軟 Windows
+
+有關受支援版本的最新信息，請參閱 https://imt.netapp.com/matrix/imt.jsp?components=121074;&solution=1257&isHWU&src=IMT["NetApp互通性表工具"^]。
+
+如果您使用的是 Windows 叢集設置，您還應該安裝和設定 Windows 遠端管理 (WinRM)。
+
+
+
+ a| 
+主機上SnapCenter插件的最小 RAM
+ a| 
+1GB
+
+
+
+ a| 
+主機上SnapCenter插件的最小安裝和日誌空間
+ a| 
+5GB
+
+
+NOTE: 您應該分配足夠的磁碟空間並監控日誌資料夾的儲存消耗。所需的日誌空間取決於要保護的實體的數量和資料保護操作的頻率。如果沒有足夠的磁碟空間，則不會為最近執行的操作建立日誌。
+
+
+
+ a| 
+所需軟體包
+ a| 
+* ASP.NET Core Runtime 8.0.12（以及所有後續 8.0.x 修補程式）託管包
+* PowerShell 核心 7.4.2
+
+
+有關受支援版本的最新信息，請參閱 https://imt.netapp.com/matrix/imt.jsp?components=121074;&solution=1257&isHWU&src=IMT["NetApp互通性表工具"^]。
+
+有關 .NET 特定的故障排除信息，請參閱 https://kb.netapp.com/mgmt/SnapCenter/SnapCenter_upgrade_or_install_fails_with_This_KB_is_not_related_to_the_OS["對於沒有網路連線的傳統系統， SnapCenter升級或安裝將會失敗。"]
+
+|===
+
+
+== 設定 Windows 插件的憑證
+
+SnapCenter使用憑證對SnapCenter操作的使用者進行身份驗證。您應該建立用於安裝SnapCenter插件的憑證，以及用於在 Windows 檔案系統上執行資料保護作業的附加憑證。
+
+*您需要什麼*
+
+* 在安裝插件之前，您必須設定 Windows 憑證。
+* 您必須在遠端主機上設定具有管理員權限（包括管理員權利）的憑證。
+* 如果您為單一資源群組設定了憑證，且使用者沒有完全管理權限，則必須至少為該使用者指派資源群組和備份權限。
+
+
+*步驟*
+
+. 在左側導覽窗格中，按一下「*設定*」。
+. 在「設定」頁面中，按一下「*憑證*」。
+. 點選“*新建*”。
+. 在「憑證」頁面中，執行下列操作：
++
+|===
+| 對於這個領域... | 這樣做... 
+
+
+ a| 
+憑證名稱
+ a| 
+輸入憑證的名稱。
+
+
+
+ a| 
+使用者名稱/密碼
+ a| 
+輸入用於身份驗證的使用者名稱和密碼。
+
+** 網域管理員或管理員群組的任何成員
++
+指定要安裝SnapCenter插件的系統上的網域管理員或管理員群組的任何成員。用戶名字段的有效格式如下：
+
++
+*** `NetBIOS\UserName`
+*** `Domain FQDN\UserName`
+*** `UserName@upn`
+
+
+** 本機管理員（僅適用於工作群組）
++
+對於屬於工作群組的系統，請在要安裝SnapCenter插件的系統上指定內建的本機管理員。如果使用者帳戶具有提升的權限或主機系統上停用了使用者存取控制功能，則可以指定屬於本機管理員群組的本機使用者帳戶。用戶名字段的有效格式如下： `UserName`
+
++
+請勿在密碼中使用雙引號（“）或反引號（`）。密碼中不應同時使用小於號 (<) 和驚嘆號 (!) 符號。例如，lessthan<!10、lessthan10<!、backtick`12。
+
+
+
+
+
+ a| 
+密碼
+ a| 
+輸入用於身份驗證的密碼。
+
+|===
+. 按一下“*確定*”。
++
+完成憑證設定後，您可能想要在「使用者和造訪」頁面上將憑證維護指派給使用者或使用者群組。
+
+
+
+
+
+== 在 Windows Server 2016 或更高版本上設定 gMSA
+
+Windows Server 2016 或更高版本可讓您建立群組託管服務帳戶 (gMSA)，該帳戶會從託管網域帳戶提供自動服務帳戶密碼管理。
+
+.開始之前
+* 您應該擁有 Windows Server 2016 或更高版本的網域控制站。
+* 您應該擁有一個 Windows Server 2016 或更高版本的主機，它是網域的成員。
+
+
+.步驟
+. 建立 KDS 根金鑰來為 gMSA 中的每個物件產生唯一的密碼。
+. 對於每個網域，從 Windows 網域控制站執行以下命令：Add-KDSRootKey -EffectiveImmediately
+. 建立並配置 gMSA：
++
+.. 建立用戶群組帳號，格式如下：
++
+ domainName\accountName$
+.. 將電腦物件新增至群組。
+.. 使用您剛剛建立的使用者群組來建立 gMSA。
++
+例如，
+
++
+ New-ADServiceAccount -name <ServiceAccountName> -DNSHostName <fqdn> -PrincipalsAllowedToRetrieveManagedPassword <group> -ServicePrincipalNames <SPN1,SPN2,…>
+.. 跑步 `Get-ADServiceAccount`命令來驗證服務帳戶。
+
+
+. 在您的主機上設定 gMSA：
++
+.. 在要使用 gMSA 帳號的主機上啟用 Windows PowerShell 的 Active Directory 模組。
++
+為此，請從 PowerShell 執行以下命令：
+
++
+[listing]
+----
+PS C:\> Get-WindowsFeature AD-Domain-Services
+
+Display Name                           Name                Install State
+------------                           ----                -------------
+[ ] Active Directory Domain Services   AD-Domain-Services  Available
+
+
+PS C:\> Install-WindowsFeature AD-DOMAIN-SERVICES
+
+Success Restart Needed Exit Code      Feature Result
+------- -------------- ---------      --------------
+True    No             Success        {Active Directory Domain Services, Active ...
+WARNING: Windows automatic updating is not enabled. To ensure that your newly-installed role or feature is
+automatically updated, turn on Windows Update.
+----
+.. 重新啟動主機。
+.. 透過從 PowerShell 命令提示字元執行以下命令在主機上安裝 gMSA： `Install-AdServiceAccount <gMSA>`
+.. 透過執行以下命令驗證你的 gMSA 帳戶： `Test-AdServiceAccount <gMSA>`
+
+
+. 將管理權限指派給主機上配置的 gMSA。
+. 透過在SnapCenter伺服器中指定配置的 gMSA 帳戶來新增 Windows 主機。
++
+SnapCenter Server 將在主機上安裝選定的插件，並且指定的 gMSA 將在插件安裝期間用作服務登入帳戶。
+
+

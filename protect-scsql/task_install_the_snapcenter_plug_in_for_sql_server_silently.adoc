@@ -1,0 +1,58 @@
+---
+permalink: protect-scsql/task_install_the_snapcenter_plug_in_for_sql_server_silently.html 
+sidebar: sidebar 
+keywords: install, snapcenter 
+summary: 您應該從SnapCenter使用者介面安裝適用於 Microsoft SQL Server 的SnapCenter外掛程式。但是，如果您因為某些原因無法這樣做，您可以從 Windows 命令列以靜默模式無人值守執行 SQL Server 外掛程式安裝程式。 
+---
+= 從命令列靜默安裝適用於 Microsoft SQL Server 的SnapCenter插件
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您應該從SnapCenter使用者介面安裝適用於 Microsoft SQL Server 的SnapCenter外掛程式。但是，如果您因為某些原因無法這樣做，您可以從 Windows 命令列以靜默模式無人值守執行 SQL Server 外掛程式安裝程式。
+
+.開始之前
+* 在安裝之前，您必須刪除適用於 Microsoft SQL Server 的早期版本的SnapCenter外掛程式。
++
+有關更多信息，請參閱 https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/How_to_Install_a_SnapCenter_Plug-In_manually_and_directly_from_thePlug-In_Host["如何從插件主機手動直接安裝SnapCenter插件"^] 。
+
+
+
+.步驟
+. 驗證插件主機上是否存在 C:\temp 資料夾以及登入使用者是否對該資料夾具有完全存取權限。
+. 從 C:\ProgramData\ NetApp\ SnapCenter\Package Repository 下載 SQL Server 軟體插件。
++
+可以從安裝SnapCenter伺服器的主機存取此路徑。
+
+. 將安裝檔案複製到要安裝插件的主機上。
+. 從本機上的 Windows 命令提示符，導覽至儲存插件安裝檔案的目錄。
+. 安裝 SQL Server 軟體插件：
++
+`"snapcenter_windows_host_plugin.exe"/silent /debuglog"Debug_Log_Path" /log"Log_Path" BI_SNAPCENTER_PORT=Num SUITE_INSTALLDIR="Install_Directory_Path" BI_SERVICEACCOUNT=domain\\administrator BI_SERVICEPWD=password ISFeatureInstall=SCW,SCSQL`
+
++
+用您的資料替換佔位符值
+
++
+** Debug_Log_Path 是套件安裝程式日誌檔案的名稱和位置。
+** Log_Path 是插件元件（SCW、SCSQL 和 SMCore）的安裝日誌的位置。
+** Num 是SnapCenter與 SMCore 通訊的端口
+** Install_Directory_Path是主機插件包安裝目錄。
+** domain\administrator 是 Microsoft Windows Web 服務帳戶的SnapCenter外掛程式。
+** password 是 Microsoft Windows Web 服務帳戶的SnapCenter外掛程式的密碼。+ 
+`"snapcenter_windows_host_plugin.exe"/silent /debuglog"C:\HPPW_SCSQL_Install.log" /log"C:\" BI_SNAPCENTER_PORT=8145 SUITE_INSTALLDIR="C:\Program Files\NetApp\SnapCenter" BI_SERVICEACCOUNT=domain\administrator BI_SERVICEPWD=password ISFeatureInstall=SCW,SCSQL`
+
+
++
+
+NOTE: 安裝 SQL Server 外掛程式期間傳遞的所有參數都區分大小寫。
+
+. 監視 Windows 工作排程器、主安裝記錄檔 C:\Installdebug.log 以及 C:\Temp 中的附加安裝檔。
+. 監控 %temp% 目錄以驗證 msiexe.exe 安裝程式是否正在無錯誤地安裝軟體。
++
+
+NOTE: SQL Server 插件的安裝在主機上註冊該插件，而不是在SnapCenter伺服器上註冊。您可以透過使用SnapCenter GUI 或 PowerShell cmdlet 新增主機在SnapCenter伺服器上註冊插件。新增主機後，會自動發現插件。
+
+

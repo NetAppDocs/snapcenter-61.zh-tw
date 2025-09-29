@@ -1,0 +1,173 @@
+---
+permalink: protect-hana/reference_prerequisites_to_adding_hosts_and_installing_snapcenter_plug_in_for_sap_hana_database.html 
+sidebar: sidebar 
+keywords: credentials 
+summary: 在新增主機和安裝插件包之前，您必須完成所有要求。適用於 SAP HANA 資料庫的SnapCenter插件可在 Windows 和 Linux 環境中使用。 
+---
+= 新增主機和安裝適用於 SAP HANA 資料庫的SnapCenter插件的先決條件
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+在新增主機和安裝插件包之前，您必須完成所有要求。適用於 SAP HANA 資料庫的SnapCenter插件可在 Windows 和 Linux 環境中使用。
+
+* 您必須在主機上安裝 Java 11。
++
+
+NOTE: IBM Java 在 Windows 和 Linux 主機上不受支援。
+
+* 主機上必須安裝有SAP HANA資料庫互動終端機（HDBSQL客戶端）。
+* 對於 Windows，插件建立者服務應該使用「LocalSystem」Windows 使用者執行，這是以網域管理員身分安裝 SAP HANA 資料庫插件時的預設行為。
+* 對於 Windows，應以 SYSTEM 使用者身分建立使用者儲存金鑰。
+* 在 Windows 主機上安裝插件時，如果指定非內建的憑證或使用者屬於本機工作群組用戶，則必須在主機上停用 UAC。適用於 Microsoft Windows 的SnapCenter插件將預設與 Windows 主機上的 SAP HANA 插件一起部署。
+* 對於 Linux 主機，HDB 安全性使用者儲存金鑰以 HDBSQL OS 使用者身分存取。
+* SnapCenter伺服器應該可以存取 SAP HANA 資料庫主機插件的 8145 或自訂連接埠。
+
+
+
+
+== Windows 主機
+
+* 您必須擁有具有本機管理員權限的網域用戶，並在遠端主機上擁有本機登入權限。
+* 在 Windows 主機上安裝適用於 SAP HANA 資料庫的插件時，適用於 Microsoft Windows 的SnapCenter外掛程式會自動安裝。
+* 您必須為 root 使用者或非 root 使用者啟用基於密碼的 SSH 連線。
+* 您必須在 Windows 主機上安裝 Java 11。
++
+http://www.java.com/en/download/manual.jsp["下載適用於所有作業系統的 JAVA"]
+
++
+https://imt.netapp.com/matrix/imt.jsp?components=121074;&solution=1257&isHWU&src=IMT["NetApp互通性表工具"]
+
+
+
+
+
+== Linux 主機
+
+* 您必須為 root 使用者或非 root 使用者啟用基於密碼的 SSH 連線。
+* 您必須在 Linux 主機上安裝 Java 11。
++
+http://www.java.com/en/download/manual.jsp["下載適用於所有作業系統的 JAVA"]
+
++
+https://imt.netapp.com/matrix/imt.jsp?components=121073;&solution=1257&isHWU&src=IMT["NetApp互通性表工具"]
+
+* 對於在 Linux 主機上執行的 SAP HANA 資料庫，在安裝 SAP HANA 資料庫插件時，會自動安裝適用於 UNIX 的SnapCenter插件。
+* 您應該將 *bash* 作為插件安裝的預設 shell。
+
+
+
+
+== 補充命令
+
+若要在 SAP HANA 的SnapCenter插件上執行補充命令，必須將其包含在 _allowed_commands.config_ 檔案中。
+
+* Windows 主機上的預設位置：_C:\Program Files\ NetApp\ SnapCenter\Snapcenter Plug-in Creator\etc\allowed_commands.config_
+* Linux 主機上的預設位置：_/opt/ NetApp/snapcenter/scc/etc/allowed_commands.config_
+
+
+若要允許插件主機上的補充命令，請在編輯器中開啟_allowed_commands.config_檔案。每個命令在單獨的行上輸入，並且命令不區分大小寫。確保指定完全限定的路徑名，並且如果路徑名包含空格，則將其括在引號 (") 中。
+
+例如：
+
+命令：mount
+
+命令：umount
+
+指令：“C:\Program Files\ NetApp\SnapCreator 指令\sdcli.exe”
+
+指令：myscript.bat
+
+如果不存在 _allowed_commands.config_ 文件，命令或腳本執行將被阻止，並且工作流程將失敗並出現以下錯誤：
+
+不允許執行“[/mnt/mount -a]。透過在插件主機上的檔案 %s 中新增命令來授權。 」
+
+如果命令或腳本不在_allowed_commands.config_中，則命令或腳本的執行將被阻止，並且工作流程將失敗並出現以下錯誤：
+
+不允許執行“[/mnt/mount -a]。透過在插件主機上的檔案 %s 中新增命令來授權。 」
+
+
+NOTE: 您不應使用通配符 (*) 來允許所有命令。
+
+
+
+== 為 Linux 主機的非 root 使用者配置 sudo 權限
+
+SnapCenter 2.0 及更高版本允許非 root 用戶安裝適用於 Linux 的SnapCenter插件套件並啟動插件進程。插件進程將以有效的非 root 使用者身分運行。您應該為非 root 使用者配置 sudo 權限以提供對多個路徑的存取。
+
+*您需要什麼*
+
+* Sudo 版本 1.8.7 或更高版本。
+* 如果 umask 為 0027，請確保 java 資料夾及其內部的所有檔案的權限為 555。否則插件安裝可能會失敗。
+* 對於非root用戶，請確保非root用戶的名稱和用戶所在群組的名稱相同。
+* 編輯_/etc/ssh/sshd_config_文件，設定訊息認證碼演算法：MACs hmac-sha2-256、MACs hmac-sha2-512。
++
+更新設定檔後重新啟動sshd服務。
+
++
+範例：
+
++
+[listing]
+----
+#Port 22
+#AddressFamily any
+#ListenAddress 0.0.0.0
+#ListenAddress ::
+#Legacy changes
+#KexAlgorithms diffie-hellman-group1-sha1
+#Ciphers aes128-cbc
+#The default requires explicit activation of protocol
+Protocol 2
+HostKey/etc/ssh/ssh_host_rsa_key
+MACs hmac-sha2-256
+----
+
+
+*關於此任務*
+
+您應該為非 root 使用者配置 sudo 權限以提供對以下路徑的存取權限：
+
+* /home/_LINUX_USER_/.sc_netapp/snapcenter_linux_host_plugin.bin
+* /custom_location/ NetApp/snapcenter/spl/安裝/插件/卸載
+* /custom_location/ NetApp/snapcenter/spl/bin/spl
+
+
+*步驟*
+
+. 登入要安裝適用於 Linux 的SnapCenter插件套件的 Linux 主機。
+. 使用 visudo Linux 實用程式將以下行新增至 /etc/sudoers 檔案。
++
+[listing, subs="+quotes"]
+----
+Cmnd_Alias HPPLCMD = sha224:checksum_value== /home/_LINUX_USER_/.sc_netapp/snapcenter_linux_host_plugin.bin, /opt/NetApp/snapcenter/spl/installation/plugins/uninstall, /opt/NetApp/snapcenter/spl/bin/spl, /opt/NetApp/snapcenter/scc/bin/scc
+Cmnd_Alias PRECHECKCMD = sha224:checksum_value== /home/_LINUX_USER_/.sc_netapp/Linux_Prechecks.sh
+Cmnd_Alias CONFIGCHECKCMD = sha224:checksum_value== /opt/NetApp/snapcenter/spl/plugins/scu/scucore/configurationcheck/Config_Check.sh
+Cmnd_Alias SCCMD = sha224:checksum_value== /opt/NetApp/snapcenter/spl/bin/sc_command_executor
+Cmnd_Alias SCCCMDEXECUTOR =checksum_value== /opt/NetApp/snapcenter/scc/bin/sccCommandExecutor
+_LINUX_USER_ ALL=(ALL) NOPASSWD:SETENV: HPPLCMD, PRECHECKCMD, CONFIGCHECKCMD, SCCCMDEXECUTOR, SCCMD
+Defaults: _LINUX_USER_ env_keep += "IATEMPDIR"
+Defaults: _LINUX_USER_ env_keep += "JAVA_HOME"
+Defaults: _LINUX_USER_ !visiblepw
+Defaults: _LINUX_USER_ !requiretty
+----
++
+
+NOTE: 如果您有 RAC 設置，以及其他允許的命令，您應該將以下內容添加到 /etc/sudoers 檔案：“/<crs_home>/bin/olsnodes”
+
+
+
+您可以從_/etc/oracle/olr.loc_檔中取得_crs_home_的值。
+
+_LINUX_USER_ 是您建立的非 root 使用者的名稱。
+
+您可以從 *sc_unix_plugins_checksum.txt* 檔案中取得 _checksum_value_，該檔案位於：
+
+* _C:\ProgramData\ NetApp\ SnapCenter\Package Repository\sc_unix_plugins_checksum.txt_（如果SnapCenter Server 安裝在 Windows 主機上）。
+* _/opt/ NetApp/snapcenter/SnapManagerWeb/Repository/sc_unix_plugins_checksum.txt_ 如果SnapCenter Server 安裝在 Linux 主機上。。
+
+
+
+IMPORTANT: 此範例僅應作為建立您自己的資料的參考。

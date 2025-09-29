@@ -1,0 +1,59 @@
+---
+permalink: protect-sco/concept_prepare_for_protecting_oracle_databases.html 
+sidebar: sidebar 
+keywords: oracle, preparation for protection, prerequisites 
+summary: 在執行任何資料保護操作（例如備份、複製或復原作業）之前，您必須定義策略並設定環境。您也可以設定SnapCenter伺服器以使用SnapMirror和SnapVault技術。 
+---
+= 準備保護 Oracle 資料庫
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+在執行任何資料保護操作（例如備份、複製或復原作業）之前，您必須定義策略並設定環境。您也可以設定SnapCenter伺服器以使用SnapMirror和SnapVault技術。
+
+若要利用SnapVault和SnapMirror技術，您必須在儲存裝置上設定並初始化來源磁碟區和目標磁碟區之間的資料保護關係。您可以使用 NetAppSystem Manager 或儲存控制台命令列來執行這些任務。
+
+在使用 Oracle 資料庫插件之前， SnapCenter管理員應安裝和設定SnapCenter伺服器並執行先決條件任務。
+
+* 安裝並配置SnapCenter伺服器。link:../install/task_install_the_snapcenter_server_using_the_install_wizard.html["了解更多"^]
+* 透過新增儲存系統連接來配置SnapCenter環境。link:../install/task_add_storage_systems.html["了解更多"^]
++
+
+NOTE: SnapCenter不支援不同叢集上具有相同名稱的多個 SVM。使用 SVM 註冊或叢集註冊向SnapCenter註冊的每個 SVM 都必須是唯一的。
+
+* 為安裝使用者建立驗證模式為 Linux 或 AIX 的憑證。link:../protect-sco/reference_prerequisites_for_adding_hosts_and_installing_snapcenter_plug_ins_package_for_linux_or_aix.html#set-up-credentials["了解更多"^]
+* 新增主機、安裝插件、發現資源。
+* 如果您使用SnapCenter Server 保護駐留在 VMware RDM LUN 或 VMDK 上的 Oracle 資料庫，則必須部署SnapCenter Plug-in for VMware vSphere並向SnapCenter註冊外掛程式。
+* 在您的 Linux 或 AIX 主機上安裝 Java。
++
+看link:../protect-sco/reference_prerequisites_for_adding_hosts_and_installing_snapcenter_plug_ins_package_for_linux_or_aix.html#linux-host-requirements["Linux 主機需求"^]或者link:../protect-sco/reference_prerequisites_for_adding_hosts_and_installing_snapcenter_plug_ins_package_for_linux_or_aix.html#aix-host-requirements["AIX 主機需求"^]了解更多。
+
+* 您應該將應用程式防火牆的逾時值設為3小時或更長。
+* 如果您在 NFS 環境中有 Oracle 資料庫，則必須為主儲存或輔助儲存配置至少一個 NFS 資料 LIF 來執行掛載、複製、驗證和還原作業。
+* 如果您有多個資料路徑 (LIF) 或 dNFS 配置，則可以使用資料庫主機上的SnapCenter CLI 執行下列操作：
++
+** 預設情況下，資料庫主機的所有 IP 位址都會新增至複製磁碟區的儲存虛擬機器 (SVM) 中的 NFS 儲存匯出原則。如果您想要特定的 IP 位址或限制為 IP 位址的子集，請執行 Set-PreferredHostIPsInStorageExportPolicy CLI。
+** 如果 SVM 中有多個資料路徑 (LIF)， SnapCenter會選擇適當的資料路徑 (LIF) 來掛載 NFS 複製磁碟區。但是，如果要指定特定的資料路徑 (LIF)，則必須執行 Set-SvmPreferredDataPath CLI。命令參考指南有更多資訊。
+
+
+* 如果您在 SAN 環境中有 Oracle 資料庫，請確保依照下列指南中所提及的建議設定 SAN 環境：
++
+** https://library.netapp.com/ecm/ecm_download_file/ECMLP2547958["使用具有ONTAP儲存的 Linux 主機"^]
+** https://library.netapp.com/ecm/ecm_download_file/ECMP1119218["受 AIX 主機實用程式影響的主機設置"^]
+
+
+* 如果您在 Oracle Linux 或 RHEL 作業系統中的 LVM 上有 Oracle 資料庫，請安裝最新版本的邏輯磁碟區管理 (LVM)。
+* 如果您正在使用SnapManager for Oracle 並希望遷移到SnapCenter Plug-in for Oracle Database，則可以使用 sccli 命令 sc-migrate 將設定檔遷移到SnapCenter的政策和資源群組。
+* 如果您需要備份複製，請在ONTAP上設定SnapMirror和SnapVault
+
+
+對於SnapCenter 4.1.1 用戶，SnapCenter Plug-in for VMware vSphere包含有關保護虛擬化資料庫和檔案系統的資訊。對於SnapCenter 4.2.x 用戶， NetApp Data Broker 1.0 和 1.0.1 文件包含有關使用基於 Linux 的NetApp Data Broker 虛擬設備（開放虛擬設備格式）提供的適用SnapCenter Plug-in for VMware vSphere保護虛擬化資料庫和檔案系統的資訊。對於SnapCenter 4.3.x 用戶，SnapCenter Plug-in for VMware vSphere文件包含有關使用基於 Linux 的SnapCenter Plug-in for VMware vSphere保護虛擬化資料庫和檔案系統的資訊。
+
+*查找更多資訊*
+
+* https://imt.netapp.com/matrix/imt.jsp?components=121071;&solution=1259&isHWU&src=IMT["互通性矩陣工具"^]
+* https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/index.html["SnapCenter Plug-in for VMware vSphere文檔"^]
+* https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/Data_protection_operation_fails_in_a_non-multipath_environment_in_RHEL_7_and_later["在 RHEL 7 及更高版本中的非多路徑環境中，資料保護操作失敗"^]
+

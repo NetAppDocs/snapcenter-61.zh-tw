@@ -1,0 +1,144 @@
+---
+section: protect-postgresql
+title: 保護 PostgreSQL
+entries:
+- title: 適用於 PostgreSQL 的SnapCenter插件
+  entries:
+  - title: SnapCenter PostgreSQL 插件概述
+    url: "/protect-postgresql/snapcenter-plug-in-for-postgresql-overview.html"
+  - title: 使用適用於 PostgreSQL 的SnapCenter插件可以做些什麼
+    url: "/protect-postgresql/what-you-can-do-using-the-snapcenter-plug-in-for-postgresql.html"
+  - title: 適用於 PostgreSQL 的SnapCenter插件功能
+    url: "/protect-postgresql/snapcenter-plug-in-for-postgresql-features.html"
+  - title: SnapCenter Plug-in for PostgreSQL 支援的儲存類型
+    url: "/protect-postgresql/storage-types-supported-by-snapcenter-plug-in-for-postgresql.html"
+  - title: 所需的最低ONTAP權限
+    url: "/protect-postgresql/minimum-privileges-required-for-postgresql.html"
+  - title: 為SnapMirror和SnapVault複製準備儲存系統
+    url: "/protect-postgresql/prepare-storage-systems-for-snapmirror-and-snapvault-replication-for-plugin-for-postgresql.html"
+  - title: PostgreSQL 的備份策略
+    entries:
+    - title: 定義 PostgreSQL 的備份策略
+      url: "/protect-postgresql/define-a-backup-strategy-for-postgresql.html"
+    - title: Linux主機上的資源自動發現
+      url: "/protect-postgresql/auto-discovery-of-resources-on-linux-host.html"
+    - title: 支援的備份類型
+      url: "/protect-postgresql/type-of-backups-supported.html"
+    - title: SnapCenter Plug-in for PostgreSQL 如何使用一致性群組 Snapshot 副本
+      url: "/protect-postgresql/how-snapcenter-plug-in-for-postgresql-uses-consistency-group-snapshot-copies.html"
+    - title: SnapCenter如何管理日誌備份
+      url: "/protect-postgresql/housekeeping-of-log-backups.html"
+    - title: 確定 PostgreSQL 備份計畫的注意事項
+      url: "/protect-postgresql/considerations-for-determining-backup-schedules-for-postgresql.html"
+    - title: PostgreSQL 所需的備份作業數量
+      url: "/protect-postgresql/number-of-backup-jobs-needed-for-postgresql.html"
+    - title: 備份命名約定
+      url: "/protect-postgresql/backup-naming-conventions-for-plugin-for-postgresql.html"
+  - title: PostgreSQL 的還原與復原策略
+    entries:
+    - title: 定義 PostgreSQL 資源的還原與復原策略
+      url: "/protect-postgresql/define-a-restore-and-recovery-strategy-for-postgresql-resources.html"
+    - title: 手動新增的 PostgreSQL 資源支援的復原策略類型
+      url: "/protect-postgresql/types-of-restore-strategies-supported-for-manually-added-postgresql.html"
+    - title: 自動發現的 PostgreSQL 支援的復原策略類型
+      url: "/protect-postgresql/types-of-restore-strategies-supported-for-auto-discovered-postgresql.html"
+    - title: 自動發現的 PostgreSQL 的復原操作類型
+      url: "/protect-postgresql/types-of-restore-performed-for-auto-discovered-postgresql.html"
+    - title: PostgreSQL 支援的復原操作類型
+      url: "/protect-postgresql/types_of_recovery_operations_supported_for_postgresql.html"
+- title: 準備安裝適用於 PostgreSQL 的SnapCenter插件
+  entries:
+  - title: SnapCenter Plug-in for PostgreSQL 的安裝工作流程
+    url: "/protect-postgresql/install-snapcenter-plug-in-for-postgresql.html"
+  - title: 新增主機和安裝 PostgreSQL 的SnapCenter插件的先決條件
+    url: "/protect-postgresql/prerequisites-to-adding-hosts-and-installing-snapcenter-plug-in-for-postgresql.html"
+  - title: 安裝適用於 Windows 的SnapCenter插件包的主機需求
+    url: "/protect-postgresql/host-requirements-to-install-snapcenter-plug-in-package-for-windows-postgresql.html"
+  - title: 安裝適用於 Linux 的SnapCenter插件包的主機需求
+    url: "/protect-postgresql/host-requirements-to-install-snapcenter-plug-in-package-for-linux.html"
+  - title: 為 PostgreSQL 的SnapCenter插件設定憑證
+    url: "/protect-postgresql/set-up-credentials-for-snapcenter-plug-in-for-postgresql.html"
+  - title: 在 Windows Server 2016 或更高版本上設定 gMSA
+    url: "/protect-postgresql/configure-gMSA-on-windows-server-2012-or-later.html"
+  - title: 安裝適用於 PostgreSQL 的SnapCenter插件
+    entries:
+    - title: 新增主機並在遠端主機上安裝插件包
+      url: "/protect-postgresql/add-hosts-and-install-plug-in-packages-on-remote-hosts-postgresql.html"
+    - title: 使用 cmdlet 在多個遠端主機上安裝適用於 Linux 或 Windows 的SnapCenter插件包
+      url: "/protect-postgresql/install-snapcenter-plug-in-packages-for-linux-or-windows-on-multiple-remote-hosts-using-cmdlets-postgresql.html"
+    - title: 使用命令列介面在 Linux 主機上安裝適用於 PostgreSQL 的SnapCenter插件
+      url: "/protect-postgresql/install-the-snapcenter-plug-in-for-postgresql-on-linux-hosts-using-the-command-line-interface.html"
+    - title: 監控SnapCenter插件包安裝狀態
+      url: "/protect-postgresql/monitor-the-status-of-installing-plugin-for-postgresql.html"
+  - title: 設定 CA 憑證
+    entries:
+    - title: 產生CA憑證CSR文件
+      url: "/protect-postgresql/generate-CA-certificate-CSR-file.html"
+    - title: 匯入 CA 憑證
+      url: "/protect-postgresql/import-CA-certificates.html"
+    - title: 取得 CA 憑證指紋
+      url: "/protect-postgresql/get-the-CA-certificate-thumbprint.html"
+    - title: 使用 Windows 主機插件服務設定 CA 憑證
+      url: "/protect-postgresql/configure-CA-certificate-with-Windows-host-plug-in-services.html"
+    - title: 為 Linux 主機上的SnapCenter PostgreSQL 插件服務設定 CA 憑證
+      url: "/protect-postgresql/configure-CA-certificate-for-postgresql-on-Linux-host.html"
+    - title: 為 Windows 主機上的SnapCenter PostgreSQL 插件服務設定 CA 證書
+      url: "/protect-postgresql/configure-CA-certificate-for-postgresql-on-windows-host.html"
+    - title: 為插件啟用 CA 憑證
+      url: "/protect-postgresql/enable-ca-certificates-for-plug-ins.html"
+- title: 做好資料保護準備
+  entries:
+  - title: 使用適用於 PostgreSQL 的SnapCenter插件的先決條件
+    url: "/protect-postgresql/prerequisites-for-using-snapcenter-plug-in-for-postgresql.html"
+  - title: 如何使用資源、資源群組和策略來保護 PostgreSQL
+    url: "/protect-postgresql/how-resources-resource-groups-and-policies-are-used-for-protecting-postgresql.html"
+- title: 備份 PostgreSQL 資源
+  entries:
+  - title: 備份工作流程
+    url: "/protect-postgresql/back-up-postgresql-resources.html"
+  - title: 自動發現集群
+    url: "/protect-postgresql/discover-the-clusters-automatically.html"
+  - title: 手動將資源新增至插件主機
+    url: "/protect-postgresql/add-resources-manually-to-the-plug-in-host.html"
+  - title: 為 PostgreSQL 建立備份策略
+    url: "/protect-postgresql/create-backup-policies-for-postgresql.html"
+  - title: 建立資源組並附加策略
+    url: "/protect-postgresql/create-resource-groups-and-attach-policies.html"
+  - title: 在ASA r2 系統上建立資源組並為 PostgreSQL 資源啟用二級保護
+    url: "/protect-postgresql/create-resource-groups-secondary-protection-for-asa-r2-postgresql-resources.html"
+  - title: 使用 PowerShell cmdlet 為 PostgreSQL 建立儲存系統連線和憑證
+    url: "/protect-postgresql/create-a-storage-system-connection-and-a-run-as-account-using-powershell-cmdlets-for-postgresql.html"
+  - title: 備份 PostgreSQL
+    url: "/protect-postgresql/back-up-postgresql.html"
+  - title: 備份資源組
+    url: "/protect-postgresql/back-up-resource-groups-postgresql.html"
+  - title: 在SnapCenter作業頁面中監控備份操作
+    url: "/protect-postgresql/monitor-postgresql-backup-operations.html"
+  - title: 取消備份作業
+    url: "/protect-postgresql/cancel-backup-operations-for-postgresql.html"
+  - title: 在拓撲頁面中查看 PostgreSQL 叢集備份和克隆
+    url: "/protect-postgresql/view-postgresql-cluster-backups-and-clones-in-the-topology-page.html"
+- title: 還原 PostgreSQL
+  entries:
+  - title: 復原工作流程
+    url: "/protect-postgresql/restore-postgresql.html"
+  - title: 還原並還原手動新增的資源備份
+    url: "/protect-postgresql/restore-and-recover-a-manually-added-resource-backup.html"
+  - title: 還原和還原自動發現的叢集備份
+    url: "/protect-postgresql/restore-and-recover-an-auto-discovered-cluster-backup.html"
+  - title: 使用 PowerShell cmdlet 還原資源
+    url: "/protect-postgresql/restore-and-recover-resources-using-powershell-cmdlets-postgresql.html"
+  - title: 監視恢復操作
+    url: "/protect-postgresql/monitor-postgresql-restore-operations.html"
+- title: 複製 PostgreSQL 資源備份
+  entries:
+  - title: 克隆工作流程
+    url: "/protect-postgresql/clone-postgresql-resource-backups.html"
+  - title: 克隆 PostgreSQL 叢集備份
+    url: "/protect-postgresql/clone-postgresql-backup.html"
+  - title: 在SnapCenter中監控克隆操作
+    url: "/protect-postgresql/monitor-postgresql-clone-operations.html"
+  - title: 分裂克隆
+    url: "/protect-postgresql/split-a-clone-for-postgresql.html"
+  - title: 升級SnapCenter後刪除或分割 PostgreSQL 叢集克隆
+    url: "/protect-postgresql/delete-or-split-postgresql-clones-after-upgrading-snapcenter.html"

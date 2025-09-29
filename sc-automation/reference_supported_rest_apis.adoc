@@ -1,0 +1,371 @@
+---
+permalink: sc-automation/reference_supported_rest_apis.html 
+sidebar: sidebar 
+keywords: REST API categories 
+summary: 透過SnapCenter REST API 可用的資源按類別組織，如SnapCenter API 文件頁面所示。 
+---
+= SnapCenter伺服器和插件支援的 REST API
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+透過SnapCenter REST API 可用的資源按類別組織，如SnapCenter API 文件頁面所示。以下簡要介紹了每個資源及其基本資源路徑，並在適當的情況下提供了額外的使用注意事項。
+
+
+
+== 授權
+
+您可以使用此 API 登入SnapCenter伺服器。此 API 傳回使用者授權令牌，用於驗證後續請求。
+
+
+
+== 域
+
+您可以使用 API 來執行不同的操作。
+
+* 檢索SnapCenter中的所有網域
+* 檢索特定域的詳細信息
+* 註冊或取消註冊域名
+* 修改域名
+
+
+
+
+== 工作
+
+您可以使用 API 來執行不同的操作。
+
+* 檢索SnapCenter中的所有作業
+* 檢索作業狀態
+* 取消或停止作業
+
+
+
+
+== 設定
+
+您可以使用 API 來執行不同的操作。
+
+* 註冊、修改或刪除憑證
+* 顯示在SnapCenter伺服器中註冊的憑證信息
+* 配置通知設定
+* 檢索目前配置為發送電子郵件通知的 SMTP 伺服器的訊息，並顯示 SMTP 伺服器的名稱、收件者的名稱以及寄件者的姓名
+* 顯示SnapCenter伺服器登入的多重驗證 (MFA) 配置
+* 為SnapCenter伺服器登入啟用或停用並配置 MFA
+* 建立設定 MFA 所需的設定文件
+
+
+
+
+== 主機
+
+您可以使用 API 來執行不同的操作。
+
+* 查詢所有SnapCenter主機
+* 從SnapCenter中刪除一個或多個主機
+* 透過名稱檢索主機
+* 檢索主機上的所有資源
+* 使用資源 ID 檢索資源
+* 檢索插件配置詳細信息
+* 配置插件主機
+* 檢索 Microsoft SQL Server 主機外掛程式的所有資源
+* 檢索 Oracle 資料庫主機插件的所有資源
+* 檢索自訂應用程式主機插件的所有資源
+* 檢索 SAP HANA 主機插件的所有資源
+* 檢索已安裝的插件
+* 在現有主機上安裝插件
+* 升級主機包
+* 從現有主機中刪除插件
+* 在主機上新增插件
+* 新增或修改主機
+* 取得Linux主機的簽名
+* 註冊Linux主機的簽名
+* 將主機置於維護或生產模式
+* 啟動或重新啟動主機上的插件服務
+* 重新命名主機
+
+
+
+
+== 資源
+
+您可以使用 API 來執行不同的操作。
+
+* 檢索所有資源
+* 使用資源 ID 檢索資源
+* 檢索 Microsoft SQL Server 主機外掛程式的所有資源
+* 檢索 Oracle 資料庫主機插件的所有資源
+* 檢索自訂應用程式主機插件的所有資源
+* 檢索 SAP HANA 主機插件的所有資源
+* 使用金鑰檢索 Microsoft SQL Server 資源
+* 使用密鑰檢索自訂資源
+* 修改自訂應用程式主機插件的資源
+* 使用金鑰刪除自訂應用程式主機插件的資源
+* 使用密鑰檢索 SAP HANA 資源
+* 修改 SAP HANA 主機插件的資源
+* 使用金鑰刪除 SAP HANA 主機插件的資源
+* 使用金鑰檢索 Oracle 資源
+* 建立 Oracle 應用程式捲資源
+* 修改 Oracle 應用程式捲資源
+* 使用金鑰刪除 Oracle 應用程式捲資源
+* 檢索 Oracle 資源的輔助詳細信息
+* 使用 Microsoft SQL Server 外掛程式備份 Microsoft SQL Server 資源
+* 使用 Oracle 資料庫插件備份 Oracle 資源
+* 使用自訂應用程式外掛程式備份自訂資源
+* 配置 SAP HANA 資料庫
+* 配置 Oracle 資料庫
+* 恢復 SQL 資料庫備份
+* 還原 Oracle 資料庫備份
+* 恢復自訂應用程式備份
+* 建立 SAP HANA 資源
+* 使用自訂應用程式外掛程式保護自訂資源
+* 使用 Microsoft SQL Server 外掛程式保護 Microsoft SQL Server 資源
+* 修改受保護的 Microsoft SQL Server 資源
+* 刪除對 Microsoft SQL Server 資源的保護
+* 使用 Oracle 資料庫插件保護 Oracle 資源
+* 修改受保護的 Oracle 資源
+* 刪除 Oracle 資源的保護
+* 使用自訂應用程式外掛程式從備份中克隆資源
+* 使用 Oracle 資料庫外掛程式從備份克隆 Oracle 應用程式捲
+* 使用 Microsoft SQL Server 外掛程式從備份複製 Microsoft SQL Server 資源
+* 建立 Microsoft SQL Server 資源的複製生命週期
+* 修改 Microsoft SQL Server 資源的複製生命週期
+* 刪除 Microsoft SQL Server 資源的複製生命週期
+* 將現有的 Microsoft SQL Server 資料庫從本機磁碟移至NetApp LUN
+* 為 Oracle 資料庫建立克隆規範文件
+* 啟動 Oracle 資源的按需克隆刷新作業
+* 使用克隆規範檔案從備份建立 Oracle 資源
+* 將資料庫還原到輔助副本並將資料庫重新加入可用性群組
+* 建立 Oracle 應用程式捲資源
+
+
+
+
+== 備份
+
+您可以使用 API 來執行不同的操作。
+
+* 按備份名稱、類型、插件、資源或日期檢索備份詳細信息
+* 檢索所有備份
+* 檢索備份詳細信息
+* 重新命名或刪除備份
+* 掛載 Oracle 備份
+* 解除安裝 Oracle 備份
+* 編目 Oracle 備份
+* 取消編目 Oracle 備份
+* 取得執行時間點復原所需的所有備份
+
+
+
+
+== 複製
+
+您可以使用 API 來執行不同的操作。
+
+* 建立、顯示、修改和刪除 Oracle 資料庫克隆規範文件
+* 顯示 Oracle 資料庫克隆層次結構
+* 檢索克隆詳細信息
+* 檢索所有克隆
+* 刪除克隆
+* 透過 ID 檢索克隆詳細信息
+* 啟動 Oracle 資源的按需克隆刷新作業
+* 使用克隆規範檔案從備份克隆 Oracle 資源
+
+
+
+
+== 克隆分裂
+
+您可以使用 API 來執行不同的操作。
+
+* 估計克隆資源的克隆分裂操作
+* 檢索克隆分裂操作的狀態
+* 啟動或停止克隆分裂操作
+
+
+
+
+== 資源組
+
+您可以使用 API 來執行不同的操作。
+
+* 檢索所有資源組的詳細信息
+* 按名稱檢索資源組
+* 為自訂應用程式的插件建立資源組
+* 為 Microsoft SQL Server 外掛程式建立資源組
+* 為 Oracle 資料庫外掛程式建立資源組
+* 修改自訂應用程式插件的資源群組
+* 修改 Microsoft SQL Server 外掛程式的資源群組
+* 修改 Oracle 資料庫插件的資源組
+* 建立、修改或刪除 Microsoft SQL Server 外掛程式資源群組的複製生命週期
+* 備份資源組
+* 將資源組置於維修或生產模式
+* 刪除資源組
+
+
+
+
+== 政策
+
+您可以使用 API 來執行不同的操作。
+
+* 檢索策略詳細信息
+* 按名稱檢索策略詳細信息
+* 刪除策略
+* 建立現有策略的副本
+* 建立或修改自訂應用程式插件的策略
+* 建立或修改 Microsoft SQL Server 外掛程式的策略
+* 建立或修改 Oracle 資料庫插件的策略
+* 建立或修改 SAP HANA 資料庫插件的策略
+
+
+
+
+== 儲存
+
+您可以使用 API 來執行不同的操作。
+
+* 檢索所有股份
+* 按名稱檢索共享
+* 建立或刪除共享
+* 檢索儲存詳細信息
+* 按名稱檢索儲存詳細信息
+* 建立、修改或刪除存儲
+* 發現儲存叢集上的資源
+* 檢索儲存叢集上的資源
+
+
+
+
+== 分享
+
+您可以使用 API 來執行不同的操作。
+
+* 檢索共享的詳細信息
+* 檢索所有股票的詳細信息
+* 在儲存空間上建立或刪除共享
+* 按名稱檢索共享
+
+
+
+
+== 外掛
+
+您可以使用 API 來執行不同的操作。
+
+* 列出主機的所有插件
+* 使用金鑰檢索 Microsoft SQL Server 資源
+* 使用金鑰修改自訂資源
+* 使用金鑰刪除自訂資源
+* 使用密鑰檢索 SAP HANA 資源
+* 使用金鑰修改 SAP HANA 資源
+* 使用密鑰刪除 SAP HANA 資源
+* 使用金鑰檢索 Oracle 資源
+* 使用金鑰修改 Oracle 應用程式捲資源
+* 使用金鑰刪除 Oracle 應用程式捲資源
+* 使用 Microsoft SQL Server 外掛程式和金鑰備份 Microsoft SQL Server 資源
+* 使用 Oracle 資料庫外掛程式和金鑰備份 Oracle 資源
+* 使用自訂應用程式外掛程式和金鑰備份自訂應用程式資源
+* 使用金鑰配置 SAP HANA 資料庫
+* 使用金鑰配置 Oracle 資料庫
+* 使用密鑰恢復自訂應用程式備份
+* 建立 SAP HANA 資源
+* 建立 Oracle 應用程式捲資源
+* 使用自訂應用程式外掛程式保護自訂資源
+* 使用 Microsoft SQL Server 外掛程式保護 Microsoft SQL Server 資源
+* 修改受保護的 Microsoft SQL Server 資源
+* 刪除對 Microsoft SQL Server 資源的保護
+* 使用 Oracle 資料庫插件保護 Oracle 資源
+* 修改受保護的 Oracle 資源
+* 刪除 Oracle 資源的保護
+* 使用自訂應用程式外掛程式從備份中克隆資源
+* 使用 Oracle 資料庫外掛程式從備份克隆 Oracle 應用程式捲
+* 使用 Microsoft SQL Server 外掛程式從備份複製 Microsoft SQL Server 資源
+* 建立 Microsoft SQL Server 資源的複製生命週期
+* 修改 Microsoft SQL Server 資源的複製生命週期
+* 刪除 Microsoft SQL Server 資源的複製生命週期
+* 為 Oracle 資料庫建立克隆規範文件
+* 啟動 Oracle 資源的按需複製生命週期
+* 使用克隆規範檔案從備份克隆 Oracle 資源
+
+
+
+
+== 報告
+
+您可以使用 API 來執行不同的操作。
+
+* 檢索各個外掛程式的備份、還原和克隆作業的報告
+* 新增、運行、刪除或修改計劃
+* 檢索計劃報告的數據
+
+
+
+
+== 警報
+
+您可以使用 API 來執行不同的操作。
+
+* 檢索所有警報
+* 透過 ID 檢索警報
+* 刪除多個警報或按 ID 刪除警報
+
+
+
+
+== RBAC
+
+您可以使用 API 來執行不同的操作。
+
+* 檢索使用者、群組和角色的詳細信息
+* 新增或刪除用戶
+* 將使用者指派給角色
+* 取消指派使用者的角色
+* 建立、修改或刪除角色
+* 將群組分配給角色
+* 取消分配組的角色
+* 新增或刪除群組
+* 建立現有角色的副本
+* 為使用者或群組分配或取消分配資源
+
+
+
+
+== 配置
+
+您可以使用 API 來執行不同的操作。
+
+* 查看配置設定
+* 修改配置設定
+
+
+
+
+== 證書設定
+
+您可以使用 API 來執行不同的操作。
+
+* 查看SnapCenter伺服器或插件主機的憑證狀態
+* 修改SnapCenter伺服器或插件主機的憑證設置
+
+
+
+
+== 儲存庫
+
+您可以使用 API 來執行不同的操作。
+
+* 檢索儲存庫備份
+* 查看儲存庫的設定資訊
+* 保護並恢復SnapCenter儲存庫
+* 取消保護SnapCenter儲存庫
+* 重建和故障轉移儲存庫
+
+
+
+
+== 版本
+
+您可以使用此 API 查看SnapCenter版本。

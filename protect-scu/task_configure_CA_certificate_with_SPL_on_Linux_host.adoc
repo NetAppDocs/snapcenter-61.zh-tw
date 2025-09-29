@@ -1,0 +1,121 @@
+---
+permalink: protect-scu/task_configure_CA_certificate_with_SPL_on_Linux_host.html 
+sidebar: sidebar 
+keywords: SnapCenter, SPL, Plug-in loader service, CA certificate, certificate 
+summary: 使用 Linux 主機上的SnapCenter插件Loader服務來設定 CA 證書 
+---
+= 在 Linux 主機上使用SnapCenter插件Loader(SPL) 服務設定 CA 證書
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您應該管理 SPL 金鑰庫及其憑證的密碼，配置 CA 證書，將根憑證或中間憑證配置到 SPL 信任庫，並使用SnapCenter插件Loader服務將 CA 簽章金鑰對配置到 SPL 信任庫以啟動已安裝的數位憑證。
+
+
+IMPORTANT: SPL 使用位於「/var/opt/snapcenter/spl/etc」的檔案「keystore.jks」作為其信任庫和金鑰庫。
+
+
+
+== 管理 SPL 金鑰庫的密碼以及正在使用的 CA 簽章金鑰對的別名
+
+*步驟*
+
+. 您可以從 SPL 屬性檔案中檢索 SPL 金鑰庫預設密碼。
++
+它是與鍵“SPL_KEYSTORE_PASS”對應的值。
+
+. 更改密鑰庫密碼：
++
+ keytool -storepasswd -keystore keystore.jks
+. 將金鑰庫中所有私鑰條目別名的密碼變更為與金鑰庫相同的密碼：
++
+ keytool -keypasswd -alias "<alias_name>" -keystore keystore.jks
++
+對 spl.properties 檔案中的金鑰 SPL_KEYSTORE_PASS 進行相同的更新。
+
+. 修改密碼後重啟服務。
+
+
+
+NOTE: SPL 金鑰庫的密碼和私鑰的所有相關別名的密碼應該相同。
+
+
+
+== 將根憑證或中繼憑證設定到 SPL 信任庫
+
+您應該將沒有私鑰的根憑證或中間憑證設定到 SPL 信任庫。
+
+*步驟*
+
+. 導覽至包含 SPL 金鑰庫的資料夾：_/var/opt/snapcenter/spl/etc_。
+. 找到檔案“keystore.jks”。
+. 列出密鑰庫中新增的憑證：
++
+ keytool -list -v -keystore keystore.jks
+. 新增根證書或中間證書：
++
+ keytool -import -trustcacerts -alias <AliasNameForCerticateToBeImported> -file /<CertificatePath> -keystore keystore.jks
+. 將根憑證或中間憑證配置到 SPL 信任庫後重新啟動服務。
+
+
+
+NOTE: 您應該新增根 CA 證書，然後新增中間 CA 證書。
+
+
+
+== 將 CA 簽章金鑰對配置到 SPL 信任庫
+
+您應該將 CA 簽署的金鑰對配置到 SPL 信任庫。
+
+*步驟*
+
+. 導航至包含 SPL 金鑰庫 /var/opt/snapcenter/spl/etc 的資料夾。
+. 找到檔案“keystore.jks”。
+. 列出密鑰庫中新增的憑證：
++
+ keytool -list -v -keystore keystore.jks
+. 新增具有私鑰和公鑰的 CA 憑證。
++
+ keytool -importkeystore -srckeystore <CertificatePathToImport> -srcstoretype pkcs12 -destkeystore keystore.jks -deststoretype JKS
+. 列出密鑰庫中新增的憑證。
++
+ keytool -list -v -keystore keystore.jks
+. 驗證金鑰庫是否包含與新增至金鑰庫的新 CA 憑證相對應的別名。
+. 將新增的CA憑證私鑰密碼變更為keystore密碼。
++
+預設 SPL 金鑰庫密碼是 spl.properties 檔案中金鑰 SPL_KEYSTORE_PASS 的值。
+
++
+ keytool -keypasswd -alias "<aliasNameOfAddedCertInKeystore>" -keystore keystore.jks
+. 如果CA憑證中的別名較長，且包含空格或特殊字元（“*”，“，”），請將別名修改為簡單名稱：
++
+ keytool -changealias -alias "<OrignalAliasName>" -destalias "<NewAliasName>" -keystore keystore.jks
+. 從位於 spl.properties 檔案中的金鑰庫配置別名。
++
+根據鍵 SPL_CERTIFICATE_ALIAS 更新此值。
+
+. 將 CA 簽署金鑰對配置到 SPL 信任庫後重新啟動服務。
+
+
+
+
+== 為 SPL 設定憑證撤銷清單 (CRL)
+
+您應該為 SPL 配置 CRL
+
+*關於此任務*
+
+* SPL 將在預先配置的目錄中尋找 CRL 檔案。
+* SPL 的 CRL 檔案的預設目錄是 _/var/opt/snapcenter/spl/etc/crl_。
+
+
+*步驟*
+
+. 您可以根據鍵 SPL_CRL_PATH 修改和更新 spl.properties 檔案中的預設目錄。
+. 您可以在此目錄中放置多個 CRL 檔案。
++
+將根據每個 CRL 驗證傳入的憑證。
+
+

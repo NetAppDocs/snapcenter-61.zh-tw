@@ -1,0 +1,359 @@
+---
+permalink: protect-scsql/task_clone_from_a_sql_server_database_backup.html 
+sidebar: sidebar 
+keywords: clone 
+summary: 您可以使用SnapCenter克隆 SQL Server 資料庫備份。如果您想存取或還原舊版本的數據，您可以根據需要克隆資料庫備份。 
+---
+= 從 SQL Server 資料庫備份克隆
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以使用SnapCenter克隆 SQL Server 資料庫備份。如果您想存取或還原舊版本的數據，您可以根據需要克隆資料庫備份。
+
+.開始之前
+* 您應該已經透過完成新增主機、識別資源和建立儲存系統連線等任務為資料保護做好了準備。
+* 您應該已經備份資料庫或資源組。
+* 資料 LUN 和日誌 LUN 的保護類型（例如鏡像、保管庫或鏡像保管庫）應該相同，以便在使用日誌備份複製到備用主機期間發現輔助定位器。
+* 如果在SnapCenter複製作業期間找不到已安裝的複製驅動器，則應將SnapCenter Server 的 CloneRetryTimeout 參數變更為 300。
+* 您應確保託管磁碟區的聚合位於儲存虛擬機器 (SVM) 的已指派聚合清單中。
+
+
+.關於此任務
+* 複製到獨立資料庫執行個體時，請確保掛載點路徑存在且是專用磁碟。
+* 當複製到故障轉移群集實例 (FCI) 時，請確保掛載點存在、它是共用磁碟，且路徑和 FCI 應該屬於同一個 SQL 資源組。
+* 確保每個主機僅連接一個 vFC 或 FC 啟動器。這是因為， SnapCenter每個主機只支援一個啟動器。
+* 如果來源資料庫或目標執行個體位於叢集共用磁碟區（csv）上，則複製的資料庫將位於 csv 上。
+* SCRIPTS_PATH 是使用插件主機的 SMCoreServiceHost.exe.Config 檔案中的 PredefinedWindowsScriptsDirectory 鍵定義的。
++
+如果需要，您可以變更此路徑並重新啟動 SMcore 服務。為了安全起見，建議您使用預設路徑。
+
++
+可以透過 API 從 Swagger 顯示該鍵的值：API /4.7/configsettings
+
++
+您可以使用 GET API 來顯示鍵的值。不支援 SET API。
+
+
+
+
+NOTE: 對於虛擬環境（VMDK/RDM），請確保掛載點是專用磁碟。
+
+* 對於ONTAP 9.12.1 及以下版本、作為復原的一部分從SnapLock Vault 快照建立的克隆將繼承SnapLock Vault 到期時間。儲存管理員應在SnapLock到期後手動清理克隆。
+
+
+[role="tabbed-block"]
+====
+.SnapCenter使用者介面
+--
+.步驟
+. 在左側導覽窗格中，選擇“*資源*”，然後從清單中選擇“適用於 SQL Server 的SnapCenter外掛程式*”。
+. 在資源頁面中，從*視圖*清單中選擇*資料庫*或*資源組*。
++
+
+NOTE: 不支援克隆實例的備份。
+
+. 選擇資料庫或資源組。
+. 從*管理副本*檢視頁面中，選擇來自主或輔助（鏡像或保管）儲存系統的備份。
+. 選擇備份，然後選擇*image:../media/clone_icon.gif["複製圖示"] *.
+. 在「複製選項」頁面中，執行以下操作：
++
+|===
+| 對於這個領域... | 這樣做... 
+
+
+ a| 
+克隆伺服器
+ a| 
+選擇要建立克隆的主機。
+
+
+
+ a| 
+克隆實例
+ a| 
+選擇要將資料庫備份複製到的克隆實例。
+
+此 SQL 實例必須位於指定的克隆伺服器中。
+
+
+
+ a| 
+克隆後綴
+ a| 
+輸入將附加到克隆檔案名稱的後綴，以標識該資料庫是克隆的。
+
+例如，_db1_clone_。如果要複製到與原始資料庫相同的位置，則必須提供後綴以區分複製的資料庫和原始資料庫。否則，操作失敗。
+
+
+
+ a| 
+自動分配掛載點或自動分配路徑下的磁碟區掛載點
+ a| 
+選擇是否自動指派掛載點或路徑下的磁碟區掛載點。
+
+自動分配路徑下的磁碟區掛載點：路徑下的掛載點可讓您提供特定的目錄。掛載點將在該目錄內建立。在選擇此選項之前，您必須確保目錄為空。如果目錄中存在資料庫，則掛載操作後資料庫將處於無效狀態。
+
+|===
+. 在日誌頁面中，選擇以下選項之一：
++
+|===
+| 對於這個領域... | 這樣做... 
+
+
+ a| 
+沒有任何
+ a| 
+當您只想克隆完整備份而不克隆任何日誌時，請選擇此選項。
+
+
+
+ a| 
+所有日誌備份
+ a| 
+選擇此選項可以複製完整備份之後的所有可用日誌備份。
+
+
+
+ a| 
+通過日誌備份直到
+ a| 
+選擇此選項可根據所選日期的備份日誌建立的備份日誌複製資料庫。
+
+
+
+ a| 
+按特定日期直至
+ a| 
+指定交易日誌不再應用於複製資料庫的日期和時間。
+
+此時間點複製會停止指定日期和時間之後記錄的交易日誌條目的複製。
+
+|===
+. 在*腳本*頁面中，分別輸入腳本逾時、路徑以及複製操作之前或之後應執行的預腳本或後腳本的參數。
++
+例如，您可以執行腳本來更新 SNMP 陷阱、自動發出警報、傳送日誌等。
+
++
+
+NOTE: 前言或後記路徑不應包含磁碟機或共用。該路徑應相對於 SCRIPTS_PATH。
+
++
+預設腳本超時為 60 秒。
+
+. 在*通知*頁面中，從*電子郵件首選項*下拉清單中，選擇您想要傳送電子郵件的場景。
++
+您也必須指定寄件者和收件者的電子郵件地址以及電子郵件的主題。如果您想要附加執行的複製操作的報告，請選擇*附加作業報告*。
+
++
+
+NOTE: 對於電子郵件通知，您必須使用 GUI 或 PowerShell 命令 Set-SmSmtpServer 指定 SMTP 伺服器詳細資訊。
+
++
+對於 EMS，您可以參考 https://docs.netapp.com/us-en/snapcenter/admin/concept_manage_ems_data_collection.html["管理 EMS 資料收集"]
+
+. 查看摘要，然後選擇*完成*。
+. 透過選擇 *Monitor* > *Jobs* 來監控操作進度。
+
+
+.完成後
+創建克隆後，您永遠不應對其進行重命名。
+
+.相關資訊
+https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/Clone_operation_might_fail_or_take_longer_time_to_complete_with_default_TCP_TIMEOUT_value["克隆操作可能失敗或需要更長時間才能完成，且使用預設 TCP_TIMEOUT 值"]
+
+https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/The_failover_cluster_instance_database_clone_fails["故障轉移群集實例資料庫克隆失敗"]
+
+--
+.PowerShell cmdlet
+--
+.步驟
+. 使用 Open-SmConnection cmdlet 為指定使用者啟動與SnapCenter伺服器的連線會話。
++
+[listing]
+----
+Open-SmConnection  -SMSbaseurl  https://snapctr.demo.netapp.com:8146
+----
+. 列出可以使用 Get-SmBackup 或 Get-SmResourceGroup cmdlet 克隆的備份。
++
+此範例顯示有關所有可用備份的資訊：
+
++
+[listing]
+----
+C:\PS>PS C:\> Get-SmBackup
+
+BackupId   BackupName                     BackupTime   BackupType
+--------   ----------                     ----------   ----------
+1          Payroll Dataset_vise-f6_08...  8/4/2015     Full Backup
+                                          11:02:32 AM
+
+2          Payroll Dataset_vise-f6_08...  8/4/2015
+                                          11:23:17 AM
+----
++
+此範例顯示有關指定資源組、其資源和相關策略的資訊：
+
++
+[listing]
+----
+PS C:\> Get-SmResourceGroup -ListResources –ListPolicies
+
+Description :
+CreationTime : 8/4/2015 3:44:05 PM
+ModificationTime : 8/4/2015 3:44:05 PM
+EnableEmail : False
+EmailSMTPServer :
+EmailFrom :
+EmailTo :
+EmailSubject :
+EnableSysLog : False
+ProtectionGroupType : Backup
+EnableAsupOnFailure : False
+Policies : {FinancePolicy}
+HostResourceMaping : {}
+Configuration : SMCoreContracts.SmCloneConfiguration
+LastBackupStatus :
+VerificationServer :
+EmailBody :
+EmailNotificationPreference : Never
+VerificationServerInfo : SMCoreContracts.SmVerificationServerInfo
+SchedulerSQLInstance :
+CustomText :
+CustomSnapshotFormat :
+SearchResources : False
+ByPassCredential : False
+IsCustomSnapshot :
+MaintenanceStatus : Production
+PluginProtectionGroupTypes : {SMSQL}
+Name : Payrolldataset
+Type : Group
+Id : 1
+Host :
+UserName :
+Passphrase :
+Deleted : False
+Auth : SMCoreContracts.SmAuth
+IsClone : False
+CloneLevel : 0
+ApplySnapvaultUpdate : False
+ApplyRetention : False
+RetentionCount : 0
+RetentionDays : 0
+ApplySnapMirrorUpdate : False
+SnapVaultLabel :
+MirrorVaultUpdateRetryCount : 7
+AppPolicies : {}
+Description : FinancePolicy
+PreScriptPath :
+PreScriptArguments :
+PostScriptPath :
+PostScriptArguments :
+ScriptTimeOut : 60000
+DateModified : 8/4/2015 3:43:30 PM
+DateCreated : 8/4/2015 3:43:30 PM
+Schedule : SMCoreContracts.SmSchedule
+PolicyType : Backup
+PluginPolicyType : SMSQL
+Name : FinancePolicy
+Type :
+Id : 1
+Host :
+UserName :
+Passphrase :
+Deleted : False
+Auth : SMCoreContracts.SmAuth
+IsClone : False
+CloneLevel : 0
+clab-a13-13.sddev.lab.netapp.com
+DatabaseGUID :
+SQLInstance : clab-a13-13
+DbStatus : AutoClosed
+DbAccess : eUndefined
+IsSystemDb : False
+IsSimpleRecoveryMode : False
+IsSelectable : True
+SqlDbFileGroups : {}
+SqlDbLogFiles : {}
+AppFileStorageGroups : {}
+LogDirectory :
+AgName :
+Version :
+VolumeGroupIndex : -1
+IsSecondary : False
+Name : TEST
+Type : SQL Database
+Id : clab-a13-13\TEST
+Host : clab-a13-13.sddev.mycompany.com
+UserName :
+Passphrase :
+Deleted : False
+Auth : SMCoreContracts.SmAuth
+IsClone : False
+----
+. 使用 New-SmClone cmdlet 從現有備援啟動複製作業。
++
+此範例從包含所有日誌的指定備份建立複製：
+
++
+[listing]
+----
+PS C:\> New-SmClone
+-BackupName payroll_dataset_vise-f3_08-05-2015_15.28.28.9774
+-Resources @{"Host"="vise-f3.sddev.mycompany.com";
+"Type"="SQL Database";"Names"="vise-f3\SQLExpress\payroll"}
+-CloneToInstance vise-f3\sqlexpress -AutoAssignMountPoint
+-Suffix _clonefrombackup
+-LogRestoreType All -Policy clonefromprimary_ondemand
+
+PS C:> New-SmBackup -ResourceGroupName PayrollDataset -Policy FinancePolicy
+----
++
+此範例建立指定 Microsoft SQL Server 執行個體的複製：
+
++
+[listing]
+----
+PS C:\> New-SmClone
+-BackupName "BackupDS1_NY-VM-SC-SQL_12-08-2015_09.00.24.8367"
+-Resources @{"host"="ny-vm-sc-sql";"Type"="SQL Database";
+"Names"="ny-vm-sc-sql\AdventureWorks2012_data"}
+-AppPluginCode SMSQL -CloneToInstance "ny-vm-sc-sql"
+-Suffix _CLPOSH -AssignMountPointUnderPath "C:\SCMounts"
+----
+. 使用 Get-SmCloneReport cmdlet 查看複製作業的狀態。
++
+此範例顯示指定作業 ID 的複製報表：
+
++
+[listing]
+----
+PS C:\> Get-SmCloneReport -JobId 186
+
+SmCloneId : 1
+SmJobId : 186
+StartDateTime : 8/3/2015 2:43:02 PM
+EndDateTime : 8/3/2015 2:44:08 PM
+Duration : 00:01:06.6760000
+Status : Completed
+ProtectionGroupName : Draper
+SmProtectionGroupId : 4
+PolicyName : OnDemand_Clone
+SmPolicyId : 4
+BackupPolicyName : OnDemand_Full_Log
+SmBackupPolicyId : 1
+CloneHostName : SCSPR0054212005.mycompany.com
+CloneHostId : 4
+CloneName : Draper__clone__08-03-2015_14.43.53
+SourceResources : {Don, Betty, Bobby, Sally}
+ClonedResources : {Don_DRAPER, Betty_DRAPER, Bobby_DRAPER,
+                   Sally_DRAPER}
+----
+
+
+可以透過執行_Get-Help command_name_來取得有關可與 cmdlet 一起使用的參數及其描述的資訊。或者，您也可以參考 https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["SnapCenter軟體 Cmdlet 參考指南"^]。
+
+--
+====

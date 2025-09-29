@@ -1,0 +1,23 @@
+---
+permalink: admin/task_how_to_view_information_on_the_dashboard.html 
+sidebar: sidebar 
+keywords: dashboard 
+summary: 從SnapCenter左側導覽窗格中，您可以查看各種儀表板磁貼或顯示以及相關的系統詳細資訊。儀表板中可用的顯示數量是固定的，無法變更。每個顯示中提供的內容取決於基於角色的存取控制（RBAC）。 
+---
+= 如何查看儀表板上的信息
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+從SnapCenter左側導覽窗格中，您可以查看各種儀表板磁貼或顯示以及相關的系統詳細資訊。儀表板中可用的顯示數量是固定的，無法變更。每個顯示中提供的內容取決於基於角色的存取控制 (RBAC)。
+
+*步驟*
+
+. 在左側導覽窗格中，按一下「*儀表板*」。
+. 點擊每個顯示器上的活動區域以獲取更多資訊。
++
+例如，按一下「*Jobs*」中的環形圖，會將您重新導向至「監控」頁面以取得有關您的選擇的更多資訊。點擊「保護摘要」中的環形圖，將重定向到「報告」頁面，該頁面可以提供有關您的選擇的更多資訊。
+
+

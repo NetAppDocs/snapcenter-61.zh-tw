@@ -1,0 +1,22 @@
+---
+permalink: protect-scsql/concept_requirements_for_backing_up_sql_resources.html 
+sidebar: sidebar 
+keywords: Requirements 
+summary: 在備份 SQL 資源之前，您必須確保滿足幾個要求。 
+---
+= 備份 SQL 資源的需求
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+在備份 SQL 資源之前，您必須確保滿足幾個要求。
+
+* 您必須已將資源從非NetApp儲存系統移轉到NetApp儲存系統。
+* 您必須已經建立了備份策略。
+* 如果要將具有SnapMirror關係的資源備份到二級存儲，則分配給儲存使用者的ONTAP角色應包括「`snapmirror all`」權限。但是，如果您使用“vsadmin”角色，則不需要“snapmirror all”權限。
+* 如果未將 SQL 執行個體憑證指派給 AD 使用者或群組，則由活動目錄 (AD) 使用者啟動的備份作業將會失敗。您必須從*設定* > *使用者存取*頁面將 SQL 實例憑證指派給 AD 使用者或群組。
+* 您必須已建立附加有策略的資源群組。
+* 如果資源組有來自不同主機的多個資料庫，則由於網路問題，某些主機上的備份操作可能會延遲觸發。您應該使用 Set-SmConfigSettings PS cmdlet 在 web.config 中設定 FMaxRetryForUninitializedHosts 的值。
+

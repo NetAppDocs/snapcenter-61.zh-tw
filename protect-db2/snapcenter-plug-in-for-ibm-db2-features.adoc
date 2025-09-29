@@ -1,0 +1,48 @@
+---
+permalink: protect-db2/snapcenter-plug-in-for-ibm-db2-features.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for IBM Db2 
+summary: SnapCenter與插件應用程式以及儲存系統上的NetApp技術整合。若要使用 IBM Db2 資料庫插件，您需要使用SnapCenter圖形使用者介面。 
+---
+= 適用於 IBM Db2 的SnapCenter插件功能
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenter與插件應用程式以及儲存系統上的NetApp技術整合。若要使用 IBM Db2 資料庫插件，您需要使用SnapCenter圖形使用者介面。
+
+* *統一的圖形使用者介面*
++
+SnapCenter介面提供跨插件和環境的標準化和一致性。  SnapCenter介面可讓您跨外掛程式完成一致的備份、復原和複製作業、使用集中式報表、使用一目了然的儀表板視圖、設定基於角色的存取控制 (RBAC) 以及監控所有外掛程式中的作業。
+
+* *自動化中央管理*
++
+您可以安排備份作業、設定基於政策的備份保留以及執行復原作業。您也可以透過設定SnapCenter發送電子郵件警報來主動監控您的環境。
+
+* *無中斷NetApp快照複製技術*
++
+SnapCenter使用NetApp快照技術和 IBM Db2 資料庫外掛程式來備份資源。
+
+
+
+使用 IBM Db2 外掛程式還可帶來以下好處：
+
+* 支援備份、復原和複製工作流程
+* RBAC 支援的安全性和集中角色委派
++
+您也可以設定憑證，以便授權的SnapCenter使用者擁有應用程式等級的權限。
+
+* 使用NetApp FlexClone技術建立節省空間的資源時間點副本，用於測試或資料擷取
++
+您要建立克隆的儲存系統上需要有FlexClone許可證。
+
+* 作為建立備份的一部分，支援ONTAP的一致性群組 (CG) 快照功能。
+* 能夠跨多個資源主機同時執行多個備份
++
+在單次操作中，當單一主機中的資源共用同一磁碟區時，快照就會合併。
+
+* 能夠使用外部命令建立快照。
+* 支援 XFS 檔案系統上的 Linux LVM。
+

@@ -1,0 +1,33 @@
+---
+permalink: uninstall/task_uninstall_plug_ins_locally_on_a_host.html 
+sidebar: sidebar 
+keywords: uninstall, uninstall plug-in locally, uninstall plug-in from a host 
+summary: 如果您無法從SnapCenter伺服器存取主機，則可以在主機上本機卸載SnapCenter插件。 
+---
+= 在主機本地卸載插件
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+如果您無法從SnapCenter伺服器存取主機，則可以在主機上本機卸載SnapCenter插件。
+
+.關於此任務
+卸載單一插件或插件包的最佳做法是使用SnapCenter GUI 或使用SnapCenter Server 主機命令列介面上的 Uninstall-SmHostPackage cmdlet。這些程式可協助SnapCenter伺服器隨時了解任何變更。
+
+但是，您可能很少需要在本地卸載插件。例如，您可能已從SnapCenter伺服器執行卸載作業但該作業失敗，或者您卸載了SnapCenter伺服器並且孤立插件仍保留在主機上。
+
+
+IMPORTANT: 在主機本機卸載外掛程式包不會刪除與主機相關的資料；例如排程作業和備份元資料。
+
+
+IMPORTANT: 請勿嘗試從控制臺本機卸載適用於 Windows 的SnapCenter插件包。您必須使用SnapCenter GUI 來確保正確解除安裝適用於 Microsoft Windows 的SnapCenter外掛程式。
+
+.步驟
+. 在主機系統上，導航至控制台並點擊*卸載程式*。
+. 在程式清單中，選擇要卸載的SnapCenter插件或插件包，然後按一下「卸載」。
++
+Windows 解除安裝所選套件中的所有插件。
+
+

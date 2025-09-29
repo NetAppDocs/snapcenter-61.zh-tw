@@ -1,0 +1,118 @@
+---
+permalink: install/task_register_untrusted_active_directory_domains.html 
+sidebar: sidebar 
+keywords: Active Directory 
+summary: 您應該向SnapCenter Server 註冊 Active Directory，以管理來自多個不受信任的 Active Directory 網域的主機、使用者和群組。 
+---
+= 註冊不受信任的 Active Directory 網域
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您應該向SnapCenter Server 註冊 Active Directory，以管理來自多個不受信任的 Active Directory 網域的主機、使用者和群組。
+
+.開始之前
+LDAP 和 LDAPS 協議
+
+* 您可以使用 LDAP 或 LDAPS 協定註冊不受信任的活動目錄網域。
+* 您應該已經啟用插件主機和SnapCenter伺服器之間的雙向通訊。
+* 應設定從SnapCenter伺服器到插件主機的 DNS 解析，反之亦然。
+
+
+LDAP 協定
+
+* 完全限定網域名稱 (FQDN) 應該可以從SnapCenter Server 解析。
++
+您可以使用 FQDN 註冊不受信任的網域。如果無法從SnapCenter伺服器解析 FQDN，則可以使用網域控制器 IP 位址進行註冊，並且該位址應該可以從SnapCenter伺服器解析。
+
+
+
+*LDAPS 協定*
+
+* LDAPS 需要 CA 憑證來在活動目錄通訊期間提供端對端加密。
++
+link:task_configure_CA_client_certificate_for_LDAPS.html["為 LDAPS 設定 CA 用戶端憑證"]
+
+* 網域控制器主機名稱（DCHostName）應該可以從SnapCenter伺服器存取。
+
+
+*關於此任務*
+
+* 您可以使用SnapCenter使用者介面、PowerShell cmdlet 或 REST API 來註冊不受信任的網域。
+
+
+*步驟*
+
+. 在左側導覽窗格中，按一下「*設定*」。
+. 在「設定」頁面中，按一下「*全域設定*」。
+. 在全域設定頁面中，按一下「網域設定」。
+. 點選image:../media/add_policy_from_resourcegroup.gif["從資源群組新增策略"]註冊一個新網域。
+. 在註冊新網域頁面中，選擇 *LDAP* 或 *LDAPS*。
++
+.. 如果選擇 *LDAP*，請指定為 LDAP 註冊不受信任網域所需的資訊：
++
+|===
+| 對於這個領域... | 這樣做... 
+
+
+ a| 
+網域
+ a| 
+指定網域的 NetBIOS 名稱。
+
+
+
+ a| 
+域 FQDN
+ a| 
+指定 FQDN 並按一下 *解析*。
+
+
+
+ a| 
+網域控制器 IP 位址
+ a| 
+如果無法從SnapCenter伺服器解析網域 FQDN，請指定一個或多個網域控制器 IP 位址。
+
+有關更多信息，請參閱 https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/SnapCenter_does_not_allow_to_add_Domain_Controller_IP_for_untrusted_domain_from_GUI["從 GUI 為不受信任的網域新增網域控制器 IP"^] 。
+
+|===
+.. 如果選擇 *LDAPS*，請指定為 LDAPS 註冊不受信任網域所需的資訊：
++
+|===
+| 對於這個領域... | 這樣做... 
+
+
+ a| 
+網域
+ a| 
+指定網域的 NetBIOS 名稱。
+
+
+
+ a| 
+域 FQDN
+ a| 
+指定 FQDN。
+
+
+
+ a| 
+網域控制器名稱
+ a| 
+指定一個或多個網域控制站名稱，然後按一下「*解析*」。
+
+
+
+ a| 
+網域控制器 IP 位址
+ a| 
+如果網域控制站名稱無法從SnapCenter Server 解析，則應修正 DNS 解析。
+
+|===
+
+
+. 按一下“*確定*”。
+

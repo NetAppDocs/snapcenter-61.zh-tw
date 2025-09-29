@@ -1,0 +1,28 @@
+---
+permalink: protect-nsp/netapp_supported_plugins_overview.html 
+sidebar: sidebar 
+keywords: NetApp supported plug-ins, MongoDB, ORASCPM, Oracle Applications, SAP ASE, SAP MaxDB, Storage plug-in 
+summary: 您可以為您使用的應用程式開發NetApp支援的插件，然後使用SnapCenter備份、還原或複製這些應用程式。與其他SnapCenter插件一樣， NetApp支援的插件充當NetApp SnapCenter軟體的主機端元件，實現應用程式感知的資料保護和資源管理。 
+---
+= NetApp支援的插件概述
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以將NetApp支援的插件（如 MongoDB、ORASCPM（Oracle 應用程式）、SAP ASE、SAP MaxDB 和儲存插件）用於您使用的應用程序，然後使用SnapCenter備份、還原或克隆這些應用程式。  NetApp支援的插件可作為NetApp SnapCenter軟體的主機端元件，實現應用程式感知的資料保護和資源管理。
+
+安裝NetApp支援的外掛程式後，您可以使用具有NetApp SnapMirror技術的SnapCenter在另一個磁碟區上建立備份集的鏡像副本，並使用NetApp SnapVault技術執行磁碟到磁碟的備份複製。  NetApp支援的插件可以在 Windows 和 Linux 環境中使用。
+
+
+NOTE: SnapCenterCLI 不支援NetApp支援的插件命令。
+
+NetApp提供儲存插件，使用SnapCenter內建的插件框架對ONTAP儲存上的資料磁碟區執行資料保護作業。
+
+您可以從新增主機頁面安裝NetApp支援的外掛程式。
+
+link:add_hosts_and_install_plug_in_packages_on_remote_hosts.html["新增主機並在遠端主機上安裝插件包。"^]
+
+
+NOTE: SnapCenter支援策略將涵蓋對外掛程式框架、核心引擎和相關 API 的支援。支援不包括插件原始程式碼和在插件框架上建置的相關腳本。

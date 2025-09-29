@@ -1,0 +1,99 @@
+---
+permalink: protect-scsql/task_migrate_resources_to_netapp_storage.html 
+sidebar: sidebar 
+keywords: migrate resources 
+summary: '使用適用於 Microsoft Windows 的SnapCenter外掛程式設定NetApp儲存系統後，您可以使用SnapCenter圖形使用者介面 (GUI) 或使用 PowerShell cmdlet 將資源移轉到NetApp儲存系統或從一個NetApp LUN 移轉到另一個NetApp LUN。' 
+---
+= 將資源遷移到NetApp儲存系統
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+使用適用於 Microsoft Windows 的SnapCenter外掛程式設定NetApp儲存系統後，您可以使用SnapCenter圖形使用者介面 (GUI) 或使用 PowerShell cmdlet 將資源移轉到NetApp儲存系統或從一個NetApp LUN 移轉到另一個NetApp LUN。
+
+.開始之前
+* 您必須已將儲存系統新增至SnapCenter Server。
+* 您必須刷新（發現）SQL Server 資源。
+
+
+這些嚮導頁面上的大多數欄位都是不言自明的。以下資訊描述了您可能需要指導的一些欄位。
+
+.步驟
+. 在左側導覽窗格中，按一下“*資源*”，然後從清單中選擇適當的外掛程式。
+. 在資源頁面中，從*視圖*下拉清單中選擇*資料庫*或*實例*。
+. 從清單中選擇資料庫或實例，然後按一下*遷移*。
+. 在資源頁面中，執行以下操作：
++
+|===
+| 對於這個領域... | 這樣做... 
+
+
+ a| 
+*資料庫名稱*（可選）
+ a| 
+如果您已選擇要遷移的實例，則必須從*資料庫*下拉清單中選擇該實例的資料庫。
+
+
+
+ a| 
+*選擇目的地*
+ a| 
+選擇資料和日誌檔案的目標位置。
+
+資料和日誌檔案分別移動到所選NetApp磁碟機下的資料和日誌資料夾。如果資料夾結構中不存在任何資料夾，則建立一個資料夾並遷移資源。
+
+
+
+ a| 
+*顯示資料庫檔案詳細資料*（可選）
+ a| 
+當您想要遷移單一資料庫的多個檔案時，請選擇此選項。
+
+
+NOTE: 當您選擇*實例*資源時，不會顯示此選項。
+
+
+
+ a| 
+*選項*
+ a| 
+選擇“刪除原始位置的遷移資料庫副本”以從來源中刪除資料庫副本。
+
+可選：*分離資料庫之前在表上運行更新統計資料*。
+
+|===
+. 在驗證頁面中執行以下操作：
++
+|===
+| 對於這個領域... | 這樣做... 
+
+
+ a| 
+*資料庫一致性檢查選項*
+ a| 
+選擇*運行前*以在遷移之前檢查資料庫的完整性。選擇*運行後*來檢查遷移後資料庫的完整性。
+
+
+
+ a| 
+DBCC CHECKDB 選項
+ a| 
+** 選擇 *PHYSICAL_ONLY* 選項將完整性檢查限制在資料庫的實體結構內，並偵測影響資料庫的頁面撕裂、校驗和失敗以及常見硬體故障。
+** 選擇 *NO_INFOMSGS* 選項來抑制所有資訊訊息。
+** 選擇 *ALL_ERRORMSGS* 選項來顯示每個物件報告的所有錯誤。
+** 如果您不想檢查非聚集索引，請選擇 *NOINDEX* 選項。
++
+SQL Server 資料庫使用 Microsoft SQL Server 資料庫一致性檢查器 (DBCC) 來檢查資料庫中物件的邏輯和實體完整性。
+
++
+
+NOTE: 您可能希望選擇此選項來減少執行時間。
+
+** 選擇**TABLOCK**選項來限制檢查並取得鎖定，而不是使用內部資料庫快照。
+
+
+|===
+. 查看摘要，然後按一下**完成**。
+

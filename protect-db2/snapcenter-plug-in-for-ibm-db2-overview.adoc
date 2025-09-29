@@ -1,0 +1,29 @@
+---
+permalink: protect-db2/snapcenter-plug-in-for-ibm-db2-overview.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for IBM Db2 
+summary: IBM Db2 的SnapCenter外掛程式是NetApp SnapCenter software的主機端元件，可實現 IBM Db2 資料庫的應用程式感知資料保護管理。  IBM Db2 資料庫外掛程式可自動執行SnapCenter環境中 IBM Db2 資料庫的備份、復原和複製。 
+---
+= 適用於 IBM Db2 的SnapCenter插件概述
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+IBM Db2 資料庫的SnapCenter外掛程式是NetApp SnapCenter software的主機端元件，可實現 IBM Db2 資料庫的應用程式感知資料保護管理。  IBM Db2 資料庫外掛程式可自動執行SnapCenter環境中 IBM Db2 資料庫的備份、復原和複製。
+
+* SnapCenter 6.0 支援 IBM Db2 10.5 及更高版本。
+* SnapCenter 6.0.1 支援 IBM Db2 9.7.x 及更高版本。此外，從SnapCenter 6.0.1 開始，支援 AIX 上的 IBM Db2。
+
+
+SnapCenter支援單一執行個體和多重執行個體 Db2 設定。您可以在 Linux 和 Windows 環境中使用 IBM Db2 資料庫外掛程式。在 Windows 環境中，Db2 將作為手動資源得到支援。
+
+
+NOTE: 不支援 Db2 pureScale 環境和 Db2 多節點 (DPF) 系統。
+
+安裝 IBM Db2 資料庫外掛程式後，您可以使用具有NetApp SnapMirror技術的SnapCenter在另一個磁碟區上建立備份集的鏡像副本。您也可以使用具有NetApp SnapVault技術的插件來執行磁碟到磁碟的備份複製，以符合標準。
+
+SnapCenter Plug-in for Db2 支援ONTAP和 Azure NetApp檔案儲存佈局上的 NFS 和 SAN。
+
+支援VMDK、vVol、RDM虛擬儲存佈局。

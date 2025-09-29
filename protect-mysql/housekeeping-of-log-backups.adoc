@@ -1,0 +1,14 @@
+---
+permalink: protect-mysql/housekeeping-of-log-backups.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for MySQL 
+summary: SnapCenter管理儲存系統和檔案系統層級以及 MySQL 備份目錄中的日誌和資料備份。 
+---
+= SnapCenter如何管理日誌備份
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenter管理儲存系統和檔案系統層級的資料備份。

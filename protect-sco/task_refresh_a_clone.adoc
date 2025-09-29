@@ -1,0 +1,64 @@
+---
+permalink: protect-sco/task_refresh_a_clone.html 
+sidebar: sidebar 
+keywords: refresh clone, clone 
+summary: 您可以透過執行“Refresh-SmClone”命令來刷新複製。此命令會建立資料庫的備份，刪除現有的克隆，並建立同名的克隆。 
+---
+= 刷新克隆
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以透過執行_Refresh-SmClone_命令來刷新克隆。此命令會建立資料庫的備份，刪除現有的克隆，並建立同名的克隆。
+
+
+NOTE: 您無法刷新 PDB 克隆。
+
+*您需要什麼*
+
+* 建立線上完整備份或離線資料備份策略，不啟用任何排程備份。
+* 僅為備份失敗配置策略中的電子郵件通知。
+* 適當定義按需備份的保留計數，以確保沒有不必要的備份。
+* 確保只有線上完整備份或離線資料備份策略與已確定用於刷新克隆作業的資源群組相關聯。
+* 建立只有一個資料庫的資源組。
+* 如果為複製刷新指令建立了 cron 作業，請確保SnapCenter計畫和 cron 計畫與資料庫資源組不重疊。
++
+對於為克隆刷新命令建立的 cron 作業，請確保每 24 小時執行一次 Open-SmConnection。
+
+* 確保克隆 SID 對於主機來說是唯一的。
++
+如果多個刷新克隆操作使用相同的克隆規範文件或使用具有相同克隆 SID 的克隆規範文件，則主機上具有該 SID 的現有克隆將被刪除，然後創建克隆。
+
+* 確保備份策略啟用了二級保護，並使用“-IncludeSecondaryDetails”建立克隆規範文件，以使用二級備份建立克隆。
++
+** 如果指定了主克隆規範文件，但策略選擇了輔助更新選項，則將建立備份，並將更新傳輸到輔助。但是，克隆將從主備份建立。
+** 如果指定了主複製規範文件，且策略未選擇輔助更新選項，則會在主伺服器上建立備份，並從主伺服器建立複製。
+
+
+
+
+*步驟*
+
+. 為指定使用者啟動與SnapCenter伺服器的連線會話：_Open-SmConnection_
+. 從指定備份建立 Oracle 資料庫複製規格：_New-SmOracleCloneSpecification_
++
+
+NOTE: 如果二級資料保護策略是統一鏡像保管庫，則僅指定-IncludeSecondaryDetails。您不必指定 -SecondaryStorageType。
+
++
+此命令會自動為指定的來源資料庫及其備份建立 Oracle 資料庫克隆規範檔案。您還必須提供複製資料庫 SID，以便建立的規格文件具有您將要建立的複製資料庫的自動產生的值。
+
++
+
+NOTE: 克隆規範檔案在 _/var/opt/snapcenter/sco/clone_specs_ 處建立。
+
+. 運行_Refresh-SmClone_。
++
+如果操作失敗並出現「PL-SCO-20032：canExecute 操作失敗，錯誤：PL-SCO-30031：重做日誌檔案 +SC_2959770772_clmdb/clmdb/redolog/redo01_01.log 存在」錯誤訊息，請為 rig-WaitTT為 rig-WaitToTger 指定更高的值。
+
++
+有關 UNIX 命令的詳細信息，請參閱 https://library.netapp.com/ecm/ecm_download_file/ECMLP3337666["SnapCenter軟體命令參考指南"^]。
+
+

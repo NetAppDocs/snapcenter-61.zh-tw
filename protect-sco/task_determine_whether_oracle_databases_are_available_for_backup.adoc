@@ -1,0 +1,105 @@
+---
+permalink: protect-sco/task_determine_whether_oracle_databases_are_available_for_backup.html 
+sidebar: sidebar 
+keywords: credentials,SnapCenter Plug-in for Oracle Databases, non-database entries, oratab 
+summary: 資源是主機上由SnapCenter管理的 Oracle 資料庫。發現可用的資料庫後，您可以將這些資料庫新增至資源組以執行資料保護操作。 
+---
+= 發現可供備份的 Oracle 資料庫
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+資源是主機上由SnapCenter管理的 Oracle 資料庫。發現可用的資料庫後，您可以將這些資料庫新增至資源組以執行資料保護操作。
+
+.開始之前
+* 您必須完成安裝SnapCenter伺服器、新增主機、建立儲存系統連線和新增憑證等任務。
+* 如果資料庫駐留在虛擬機器磁碟 (VMDK) 或原始裝置對映 (RDM) 上，則必須部署SnapCenter Plug-in for VMware vSphere並向SnapCenter註冊外掛程式。
++
+有關更多信息，請參閱 https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/scpivs44_deploy_snapcenter_plug-in_for_vmware_vsphere.html["SnapCenter Plug-in for VMware vSphere"^] 。
+
+* 如果資料庫駐留在 VMDK 檔案系統上，則必須登入 vCenter 並導覽至 *VM 選項* > *進階* > *編輯設定*，將 VM 的 _disk.enableUUID_ 值設為 true。
+* 您必須已經查看了SnapCenter遵循的流程來發現不同類型和版本的 Oracle 資料庫。
+
+
+
+
+== 步驟 1：防止SnapCenter發現非資料庫條目
+
+您可以阻止SnapCenter發現 oratab 檔案中新增的非資料庫條目。
+
+.步驟
+. 安裝 Oracle 外掛後，root 使用者應在目錄 _/var/opt/snapcenter/sco/etc/_ 下建立 *sc_oratab.config* 檔案。
++
+授予 Oracle 二進位檔案擁有者和群組寫入權限，以便將來可以維護該檔案。
+
+. 資料庫管理員應在 *sc_oratab.config* 檔案中新增非資料庫條目。
++
+建議維護 _/etc/oratab_ 檔案中非資料庫條目定義的相同格式，或者使用者可以只新增非資料庫實體字串。
+
++
+
+NOTE: 該字串區分大小寫。任何以 # 開頭的文字都被視為註釋。註釋可以附加在非資料庫名稱後面。
+
++
+....
+For example:
+--------------------------------------------
+# Sample entries
+# Each line can have only one non-database name
+# These are non-database name
+oratar  # Added by the admin group -1
+#Added by the script team
+NEWSPT
+DBAGNT:/ora01/app/oracle/product/agent:N
+-----------------------------------------------
+....
+. 發現資源。
++
+*sc_oratab.config* 中新增的非資料庫項目將不會在資源頁面中列出。
+
+
+
+
+IMPORTANT: 始終建議在升級SnapCenter插件之前備份 sc_oratab.config 檔案。
+
+
+
+== 第 2 步：發現資源
+
+安裝外掛程式後，該主機上的所有資料庫都會自動發現並顯示在資源頁面中。
+
+資料庫至少應處於已安裝狀態或更高狀態，才能成功發現資料庫。在 Oracle 真正應用叢集 (RAC) 環境中，執行發現的主機中的 RAC 資料庫執行個體應至少處於已安裝狀態或更高狀態，資料庫執行個體的發現才能成功。只有成功發現的資料庫才能加入資源組。
+
+如果您刪除了主機上的 Oracle 資料庫， SnapCenter Server 將不會意識到並會列出已刪除的資料庫。您應該手動刷新資源以更新SnapCenter資源清單。
+
+.步驟
+. 在左側導覽窗格中，按一下“*資源*”，然後從清單中選擇適當的外掛程式。
+. 在資源頁面中，從*視圖*清單中選擇*資料庫*。
++
+點選image:../media/filter_icon.gif["篩選圖標"]按一下[過濾圖示]，然後選擇主機名稱和資料庫類型來過濾資源。然後，您可以按一下 imagfilter_icon.gif[過濾器圖示]_icon.png[] 圖示來關閉篩選器窗格。
+
+. 按一下“刷新資源”。
++
+在 RAC One Node 場景中，資料庫被發現為其目前所在節點上的 RAC 資料庫。
+
+
+
+*結果*
+
+資料庫與資料庫類型、主機或叢集名稱、相關資源群組和策略以及狀態等資訊一起顯示。
+
+
+IMPORTANT: 如果資料庫在SnapCenter之外重新命名，則必須刷新資源。
+
+* 如果資料庫位於非NetApp儲存系統上，則使用者介面將在「整體狀態」欄位中顯示「不可用於備份」訊息。
++
+您無法對非NetApp儲存系統上的資料庫執行資料保護操作。
+
+* 如果資料庫位於NetApp儲存系統且未受保護，則使用者介面將在「整體狀態」欄位中顯示「未受保護」訊息。
+* 如果資料庫位於NetApp儲存系統上並且受到保護，則使用者介面會在「整體狀態」欄位中顯示「可供備份」訊息。
+
+
+
+NOTE: 如果您啟用了 Oracle 資料庫驗證，資源檢視中會顯示一個紅色掛鎖圖示。您必須配置資料庫憑證才能保護資料庫或將其新增至資源組以執行資料保護操作。

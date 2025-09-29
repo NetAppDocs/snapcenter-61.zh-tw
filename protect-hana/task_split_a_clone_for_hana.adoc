@@ -1,0 +1,77 @@
+---
+permalink: protect-hana/task_split_a_clone_for_hana.html 
+sidebar: sidebar 
+keywords: split clone, snapcenter 
+summary: 您可以使用SnapCenter將克隆資源從父資源中拆分出來。被分割的克隆變得獨立於父資源。 
+---
+= 分裂克隆
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以使用SnapCenter將克隆資源從父資源中拆分出來。被分割的克隆變得獨立於父資源。
+
+.關於此任務
+* 您無法對中間克隆執行克隆分割操作。
++
+例如，從資料庫備份建立 clone1 後，您可以建立 clone1 的備份，然後複製此備份（clone2）。創建clone2後，clone1為中間克隆，無法對clone1進行克隆分裂操作。但是可以對clone2進行克隆分裂操作。
+
++
+在對 clone2 進行分裂之後，就可以對 clone1 進行克隆分裂操作了，因為 clone1 已經不再是中間克隆了。
+
+* 當您拆分克隆時，克隆的備份副本和克隆作業將被刪除。
+* 有關FlexClone磁碟區拆分操作的信息，請參閱 https://docs.netapp.com/us-en/ontap/volumes/split-flexclone-from-parent-task.html["將FlexClone磁碟區從其父卷中拆分出來"^]。
+* 確保儲存系統上的磁碟區或聚合處於線上狀態。
+
+
+.步驟
+. 在左側導覽窗格中，按一下“*資源*”，然後從清單中選擇適當的外掛程式。
+. 在「*資源*」頁面中，從「檢視」清單中選擇適當的選項：
++
+|===
+| 選項 | 描述 
+
+
+ a| 
+對於資料庫應用程式
+ a| 
+從視圖清單中選擇*資料庫*。
+
+
+
+ a| 
+對於檔案系統
+ a| 
+從檢視清單中選擇*路徑*。
+
+|===
+. 從清單中選擇適當的資源。
++
+進入資源拓樸頁面。
+
+. 從“管理副本”視圖中，選擇複製的資源（例如，資料庫或 LUN），然後按一下“*”image:../media/split_clone.gif["分裂克隆圖標"] *.
+. 查看要拆分的克隆的估計大小以及聚合上可用的所需空間，然後按一下「*開始*」。
+. 透過點選「*監視*」>「*作業*」來監視操作進度。
++
+如果 SMCore 服務重新啟動，克隆拆分操作將停止回應。您應該執行 Stop-SmJob cmdlet 來停止複製分割操作，然後重試複製分割作業。
+
++
+如果您想要更長的輪詢時間或更短的輪詢時間來檢查克隆是否拆分，您可以變更_SMCoreServiceHost.exe.config_檔案中的_CloneSplitStatusCheckPollTime_參數的值來設定SMCore輪詢克隆拆分操作狀態的時間間隔。該值的單位是毫秒，預設值為5分鐘。
+
++
+例如：
+
++
+[listing]
+----
+<add key="CloneSplitStatusCheckPollTime" value="300000" />
+----
++
+如果正在進行備份、復原或另一個克隆拆分，則克隆拆分啟動作業將失敗。僅當正在運行的操作完成後，才應重新啟動克隆拆分操作。
+
+
+
+.相關資訊
+https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/SnapCenter_clone_or_verfication_fails_with_aggregate_does_not_exist["SnapCenter克隆或驗證失敗，聚合不存在"]

@@ -1,0 +1,68 @@
+---
+permalink: get-started/reference_data_security.html 
+sidebar: sidebar 
+keywords: security, authentication, CA certificates, FIPS, SSL, AES, TLS, RBAC, MFA, multi-factor authentication 
+summary: SnapCenter採用嚴格的安全性和身份驗證功能，確保您的資料安全。 
+---
+= SnapCenter中的安全功能
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenter採用嚴格的安全性和身份驗證功能，確保您的資料安全。
+
+SnapCenter包含以下安全功能：
+
+* 與SnapCenter的所有通訊都使用 HTTP over SSL (HTTPS)。
+* SnapCenter中的所有憑證均使用高級加密標準 (AES) 加密進行保護。
+* 支援符合聯邦資訊處理標準 (FIPS) 的安全演算法。
+* 支援使用客戶提供的授權CA憑證。
+* 支援傳輸層安全性 (TLS) 1.3 以便與ONTAP進行通訊。您也可以使用 TLS 1.2 進行客戶端和伺服器之間的通訊。
+* 支援一組特定的 SSL 密碼套件，以提供跨網路通訊的安全性。 https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/How_to_configure_the_supported_SSL_Cipher_Suite["了解更多"] 。
+* SnapCenter安裝在您公司的防火牆內，以啟用對SnapCenter伺服器的存取並啟用SnapCenter伺服器和插件之間的通訊。
+* SnapCenter API 和操作存取使用 AES 加密的令牌，該令牌在 24 小時後過期。
+* SnapCenter與 Windows Active Directory 集成，用於登入和基於角色的存取控制 (RBAC) 來管理存取權限。
+* 適用於 Windows 和 Linux 主機的ONTAP上的SnapCenter支援 IPsec。 https://docs.netapp.com/us-en/ontap/networking/configure_ip_security_@ipsec@_over_wire_encryption.html#use-ipsec-identities["了解更多"] 。
+* SnapCenter PowerShell cmdlet 是會話安全性的。
+* 預設 15 分鐘不活動時間後， SnapCenter會警告您將在 5 分鐘後被登出。
++
+20 分鐘不活動後， SnapCenter會將您登出，您必須重新登入。您可以修改註銷期限。
+
+* 5 次登入嘗試失敗後，登入將會暫時停用。
+* 支援SnapCenter Server 和ONTAP之間的 CA 憑證認證。 https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/How_to_securely_connect_SnapCenter_with_ONTAP_using_CA_certificate["了解更多"] 。
+* 完整性驗證器被添加到SnapCenter伺服器和插件中，並在全新安裝和升級作業期間驗證所有附帶的二進位檔案。
+
+
+
+
+== CA憑證概述
+
+SnapCenter Server 安裝程式在安裝期間啟用集中式 SSL 憑證支援。為了增強伺服器和插件之間的安全通信， SnapCenter支援使用客戶提供的授權 CA 憑證。
+
+安裝SnapCenter伺服器和對應的插件後，您應該部署 CA 憑證。有關更多信息，請參閱link:../install/reference_generate_CA_certificate_CSR_file.html["產生CA憑證CSR文件"] 。
+
+您也可以為 VMware vSphere 的SnapCenter外掛程式部署 CA 憑證。有關更多信息，請參閱 https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/scpivs44_create_and_import_certificates.html["建立並匯入證書"^] 。
+
+
+
+== 雙向 SSL 通信
+
+雙向 SSL 通訊確保SnapCenter伺服器和插件之間的相互通訊安全性。
+
+
+
+== 基於憑證的身份驗證概述
+
+基於憑證的身份驗證可驗證嘗試存取SnapCenter插件主機的各個使用者的真實性。使用者應匯出不帶私鑰的SnapCenter伺服器憑證並將其匯入插件主機受信任儲存區。僅當啟用雙向 SSL 功能時，基於憑證的驗證才有效。
+
+
+
+== 多重身份驗證 (MFA)
+
+MFA 透過安全性斷言標記語言 (SAML) 使用第三方身分提供者 (IdP) 來管理使用者會話。此功能透過選擇使用多種因素（例如 TOTP、生物識別、推播通知等）以及現有的使用者名稱和密碼來增強身分驗證的安全性。此外，它還使客戶能夠使用自己的使用者身分提供者在其產品組合中獲得統一的使用者登入（SSO）。
+
+MFA 僅適用於SnapCenter Server UI 登入。登入透過 IdP Active Directory 聯合驗證服務 (AD FS) 進行驗證。您可以在 AD FS 配置各種身份驗證因素。 SnapCenter是服務供應商，您應該將SnapCenter配置為 AD FS 中的依賴方。要在SnapCenter中啟用 MFA，您將需要 AD FS 元資料。
+
+有關啟用 MFA 的信息，請參閱link:../install/enable_multifactor_authentication.html["啟用多重身份驗證"]。

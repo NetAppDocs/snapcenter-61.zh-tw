@@ -1,0 +1,20 @@
+---
+permalink: protect-sce/concept_back_up_exchange_resources.html 
+sidebar: sidebar 
+keywords: Backup workflow 
+summary: 在您的環境中安裝適用於 Microsoft Exchange Server 的SnapCenter外掛程式時，您可以使用SnapCenter備份 Exchange 資源。 
+---
+= 備份工作流程
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+在您的環境中安裝適用於 Microsoft Exchange Server 的SnapCenter外掛程式時，您可以使用SnapCenter備份 Exchange 資源。
+
+您可以安排多個備份同時在伺服器之間執行。不能對相同資源同時執行備份和復原作業。不支援同一卷上的主動和被動備份副本。
+
+以下工作流程顯示了執行備份作業必須遵循的順序：
+
+image:../media/sce_backup_workflow.gif["備份工作流程交換器伺服器資料庫"]

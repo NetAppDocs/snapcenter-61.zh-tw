@@ -1,0 +1,58 @@
+---
+permalink: protect-nsp/host_requirements_for_installing_the_snapcenter_plug_in_package_for_linux.html 
+sidebar: sidebar 
+keywords: SnapCenter 
+summary: 在安裝適用於 Linux 的SnapCenter插件包之前，您應該確保主機符合要求。 
+---
+= 安裝適用於 Linux 和 AIX 的SnapCenter插件包的主機需求
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+在安裝適用於 Linux 或 AIX 的SnapCenter插件包之前，您應該確保主機符合要求。
+
+
+NOTE: AIX 支援儲存和 Oracle 應用程式。
+
+|===
+| 物品 | 要求 
+
+
+ a| 
+作業系統
+ a| 
+* 紅帽企業 Linux
+* Oracle Linux
+* SUSE Linux 企業伺服器 (SLES)
+
+
+
+
+ a| 
+主機上SnapCenter插件的最小 RAM
+ a| 
+1GB
+
+
+
+ a| 
+主機上SnapCenter插件的最小安裝和日誌空間
+ a| 
+2GB
+
+
+NOTE: 您應該分配足夠的磁碟空間並監控日誌資料夾的儲存消耗。所需的日誌空間取決於要保護的實體的數量和資料保護操作的頻率。如果沒有足夠的磁碟空間，則不會為最近執行的操作建立日誌。
+
+
+
+ a| 
+所需軟體包
+ a| 
+Java 11 Oracle Java 或 OpenJDK
+
+如果您已將 JAVA 升級至最新版本，則必須確保位於 /var/opt/snapcenter/spl/etc/spl.properties 的 JAVA_HOME 選項設定為正確的 JAVA 版本和正確的路徑。
+
+|===
+有關受支援版本的最新信息，請參閱 https://imt.netapp.com/matrix/imt.jsp?components=121073;&solution=1257&isHWU&src=IMT["NetApp互通性表工具"]

@@ -1,0 +1,92 @@
+---
+permalink: protect-sce/reference_storage_types_supported_by_snapcenter_plug_in_for_microsoft_windows_and_for_microsoft_exchange_server.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for Microsoft Exchange Server 
+summary: SnapCenter支援實體機器和虛擬機器上的多種儲存類型。在為您的主機安裝軟體包之前，您必須驗證您的儲存類型是否受支援。 
+---
+= SnapCenter外掛程式（適用於 Microsoft Windows 和 Microsoft Exchange Server）支援的儲存類型
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenter支援實體機器和虛擬機器上的多種儲存類型。在為您的主機安裝軟體包之前，您必須驗證您的儲存類型是否受支援。
+
+Windows Server 上提供SnapCenter設定和資料保護支援。有關受支援版本的最新信息，請參閱 https://imt.netapp.com/matrix/imt.jsp?components=121031;&solution=1259&isHWU&src=IMT[][NetApp互通性矩陣工具^]。
+
+|===
+| 機器 | 儲存類型 | 使用配置 | 支援說明 
+
+
+ a| 
+實體伺服器
+ a| 
+FC 連接的 LUN
+ a| 
+SnapCenter圖形使用者介面 (GUI) 或 PowerShell cmdlet
+ a| 
+
+
+
+ a| 
+實體伺服器
+ a| 
+iSCSI 連接的 LUN
+ a| 
+SnapCenter GUI 或 PowerShell cmdlet
+ a| 
+
+
+
+ a| 
+VMware VM
+ a| 
+透過 FC 或 iSCSI HBA 連接的 RDM LUN
+ a| 
+PowerShell cmdlet
+ a| 
+僅實體相容性
+
+
+NOTE: 不支援 VMDK。
+
+
+
+ a| 
+VMware VM
+ a| 
+iSCSI LUN 由 iSCSI 啟動器直接連接到客戶系統
+ a| 
+SnapCenter GUI 或 PowerShell cmdlet
+ a| 
+
+NOTE: 不支援 VMDK。
+
+
+
+ a| 
+Hyper-V 虛擬機
+ a| 
+透過虛擬光纖通道交換器連接的虛擬 FC (vFC) LUN
+ a| 
+SnapCenter GUI 或 PowerShell cmdlet
+ a| 
+您必須使用 Hyper-V 管理員來設定由虛擬光纖通道交換器連接的虛擬 FC (vFC) LUN。
+
+
+NOTE: 不支援 Hyper-V 直通磁碟和在NetApp儲存裝置上配置的 VHD(x) 上的備份資料庫。
+
+
+
+ a| 
+Hyper-V 虛擬機
+ a| 
+iSCSI LUN 由 iSCSI 啟動器直接連接到客戶系統
+ a| 
+SnapCenter GUI 或 PowerShell cmdlet
+ a| 
+
+NOTE: 不支援 Hyper-V 直通磁碟和在NetApp儲存裝置上配置的 VHD(x) 上的備份資料庫。
+
+|===

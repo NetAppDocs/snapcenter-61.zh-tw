@@ -1,0 +1,140 @@
+---
+section: protect-db2
+title: 保護 IBM Db2
+entries:
+- title: 適用於 IBM Db2 的SnapCenter插件
+  entries:
+  - title: 適用於 IBM Db2 的SnapCenter插件概述
+    url: "/protect-db2/snapcenter-plug-in-for-ibm-db2-overview.html"
+  - title: 使用適用於 IBM Db2 的SnapCenter插件可以做什麼
+    url: "/protect-db2/what-you-can-do-using-the-snapcenter-plug-in-for-ibm-db2.html"
+  - title: 適用於 IBM Db2 的SnapCenter插件功能
+    url: "/protect-db2/snapcenter-plug-in-for-ibm-db2-features.html"
+  - title: SnapCenter Plug-in for IBM Db2 支援的儲存類型
+    url: "/protect-db2/storage-types-supported-by-snapcenter-plug-in-for-ibm-db2.html"
+  - title: 所需的最低ONTAP權限
+    url: "/protect-db2/minimum-privileges-required-for-ibm-db2.html"
+  - title: 為SnapMirror和SnapVault複製準備儲存系統
+    url: "/protect-db2/prepare-storage-systems-for-snapmirror-and-snapvault-replication-for-plugin-for-db2.html"
+  - title: IBM Db2 的備份策略
+    entries:
+    - title: 定義 IBM Db2 的備份策略
+      url: "/protect-db2/define-a-backup-strategy-for-ibm-db2.html"
+    - title: Linux主機上的資源自動發現
+      url: "/protect-db2/auto-discovery-of-resources-on-linux-host.html"
+    - title: 支援的備份類型
+      url: "/protect-db2/type-of-backups-supported.html"
+    - title: SnapCenter Plug-in for IBM Db2 如何使用一致性群組 Snapshot 副本
+      url: "/protect-db2/how-snapcenter-plug-in-for-ibm-db2-uses-consistency-group-snapshot-copies.html"
+    - title: SnapCenter如何管理日誌備份
+      url: "/protect-db2/housekeeping-of-log-backups.html"
+    - title: 確定 IBM Db2 備份計畫的注意事項
+      url: "/protect-db2/considerations-for-determining-backup-schedules-for-ibm-db2.html"
+    - title: IBM Db2 所需的備份作業數量
+      url: "/protect-db2/number-of-backup-jobs-needed-for-ibm-db2.html"
+    - title: 備份命名約定
+      url: "/protect-db2/backup-naming-conventions-for-plugin-for-ibm-db2.html"
+  - title: IBM Db2 的還原與復原策略
+    entries:
+    - title: 定義 IBM Db2 資源的還原與復原策略
+      url: "/protect-db2/define-a-restore-and-recovery-strategy-for-ibm-db2-resources.html"
+    - title: 手動新增的 IBM Db2 資源支援的復原策略類型
+      url: "/protect-db2/types-of-restore-strategies-supported-for-manually-added-ibm-db2.html"
+    - title: 自動發現的 IBM Db2 支援的復原策略類型
+      url: "/protect-db2/types-of-restore-strategies-supported-for-auto-discovered-ibm-db2.html"
+    - title: 自動發現的 IBM Db2 的還原作業類型
+      url: "/protect-db2/types-of-restore-performed-for-auto-discovered-ibm-db2.html"
+- title: 準備安裝適用於 IBM Db2 的SnapCenter插件
+  entries:
+  - title: SnapCenter Plug-in for IBM Db2 的安裝工作流程
+    url: "/protect-db2/install-snapcenter-plug-in-for-ibm-db2.html"
+  - title: 新增主機並安裝 Windows、Linux 或 AIX 插件包的先決條件
+    url: "/protect-db2/prerequisites-to-adding-hosts-and-installing-snapcenter-plug-in-for-ibm-db2.html"
+  - title: 安裝適用於 Windows 的SnapCenter插件包的主機需求
+    url: "/protect-db2/host-requirements-to-install-snapcenter-plug-in-package-for-windows-db2.html"
+  - title: 安裝適用於 Linux 的SnapCenter插件包的主機需求
+    url: "/protect-db2/host-requirements-to-install-snapcenter-plug-in-package-for-linux.html"
+  - title: 為 IBM Db2 的SnapCenter插件設定憑證
+    url: "/protect-db2/set-up-credentials-for-snapcenter-plug-in-for-ibm-db2.html"
+  - title: 在 Windows Server 2016 或更高版本上設定 gMSA
+    url: "/protect-db2/configure-gMSA-on-windows-server-2012-or-later.html"
+  - title: 安裝適用於 IBM Db2 的SnapCenter插件
+    entries:
+    - title: 新增主機並在遠端主機上安裝插件包
+      url: "/protect-db2/add-hosts-and-install-plug-in-packages-on-remote-hosts-ibm-db2.html"
+    - title: 使用 cmdlet 在多個遠端主機上安裝適用於 Linux 或 Windows 的SnapCenter插件包
+      url: "/protect-db2/install-snapcenter-plug-in-packages-for-linux-or-windows-on-multiple-remote-hosts-using-cmdlets-ibm-db2.html"
+    - title: 使用命令列介面在 Linux 主機上安裝適用於 IBM Db2 的SnapCenter插件
+      url: "/protect-db2/install-the-snapcenter-plug-in-for-ibm-db2-on-linux-hosts-using-the-command-line-interface.html"
+    - title: 監控SnapCenter插件包安裝狀態
+      url: "/protect-db2/monitor-the-status-of-installing-plugin-for-ibm-db2.html"
+  - title: 設定 CA 憑證
+    entries:
+    - title: 產生CA憑證CSR文件
+      url: "/protect-db2/generate-CA-certificate-CSR-file.html"
+    - title: 匯入 CA 憑證
+      url: "/protect-db2/import-CA-certificates.html"
+    - title: 取得 CA 憑證指紋
+      url: "/protect-db2/get-the-CA-certificate-thumbprint.html"
+    - title: 使用 Windows 主機插件服務設定 CA 憑證
+      url: "/protect-db2/configure-CA-certificate-with-Windows-host-plug-in-services.html"
+    - title: 為 Linux 主機上的SnapCenter IBM Db2 插件服務設定 CA 憑證
+      url: "/protect-db2/configure-CA-certificate-for-ibm-db2-on-Linux-host.html"
+    - title: 為 Windows 主機上的SnapCenter IBM Db2 插件服務設定 CA 憑證
+      url: "/protect-db2/configure-CA-certificate-for-ibm-db2-on-windows-host.html"
+    - title: 為插件啟用 CA 憑證
+      url: "/protect-db2/enable-ca-certificates-for-plug-ins.html"
+- title: 做好資料保護準備
+  entries:
+  - title: 使用適用於 IBM Db2 的SnapCenter插件的先決條件
+    url: "/protect-db2/prerequisites-for-using-snapcenter-plug-in-for-ibm-db2.html"
+  - title: 如何使用資源、資源群組和政策來保護 IBM Db2
+    url: "/protect-db2/how-resources-resource-groups-and-policies-are-used-for-protecting-ibm-db2.html"
+- title: 備份 IBM Db2 資源
+  entries:
+  - title: 備份工作流程
+    url: "/protect-db2/back-up-ibm-db2-resources.html"
+  - title: 自動發現資料庫
+    url: "/protect-db2/discover-the-databases-automatically.html"
+  - title: 手動將資源新增至插件主機
+    url: "/protect-db2/add-resources-manually-to-the-plug-in-host.html"
+  - title: 為 IBM Db2 建立備份策略
+    url: "/protect-db2/create-backup-policies-for-ibm-db2.html"
+  - title: 建立資源組並附加策略
+    url: "/protect-db2/create-resource-groups-and-attach-policies.html"
+  - title: 在ASA r2 系統上建立資源組並為 IBM Db2 資源啟用二級保護
+    url: "/protect-db2/create-resource-groups-secondary-protection-for-asa-r2-db2-resources.html"
+  - title: 使用 PowerShell cmdlet 為 IBM Db2 建立儲存系統連線和憑證
+    url: "/protect-db2/create-a-storage-system-connection-and-a-run-as-account-using-powershell-cmdlets-for-ibm-db2.html"
+  - title: 備份 db2 資料庫
+    url: "/protect-db2/back-up-db2-databases.html"
+  - title: 備份資源組
+    url: "/protect-db2/back-up-resource-groups-ibm-db2.html"
+  - title: 在SnapCenter作業頁面中監控備份操作
+    url: "/protect-db2/monitor-db2-backup-operations.html"
+  - title: 取消備份作業
+    url: "/protect-db2/cancel-backup-operations-for-ibm-db2.html"
+  - title: 在拓撲頁面中查看 IBM Db2 資料庫備份和克隆
+    url: "/protect-db2/view-ibm-db2-database-backups-and-clones-in-the-topology-page.html"
+- title: 還原 IBM Db2
+  entries:
+  - title: 復原工作流程
+    url: "/protect-db2/restore-ibm-db2.html"
+  - title: 還原手動新增的資源備份
+    url: "/protect-db2/restore-manually-added-resource-backup.html"
+  - title: 恢復自動發現的資料庫備份
+    url: "/protect-db2/restore-auto-discovered-database-backup.html"
+  - title: 監視恢復操作
+    url: "/protect-db2/monitor-db2-restore-operations.html"
+- title: 克隆 IBM Db2 資源備份
+  entries:
+  - title: 克隆工作流程
+    url: "/protect-db2/clone-ibm-db2-resource-backups.html"
+  - title: 克隆 IBM Db2 資料庫備份
+    url: "/protect-db2/clone-ibm-db2-backup.html"
+  - title: 在SnapCenter中監控克隆操作
+    url: "/protect-db2/monitor-db2-clone-operations.html"
+  - title: 分裂克隆
+    url: "/protect-db2/split-a-clone-for-db2.html"
+  - title: 升級SnapCenter後刪除或拆分 IBM Db2 資料庫克隆
+    url: "/protect-db2/delete-or-split-ibm-db2-clones-after-upgrading-snapcenter.html"

@@ -1,0 +1,24 @@
+= 
+:allow-uri-read: 
+
+
+您可以使用預設快照命名約定，也可以使用自訂命名約定。預設備份命名約定會在快照名稱中新增時間戳，以協助您識別副本的建立時間。
+
+快照使用以下預設命名約定：
+
+`resourcegroupname_hostname_timestamp`
+
+您應該對備份資源組進行邏輯命名，如下例所示：
+
+[listing]
+----
+dts1_mach1x88_03-12-2015_23.17.26
+----
+在這個例子中，語法元素具有以下含義：
+
+* _dts1_ 是資源組名稱。
+* _mach1x88_ 是主機名稱。
+* _03-12-2015_23.17.26_ 是日期和時間戳記。
+
+
+或者，您可以在保護資源或資源群組時選擇「使用自訂名稱格式進行 Snapshot 複製」來指定 Snapshot 名稱格式。例如，customtext_resourcegroup_policy_hostname 或 resourcegroup_hostname。預設情況下，時間戳後綴會加入到快照名稱中。

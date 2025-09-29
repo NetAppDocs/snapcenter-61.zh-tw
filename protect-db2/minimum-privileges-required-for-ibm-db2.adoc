@@ -1,0 +1,106 @@
+---
+permalink: protect-db2/minimum-privileges-required-for-ibm-db2.html 
+sidebar: sidebar 
+keywords: Minimum ONTAP privileges 
+summary: 所需的最低ONTAP權限會根據您用於資料保護的SnapCenter插件而有所不同。 
+---
+= IBM Db2 外掛程式所需的最低ONTAP權限
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+所需的最低ONTAP權限會根據您用於資料保護的SnapCenter插件而有所不同。
+
+* 全存取指令： ONTAP 9.12.1 及更高版本所需的最低權限
++
+** 事件產生自動支援日誌
+** 工作歷史顯示
+** 工作停止
+** 倫
+** lun 創建
+** lun 創建
+** lun 創建
+** lun 刪除
+** lun igroup 新增
+** lun igroup 創建
+** lun igroup 刪除
+** lun igroup 重新命名
+** lun igroup 重新命名
+** lun igroup 秀
+** lun 映射新增報告節點
+** lun 映射創建
+** lun映射刪除
+** lun 映射刪除報告節點
+** 倫圖秀
+** lun修改
+** lun 移入磁碟區
+** lun 離線
+** 倫在線
+** lun 持久預留清除
+** lun 大小調整
+** lun 序號
+** 倫秀
+** SnapMirror 策略新增規則
+** snapmirror 策略修改規則
+** snapmirror 策略刪除規則
+** SnapMirror 策略顯示
+** SnapMirror 恢復
+** SnapMirror 顯示
+** snapmirror 顯示歷史記錄
+** SnapMirror 更新
+** snapmirror 更新 ls 設定
+** snapmirror 清單目標
+** 版本
+** 卷克隆創建
+** 卷克隆顯示
+** 卷克隆拆分開始
+** 卷克隆拆分停止
+** 卷創建
+** 捲銷毀
+** 卷文件克隆創建
+** 磁碟區文件顯示磁碟使用情況
+** 卷離線
+** 在線量
+** 音量修改
+** 卷 qtree 創建
+** 卷 qtree 刪除
+** 卷 qtree 修改
+** 卷 qtree 顯示
+** 音量限制
+** 音量顯示
+** 卷快照創建
+** 卷快照刪除
+** 卷快照修改
+** 磁碟區快照修改-快照鎖定到期時間
+** 磁碟區快照重命名
+** 卷快照還原
+** 卷快照恢復文件
+** 卷快照顯示
+** 解除安裝卷
+** 虛擬伺服器 CIFS
+** 虛擬伺服器 CIFS 共享創建
+** 虛擬伺服器 CIFS 共享刪除
+** vserver cifs 影子複製顯示
+** vserver cifs 共享顯示
+** 虛擬伺服器 CIFS 顯示
+** 虛擬伺服器匯出策略
+** 虛擬伺服器匯出策略創建
+** 虛擬伺服器匯出策略刪除
+** 虛擬伺服器匯出策略規則創建
+** 虛擬伺服器匯出策略規則顯示
+** 虛擬伺服器匯出策略顯示
+** 虛擬伺服器 iSCSI
+** vserver iscsi 連線顯示
+** 虛擬伺服器顯示
+
+
+* 唯讀指令： ONTAP 8.3.0 及更高版本所需的最低權限
++
+** 網路介面
+** 網路介面顯示
+** 虛擬伺服器
+
+
+

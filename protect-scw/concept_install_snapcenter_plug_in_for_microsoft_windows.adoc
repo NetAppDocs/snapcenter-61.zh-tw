@@ -1,0 +1,16 @@
+---
+permalink: protect-scw/concept_install_snapcenter_plug_in_for_microsoft_windows.html 
+sidebar: sidebar 
+keywords: installing 
+summary: 如果要保護非資料庫文件的 Windows 文件，則必須安裝並設定適用於 Microsoft Windows 的SnapCenter外掛程式。 
+---
+= 適用於 Microsoft Windows 的SnapCenter外掛程式的安裝工作流程
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+如果要保護非資料庫文件的 Windows 文件，則必須安裝並設定適用於 Microsoft Windows 的SnapCenter外掛程式。
+
+image::../media/scw_workflow_for_installing.gif[安裝工作流程]

@@ -1,0 +1,16 @@
+---
+permalink: protect-scsql/concept_number_of_backup_jobs_needed_for_databases.html 
+sidebar: sidebar 
+keywords: Number of backup jobs 
+summary: '決定所需備份作業數量的因素包括資料庫的大小、使用的捲數、資料庫的變化率以及服務等級協定 (SLA)。' 
+---
+= 資料庫所需的備份作業數量
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+決定所需備份作業數量的因素包括資料庫的大小、使用的捲數、資料庫的變化率以及服務等級協定 (SLA)。
+
+對於資料庫備份，您選擇的備份作業的數量通常取決於放置資料庫的磁碟區的數量。例如，如果將一組小型資料庫放在一個磁碟區上，將一個大型資料庫放在另一個磁碟區上，則可以為小型資料庫建立備份作業，為大型資料庫建立一個備份作業。

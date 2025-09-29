@@ -1,0 +1,53 @@
+---
+permalink: protect-scsql/reference_sources_and_destinations_for_a_restore_operation.html 
+sidebar: sidebar 
+keywords: restore operation 
+summary: 您可以從主儲存或輔助儲存體上的備份副本還原 SQL Server 資料庫。除了原始位置之外，您還可以將資料庫還原到不同的目標位置，從而可以選擇支援您要求的目標位置。 
+---
+= 還原操作的來源和目標
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以從主儲存或輔助儲存體上的備份副本還原 SQL Server 資料庫。除了原始位置之外，您還可以將資料庫還原到不同的目標位置，從而可以選擇支援您要求的目標位置。
+
+
+
+== 恢復操作的來源
+
+您可以從主儲存或輔助儲存還原資料庫。
+
+
+
+== 恢復操作的目標
+
+您可以將資料庫還原到各種目標：
+
+|===
+| 目的地 | 描述 
+
+
+ a| 
+原址
+ a| 
+預設情況下， SnapCenter將資料庫還原到相同 SQL Server 執行個體上的相同位置。
+
+
+
+ a| 
+不同地點
+ a| 
+您可以將資料庫還原到同一主機內任何 SQL Server 執行個體上的不同位置。
+
+
+
+ a| 
+原始位置或不同位置使用不同的資料庫名稱
+ a| 
+您可以將具有不同名稱的資料庫還原到建立備份的相同主機上的任何 SQL Server 執行個體。
+
+|===
+
+NOTE: 不支援跨 ESX 伺服器將 VMDK（NFS 和 VMFS 資料儲存區）上的 SQL 資料庫還原到備用主機。

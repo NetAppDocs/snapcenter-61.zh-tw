@@ -1,0 +1,76 @@
+---
+permalink: protect-db2/restore-auto-discovered-database-backup.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for IBM Db2 
+summary: 您可以使用SnapCenter從一個或多個備份還原和還原資料。 
+---
+= 還原和還原自動發現的資料庫備份
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以使用SnapCenter從一個或多個備份還原和還原資料。
+
+.開始之前
+* 您必須已備份資源或資源群組。
+* 您必須取消目前正在進行的要還原的資源或資源群組的任何備份作業。
+* 對於還原前、還原後、安裝和卸載命令，您應該檢查這些命令是否存在於插件主機上可用的命令清單中，路徑如下：
++
+** Windows 主機上的預設位置：_C:\Program Files\ NetApp\ SnapCenter\Snapcenter Plug-in Creator\etc\allowed_commands.config_
+** Linux 主機上的預設位置：_/opt/ NetApp/snapcenter/scc/etc/allowed_commands.config_
+
+
+
+
+
+NOTE: 如果命令清單中不存在該命令，則操作將失敗。
+
+.關於此任務
+* 對於自動發現的資源，SFSR 支援恢復。
+* 不支援自動恢復。
+* 對於ONTAP 9.12.1 及以下版本、作為復原的一部分從SnapLock Vault 快照建立的克隆將繼承SnapLock Vault 到期時間。儲存管理員應在SnapLock到期後手動清理克隆。
+
+
+.步驟
+. 在左側導覽窗格中，按一下“*資源*”，然後從清單中選擇適當的外掛程式。
+. 在資源頁面中，根據資源類型從*檢視*下拉清單中過濾資源。
++
+資源與類型、主機、相關資源群組和政策以及狀態一起顯示。
+
++
+
+NOTE: 儘管備份可能針對資源群組，但在復原時，您必須選擇要還原的單一資源。
+
++
+如果資源未受保護，則「總體狀態」欄位中顯示「未受保護」。這可能意味著該資源未受到保護，或該資源已被其他使用者備份。
+
+. 選擇資源，或選擇資源組，然後選擇該組中的資源。
++
+進入資源拓樸頁面。
+
+. 從「管理副本」檢視中，從主儲存系統或輔助儲存系統（鏡像或保管）中選擇「*備份*」。
+. 在主備份表中，選擇要從中還原的備份，然後按一下 *image:../media/restore_icon.gif["恢復圖示"] *.
++
+image::../media/restoring_resource.gif[恢復資源]
+
+. 在「復原範圍」頁面中，選擇「*完整資源*」以還原 IBM Db2 資料庫的已設定資料磁碟區。
+. 在「Pre ops」頁面中，輸入執行復原作業之前要執行的預先復原和卸載命令。
++
+自動發現的資源不需要卸載命令。
+
+. 在 Post ops 頁面中，輸入執行還原作業後要執行的 mount 和 post restore 指令。
++
+自動發現的資源不需要掛載指令。
+
+. 在通知頁面中，從*電子郵件首選項*下拉清單中，選擇您想要傳送電子郵件的場景。
++
+您也必須指定寄件者和收件者的電子郵件地址以及電子郵件的主題。也必須在*設定* > *全域設定*頁面上設定 SMTP。
+
+. 查看摘要，然後按一下「*完成*」。
+. 透過點選「*監視*」>「*作業*」來監視操作進度。
+
+
+.完成後
+僅當 Rollforward 狀態處於「DB pending」狀態時才可以進行復原。此狀態適用於啟用了存檔日誌記錄的 Db2 資料庫。

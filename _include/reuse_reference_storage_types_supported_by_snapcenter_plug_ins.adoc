@@ -1,0 +1,133 @@
+= 
+:allow-uri-read: 
+
+
+SnapCenter支援實體機器和虛擬機器上的多種儲存類型。在為您的主機安裝軟體包之前，您必須驗證您的儲存類型是否受支援。
+
+Windows Server 上提供SnapCenter設定和資料保護支援。有關受支援版本的最新信息，請參閱https://imt.netapp.com/matrix/imt.jsp?components=121074;&solution=1257&isHWU&src=IMT["NetApp互通性表工具"^]。
+
+|===
+| 機器 | 儲存類型 | 使用配置 | 支援說明 
+
+
+ a| 
+實體伺服器
+ a| 
+FC 連接的 LUN
+ a| 
+SnapCenter圖形使用者介面 (GUI) 或 PowerShell cmdlet
+ a| 
+
+
+
+ a| 
+實體伺服器
+ a| 
+iSCSI 連接的 LUN
+ a| 
+SnapCenter GUI 或 PowerShell cmdlet
+ a| 
+
+
+
+ a| 
+實體伺服器
+ a| 
+駐留在儲存虛擬機器 (SVM) 上的 SMB3 (CIFS) 共用
+ a| 
+SnapCenter GUI 或 PowerShell cmdlet
+ a| 
+僅支援配置。
+
+
+
+ a| 
+VMware VM
+ a| 
+透過 FC 或 iSCSI HBA 連接的 RDM LUN
+ a| 
+PowerShell cmdlet
+ a| 
+
+
+
+ a| 
+VMware VM
+ a| 
+iSCSI LUN 由 iSCSI 啟動器直接連接到客戶系統
+ a| 
+SnapCenter GUI 或 PowerShell cmdlet
+ a| 
+
+
+
+ a| 
+VMware VM
+ a| 
+虛擬機器檔案系統 (VMFS) 或 NFS 資料存儲
+ a| 
+VMware vSphere
+ a| 
+
+
+
+ a| 
+VMware VM
+ a| 
+連接到 SVM 上的 SMB3 共享的客戶系統
+ a| 
+SnapCenter GUI 或 PowerShell cmdlet
+ a| 
+僅支援配置。
+
+
+
+ a| 
+VMware VM
+ a| 
+NFS 和 SAN 上的 vVol 資料存儲
+ a| 
+適用於 VMware vSphere 的ONTAP工具
+ a| 
+
+
+
+ a| 
+Hyper-V 虛擬機
+ a| 
+透過虛擬光纖通道交換器連接的虛擬 FC (vFC) LUN
+ a| 
+SnapCenter GUI 或 PowerShell cmdlet
+ a| 
+您必須使用 Hyper-V 管理員來設定由虛擬光纖通道交換器連接的虛擬 FC (vFC) LUN。
+
+
+NOTE: 不支援 Hyper-V 直通磁碟和在NetApp儲存裝置上配置的 VHD(x) 上的備份資料庫。
+
+
+
+ a| 
+Hyper-V 虛擬機
+ a| 
+iSCSI LUN 由 iSCSI 啟動器直接連接到客戶系統
+ a| 
+SnapCenter GUI 或 PowerShell cmdlet
+ a| 
+
+NOTE: 不支援 Hyper-V 直通磁碟和在NetApp儲存裝置上配置的 VHD(x) 上的備份資料庫。
+
+
+
+ a| 
+Hyper-V 虛擬機
+ a| 
+連接到 SVM 上的 SMB3 共享的客戶系統
+ a| 
+SnapCenter GUI 或 PowerShell cmdlet
+ a| 
+僅支援配置。
+
+
+NOTE: 不支援 Hyper-V 直通磁碟和在NetApp儲存裝置上配置的 VHD(x) 上的備份資料庫。
+
+|===

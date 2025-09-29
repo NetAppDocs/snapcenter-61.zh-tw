@@ -1,0 +1,95 @@
+---
+permalink: protect-postgresql/add-resources-manually-to-the-plug-in-host.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for Postgresql 
+summary: 某些 PostgreSQL 實例不支援自動發現。您必須手動新增這些資源。 
+---
+= 手動將資源新增至插件主機
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Windows 主機不支援自動發現。您必須手動新增 Postgresql 叢集資源。
+
+.開始之前
+* 您必須完成安裝SnapCenter伺服器、新增主機和設定儲存系統連線等任務。
+
+
+.關於此任務
+以下配置不支援自動發現：
+
+* RDM 和 VMDK 佈局
+
+
+.步驟
+. 在左側導覽窗格中，從下拉清單中選擇適用於 Postgresql 的SnapCenter插件，然後按一下「*資源*」。
+. 在資源頁面中，按一下*新增 Postgresql 資源*。
+. 在提供資源詳細資訊頁面中，執行以下操作：
++
+|===
+| 對於這個領域... | 這樣做... 
+
+
+ a| 
+Name
+ a| 
+指定叢集名稱。
+
+
+
+ a| 
+主機名稱
+ a| 
+輸入主機名稱。
+
+
+
+ a| 
+類型
+ a| 
+選擇集群。
+
+
+
+ a| 
+實例
+ a| 
+指定實例的名稱，該實例是叢集的父級。
+
+
+
+ a| 
+證書
+ a| 
+選擇憑證或新增憑證資訊。
+
+這是可選的。
+
+|===
+. 在「提供儲存佔用空間」頁面中，選擇儲存類型並選擇一個或多個磁碟區、LUN 和 qtree，然後按一下「儲存」。
++
+可選：您可以點擊 *image:../media/add_policy_from_resourcegroup.gif["從資源群組新增策略"] * 圖示用於從其他儲存系統新增更多磁碟區、LUN 和 qtree。
+
+. 選用：在資源設定頁面中，對於 Windows 主機上的資源，輸入 PostgreSQL 外掛程式的自訂鍵值對
+. 查看摘要，然後按一下「*完成*」。
++
+叢集與主機名稱、相關資源群組和策略以及整體狀態等資訊一起顯示
+
+
+
+如果您想讓使用者存取資源，您必須將資源指派給使用者。這使用戶能夠對分配給他們的資產執行他們有權限執行的操作。
+
+link:https://docs.netapp.com/us-en/snapcenter/install/task_add_a_user_or_group_and_assign_role_and_assets.html["新增使用者或群組並分配角色和資產"]
+
+.完成後
+* 新增叢集後，您可以修改PostgreSQL叢集的詳細資訊。
+* 從SnapCenter 5.0 遷移的資源（表空間和叢集）將在SnapCenter 6.0 中標記為 PostgreSQL 叢集類型。
+* 修改從SnapCenter 5.0 或更早版本遷移的手動新增的資源時，請在「資源設定」頁面中對自訂鍵值對執行下列操作：
++
+** 在*名稱*欄位中指定術語「PORT」。
+** 在「*值*」欄位中指定連接埠號碼。
+
+
+

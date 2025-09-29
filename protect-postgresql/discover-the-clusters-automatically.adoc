@@ -1,0 +1,47 @@
+---
+permalink: protect-postgresql/discover-the-clusters-automatically.html 
+sidebar: sidebar 
+keywords: credentials 
+summary: 資源是 Linux 主機上由SnapCenter管理的 PostgreSQL 叢集。您可以在發現可用的 PostgreSQL 叢集後將這些資源新增至資源組以執行資料保護操作。 
+---
+= 自動發現集群
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+資源是 Linux 主機上由SnapCenter管理的 PostgreSQL 叢集。您可以在發現可用的 PostgreSQL 叢集後，將資源新增至資源群組以執行資料保護作業。
+
+.開始之前
+* 您必須已經完成安裝SnapCenter伺服器、新增主機和設定儲存系統連線等任務。
+* SnapCenter Plug-in for PostgreSQL 不支援自動發現駐留在 RDM/VMDK 虛擬環境中的資源。
+
+
+.關於此任務
+* 安裝外掛程式後，該Linux主機上的所有叢集都會自動發現並顯示在資源頁面上。
+* 僅自動發現集群。
+
+
+自動發現的資源不能被修改或刪除。
+
+.步驟
+. 在左側導覽窗格中，按一下“*資源*”，然後從清單中選擇“PostgreSQL 外掛程式”。
+. 在資源頁面中，從視圖清單中選擇資源類型。
+. （可選）點擊*image:../media/filter_icon.gif["篩選圖標"] *，然後選擇主機名稱。
++
+然後您可以點擊 *image:../media/filter_icon.gif["篩選圖標"] * 關閉篩選窗格。
+
+. 按一下「*刷新資源*」以發現主機上可用的資源。
++
+資源與資源類型、主機名稱、關聯資源群組、備份類型、政策和總體狀態等資訊一起顯示。
+
++
+** 如果叢集位於NetApp儲存上且未受保護，則「整體狀態」欄位中顯示「未受保護」。
+** 如果叢集位於NetApp儲存系統上並且受到保護，且沒有執行備份操作，則「整體狀態」欄位中會顯示「備份未執行」。否則，狀態將根據上次備份狀態變更為備份失敗或備份成功。
+
+
+
+
+
+IMPORTANT: 如果叢集在SnapCenter之外重新命名，則必須刷新資源。

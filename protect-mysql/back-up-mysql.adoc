@@ -1,0 +1,240 @@
+---
+permalink: protect-mysql/back-up-mysql.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for MySQL 
+summary: 如果資源尚未屬於任何資源群組，您可以從資源頁面備份該資源。 
+---
+= 備份 MySQL
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+如果資源尚未屬於任何資源群組，您可以從資源頁面備份該資源。
+
+.開始之前
+* 您必須已經建立了備份策略。
+* 如果要備份與二級儲存具有SnapMirror關係的資源，則指派給儲存使用者的ONTAP角色應包括「`snapmirror all`」權限。但是，如果您使用“vsadmin”角色，則不需要“snapmirror all”權限。
+* 對於基於 Snapshot 副本的備份作業，請確保所有租用戶資料庫均有效且處於活動狀態。
+* 對於靜默、快照和取消靜默操作的預先命令和後命令，您應該檢查這些命令是否存在於插件主機上可用的命令清單中，路徑如下：
++
+** Windows 主機上的預設位置：_C:\Program Files\ NetApp\ SnapCenter\Snapcenter Plug-in Creator\etc\allowed_commands.config_
+** Linux 主機上的預設位置：_/opt/ NetApp/snapcenter/scc/etc/allowed_commands.config_
+
+
+
+
+
+NOTE: 如果命令清單中不存在該命令，則操作將失敗。
+
+[role="tabbed-block"]
+====
+.SnapCenter使用者介面
+--
+.步驟
+. 在左側導覽窗格中，選擇*資源*，然後從清單中選擇適當的外掛程式。
+. 在資源頁面中，根據資源類型從*檢視*下拉清單中過濾資源。
++
+選擇 *image:../media/filter_icon.gif["篩選圖標"] *，然後選擇主機名稱和資源類型來過濾資源。然後您可以選擇image:../media/filter_icon.gif["篩選圖標"]關閉篩選器窗格。
+
+. 選擇要備份的資源。
+. 在資源頁面中，選擇*使用自訂名稱格式作為 Snapshot 副本*，然後輸入要用於 Snapshot 名稱的自訂名稱格式。
++
+例如，_customtext_policy_hostname_ 或 _resource_hostname_。預設情況下，時間戳記會附加到快照名稱。
+
+. 在應用程式設定頁面中，執行以下操作：
++
+** 選擇“*備份*”箭頭來設定其他備份選項：
++
+如果需要，請啟用一致性群組備份並執行下列任務：
+
++
+|===
+| 對於這個領域... | 這樣做... 
+
+
+ a| 
+留出時間等待「一致性組快照」操作完成
+ a| 
+選擇「*緊急*」、「*中*」或「*寬鬆*」來指定等待快照操作完成的時間。緊急 = 5 秒，中等 = 7 秒，輕鬆 = 20 秒。
+
+
+
+ a| 
+禁用WAFL同步
+ a| 
+選擇此項以避免強制使用WAFL一致點。
+
+|===
+** 選擇「*腳本*」箭頭來執行靜默、快照和取消靜默操作的前置和後置命令。
++
+您也可以在退出備份作業之前執行預命令。前言和後記在SnapCenter伺服器中運作。
+
+** 選擇**自訂配置**箭頭，然後輸入使用此資源的所有作業所需的自訂值對。
+** 選擇*Snapshot Copy Tool*箭頭來選擇建立快照的工具：
++
+|===
+| 如果你想... | 然後... 
+
+
+ a| 
+SnapCenter建立儲存層級快照
+ a| 
+選擇“* 不具有檔案系統一致性的SnapCenter *”。
+
+
+
+ a| 
+SnapCenter使用適用於 Windows 的插件將檔案系統置於一致狀態，然後建立快照
+ a| 
+選擇*具有檔案系統一致性的SnapCenter *。
+
+
+
+ a| 
+輸入建立快照的命令
+ a| 
+選擇*其他*，然後輸入建立快照的命令。
+
+|===
++
+image:../media/application_settings.gif["應用程式設定"]
+
+
+
+. 在「策略」頁面中，執行以下步驟：
++
+.. 從下拉清單中選擇一個或多個策略。
++
+
+NOTE: 您也可以透過點擊 * 來建立策略image:../media/add_policy_from_resourcegroup.gif["從資源群組新增策略"]*.
+
++
+在「為選定策略配置計畫」部分中，列出了選定的策略。
+
+.. 選擇 *image:../media/add_policy_from_resourcegroup.gif["從資源群組新增策略"] * 在您想要設定計畫的政策的設定計畫列中。
+.. 在為政策_policy_name_新增計劃對話方塊中，配置計劃，然後選擇*確定*。
++
+_policy_name_ 是您選擇的政策的名稱。
+
++
+配置的計劃列在「已套用的計劃」欄位中。
+
+
+
+. 在通知頁面中，從*電子郵件首選項*下拉清單中，選擇您想要傳送電子郵件的場景。
++
+您也必須指定寄件者和收件者的電子郵件地址以及電子郵件的主題。也必須在*設定* > *全域設定*中配置 SMTP。
+
+. 查看摘要，然後選擇*完成*。
++
+進入資源拓樸頁面。
+
+. 選擇*立即備份*。
+. 在備份頁面中，執行以下步驟：
++
+.. 如果您對資源套用了多個策略，請從「*策略*」下拉清單中選擇要用於備份的策略。
++
+如果為按需備份選擇的策略與備份計畫相關聯，則按需備份將根據為計畫類型指定的保留設定進行保留。
+
+.. 選擇*備份*。
+
+
+. 透過點選「*監視*」>「*作業*」來監視操作進度。
++
+** 在MetroCluster配置中， SnapCenter可能無法在故障轉移後偵測到保護關係。
++
+有關信息，請參閱： https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/Unable_to_detect_SnapMirror_or_SnapVault_relationship_after_MetroCluster_failover["MetroCluster故障轉移後無法偵測SnapMirror或SnapVault關係"^]
+
+** 如果您正在備份 VMDK 上的應用程式數據，並且SnapCenter Plug-in for VMware vSphere的Java 堆大小不夠大，則備份可能會失敗。
++
+若要增加 Java 堆大小，請找到腳本檔案 _/opt/netapp/init_scripts/scvservice_。在該腳本中，_do_start method_ 命令啟動SnapCenter VMware 插件服務。將此指令更新為以下內容：_Java -jar -Xmx8192M -Xms4096M_
+
+
+
+
+
+--
+.PowerShell cmdlet
+--
+.步驟
+. 使用 Open-SmConnection cmdlet 為指定使用者啟動與SnapCenter伺服器的連線會話。
++
+[listing]
+----
+Open-SmConnection  -SMSbaseurl  https:\\snapctr.demo.netapp.com:8146\
+----
++
+顯示使用者名稱和密碼提示。
+
+. 使用 Add-SmResources cmdlet 新增手動資源。
++
+此範例顯示如何新增 MySQL 實例：
+
++
+[listing]
+----
+PS C:\> Add-SmResource -HostName 10.32.212.13 -PluginCode MySQL -ResourceType Instance -ResourceName mysqlinst1 -StorageFootPrint (@{"VolumeName"="winmysql01_data01";"LUNName"="winmysql01_data01";"StorageSystem"="scsnfssvm"}) -MountPoints "D:\"
+----
+. 使用 Add-SmPolicy cmdlet 建立備份策略。
+. 使用 Add-SmResourceGroup cmdlet 保護資源或為SnapCenter新增資源組。
+. 使用 New-SmBackup cmdlet 啟動新的備份作業。
++
+此範例顯示如何備份資源組：
+
++
+[listing]
+----
+C:\PS> New-SmBackup -Resources @{"Host"="scs000211748.gdl.englab.netapp.com";"Uid"="mysqld_3306";"PluginName"="MySQL"} -Policy "MySQL_snapshotbased"
+----
++
+此範例備份受保護的資源：
+
++
+[listing]
+----
+C:\PS> New-SMBackup -Resources @{"Host"="10.232.204.42";"Uid"="MDC\SID";"PluginName"="hana"} -Policy mysql_policy2
+----
+. 使用 Get-smJobSummaryReport cmdlet 監視作業狀態（正在執行、已完成或失敗）。
++
+[listing]
+----
+PS C:\> Get-smJobSummaryReport -JobID 123
+----
+. 使用 Get-SmBackupReport cmdlet 監視備份作業詳細資料（如備份 ID、備份名稱）以執行還原或複製作業。
++
+[listing]
+----
+PS C:\> Get-SmBackupReport -JobId 351
+Output:
+BackedUpObjects           : {DB1}
+FailedObjects             : {}
+IsScheduled               : False
+HasMetadata               : False
+SmBackupId                : 269
+SmJobId                   : 2361
+StartDateTime             : 10/4/2016 11:20:45 PM
+EndDateTime               : 10/4/2016 11:21:32 PM
+Duration                  : 00:00:46.2536470
+CreatedDateTime           : 10/4/2016 11:21:09 PM
+Status                    : Completed
+ProtectionGroupName       : Verify_ASUP_Message_windows
+SmProtectionGroupId       : 211
+PolicyName                : test2
+SmPolicyId                : 20
+BackupName                : Verify_ASUP_Message_windows_scc54_10-04-2016_23.20.46.2758
+VerificationStatus        : NotVerified
+VerificationStatuses      :
+SmJobError                :
+BackupType                : SCC_BACKUP
+CatalogingStatus          : NotApplicable
+CatalogingStatuses        :
+ReportDataCreatedDateTime :
+----
+
+
+可以透過執行_Get-Help command_name_來取得有關可與 cmdlet 一起使用的參數及其描述的資訊。或者，您也可以參考 https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["SnapCenter軟體 Cmdlet 參考指南"^]。
+
+--
+====

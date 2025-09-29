@@ -1,0 +1,104 @@
+---
+permalink: protect-sce/task_install_the_snapcenter_plug_in_for_exchange_silently_from_the_command_line.html 
+sidebar: sidebar 
+keywords: SnapCenter plug-in for Exchange Server 
+summary: 您應該從SnapCenter使用者介面安裝 Exchange 插件。但是，如果由於某種原因您無法這樣做，您可以從 Windows 命令列以靜默模式無人值守執行 Exchange 外掛程式安裝程式。 
+---
+= 從命令列靜默安裝適用於 Exchange 的SnapCenter插件
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您應該從SnapCenter使用者介面安裝 Exchange 插件。但是，如果由於某種原因您無法這樣做，您可以從 Windows 命令列以靜默模式無人值守執行 Exchange 外掛程式安裝程式。
+
+.開始之前
+* 您必須備份您的 Microsoft Exchange Server 資源。
+* 您必須已安裝SnapCenter插件包。
+* 在安裝之前，您必須刪除適用於 Microsoft SQL Server 的SnapCenter插件的早期版本。
++
+有關更多信息，請參閱 https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/How_to_Install_a_SnapCenter_Plug-In_manually_and_directly_from_thePlug-In_Host["如何從插件主機手動直接安裝SnapCenter插件"^] 。
+
+
+
+.步驟
+. 驗證插件主機上是否存在 _C:\temp_ 資料夾以及登入使用者是否對該資料夾具有完全存取權限。
+. 從 _C:\ProgramData\ NetApp\ SnapCenter \Package_ Repository 下載適用於 Microsoft Windows 的SnapCenter外掛程式。
++
+可以從安裝SnapCenter伺服器的主機存取此路徑。
+
+. 將安裝檔案複製到要安裝插件的主機上。
+. 從本機上的 Windows 命令提示符，導覽至儲存插件安裝檔案的目錄。
+. 輸入以下命令安裝插件。
++
+_snapcenter_windows_host_plugin.exe“/silent /debuglog”<Debug_Log_Path>“/log”<Log_Path>“BI_SNAPCENTER_PORT=<Num> SUITE_INSTALLDIR="<Install_Directory_Path>”BI_SERVageACC”。 ISFeatureInstall=HPPW,SCW,SCE_
+
++
+例如：
+
++
+_C:\ProgramData\ NetApp\ SnapCenter\ NetApp Repository \ snapcenter_windows_host_plugin.exe“/silent /debuglog”C:\HPPW_SCSQL_Install.log“/log”C:\temp“BI_SNAPCENTER_PORT=8INS145 SU_Y "BI_SERVICEACCOUNT=domain\administratorBI_SERVICEPWD=passwordISFeatureInstall=HPPW,SCW,SCE_
+
++
+
+NOTE: 安裝 Exchange 插件期間傳遞的所有參數均區分大小寫。
+
++
+為變數輸入以下值：
+
++
+|===
+| 多變的 | 價值 
+
+
+ a| 
+_/debuglog“<偵錯日誌路徑>_
+ a| 
+指定套件安裝程式日誌檔案的名稱和位置，如下例所示：
+
+_Setup.exe /debuglog「C:\PathToLog\setupexe.log_
+
+
+
+ a| 
+BI_SNAPCENTER_連接埠
+ a| 
+指定SnapCenter與 SMCore 通訊的連接埠。
+
+
+
+ a| 
+套件安裝目錄
+ a| 
+指定主機插件包安裝目錄。
+
+
+
+ a| 
+BI_服務帳戶
+ a| 
+為 Microsoft Windows Web 服務帳戶指定SnapCenter外掛程式。
+
+
+
+ a| 
+BI_SERVICEPWD
+ a| 
+指定 Microsoft Windows Web 服務帳戶的SnapCenter外掛程式的密碼。
+
+
+
+ a| 
+ISFeature安裝
+ a| 
+指定SnapCenter在遠端主機上部署的解決方案。
+
+|===
+. 監視 Windows 工作排程器、主安裝記錄檔 _C:\Installdebug.log_ 以及 _C:\Temp_ 中的附加安裝檔。
+. 監控 _%temp%_ 目錄以檢查 _msiexe.exe_ 安裝程式是否正在正確安裝軟體。
++
+
+NOTE: 安裝 Exchange 插件時，會在主機上註冊該插件，而不是在SnapCenter伺服器上註冊。您可以透過使用SnapCenter GUI 或 PowerShell cmdlet 新增主機在SnapCenter伺服器上註冊插件。新增主機後，會自動發現插件。
+
+

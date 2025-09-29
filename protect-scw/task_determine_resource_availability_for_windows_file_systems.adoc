@@ -1,0 +1,32 @@
+---
+permalink: protect-scw/task_determine_resource_availability_for_windows_file_systems.html 
+sidebar: sidebar 
+keywords: availability 
+summary: 資源是檔案系統中的 LUN 和類似元件，由您安裝的插件維護。您可以將這些資源新增至資源組中，以便可以在多個資源上執行資料保護作業，但首先您必須確定哪些資源可用。發現可用資源還可以驗證插件安裝是否已成功完成。 
+---
+= 確定 Windows 檔案系統的資源可用性
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+資源是檔案系統中的 LUN 和類似元件，由您安裝的插件維護。您可以將這些資源新增至資源組中，以便可以在多個資源上執行資料保護作業，但首先您必須確定哪些資源可用。發現可用資源還可以驗證插件安裝是否已成功完成。
+
+.開始之前
+* 您必須已經完成安裝SnapCenter Server、新增主機、建立儲存虛擬機器 (SVM) 連線和新增憑證等任務。
+* 如果檔案駐留在 VMware RDM LUN 或 VMDK 上，則必須部署SnapCenter Plug-in for VMware vSphere並向SnapCenter註冊外掛程式。有關更多信息，請參閱 https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/["SnapCenter Plug-in for VMware vSphere文檔"^] 。
+
+
+.步驟
+. 在左側導覽窗格中，按一下“*資源*”，然後從清單中選擇適當的外掛程式。
+. 在資源頁面中，從清單中選擇*檔案系統*。
+. 選擇主機來過濾資源列表，然後按一下「刷新資源」。
++
+新新增、重新命名或刪除的檔案系統將更新至SnapCenter伺服器清單。
+
++
+
+IMPORTANT: 如果資料庫在SnapCenter之外重新命名，則必須刷新資源。
+
+

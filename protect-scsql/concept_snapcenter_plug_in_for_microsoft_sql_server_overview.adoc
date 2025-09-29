@@ -1,0 +1,22 @@
+---
+permalink: protect-scsql/concept_snapcenter_plug_in_for_microsoft_sql_server_overview.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for Microsoft SQL Server 
+summary: 適用於 Microsoft SQL Server 的SnapCenter外掛程式是NetApp SnapCenter軟體的主機端元件，可實現 Microsoft SQL Server 資料庫的應用程式感知資料保護管理。  SQL Server 外掛程式可在您的SnapCenter環境中自動執行 SQL Server 資料庫備份、驗證、復原和複製作業。 
+---
+= 適用於 Microsoft SQL Server 的SnapCenter外掛程式概述
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+適用於 Microsoft SQL Server 的SnapCenter外掛程式是NetApp SnapCenter軟體的主機端元件，可實現 Microsoft SQL Server 資料庫的應用程式感知資料保護管理。  SQL Server 外掛程式可在您的SnapCenter環境中自動執行 SQL Server 資料庫備份、驗證、復原和複製作業。
+
+安裝 SQL Server 外掛程式後，您可以將SnapCenter與NetApp SnapMirror技術結合使用，在另一個磁碟區上建立備份集的鏡像副本，並使用NetApp SnapVault技術執行磁碟到磁碟備份複製，以滿足標準合規性或存檔目的。
+
+* 自動執行SnapCenter環境中 Microsoft SQL Server 資料庫的應用程式感知備份、還原和複製作業。
+* 當您部署SnapCenter Plug-in for VMware vSphere並在SnapCenter中註冊外掛程式時，支援 VMDK 和原始裝置對應 (RDM) LUN 上的 Microsoft SQL Server 資料庫
+* 僅支援配置 SMB 共享。不支援在 SMB 共用上備份 SQL Server 資料庫。
+* 支援將備份從SnapManager for Microsoft SQL Server 匯入到SnapCenter。
+

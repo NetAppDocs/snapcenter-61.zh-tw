@@ -1,0 +1,230 @@
+---
+permalink: protect-nsp/prerequisites_to_adding_hosts_and_installing_netapp_supported_plugins.html 
+sidebar: sidebar 
+keywords: credentials 
+summary: 在新增主機和安裝插件包之前，您必須完成所有要求。  NetApp支援的插件可以在 Windows、Linux 或 AIX 環境中使用。 
+---
+= 新增主機並安裝 Windows、Linux 或 AIX 插件包的先決條件
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+在新增主機和安裝插件包之前，您必須完成所有要求。  NetApp支援的插件在 Windows、Linux 和 AIX 環境中均受支援。
+
+
+NOTE: AIX 支援儲存和 Oracle 應用程式。
+
+* 您必須在 Linux、Windows 或 AIX 主機上安裝 Java 11。
++
+
+NOTE: IBM Java 在 Windows 和 Linux 主機上不受支援。
+
+* 在 Windows 主機上安裝插件時，如果指定非內建的憑證，或使用者屬於本機工作群組用戶，則必須在主機上停用 UAC。
+* 執行新增主機操作的客戶端主機上必須提供NetApp支援的插件，如 MongoDB、ORASCPM、Oracle 應用程式、SAP ASE、SAP MaxDB 和儲存插件。
+
+
+
+
+== 一般的
+
+如果您正在使用 iSCSI，則 iSCSI 服務應該正在執行。
+
+
+
+== Windows 主機
+
+* 您必須擁有具有本機管理員權限的網域用戶，並在遠端主機上擁有本機登入權限。
+* 如果您在SnapCenter中管理叢集節點，則必須擁有對叢集中所有節點具有管理權限的使用者。
+* 您必須手動選擇適用於 Microsoft Windows 的SnapCenter外掛程式。
++
+http://www.java.com/en/download/manual.jsp["下載適用於 Windows 的 JAVA"]
+
+
+
+
+
+== Linux 和 AIX 主機
+
+
+NOTE: AIX 支援儲存和 Oracle 應用程式。
+
+* 您必須為 root 使用者或非 root 使用者啟用基於密碼的 SSH 連線。
+* 您必須在 Linux 主機上安裝 Java 11。
++
+如果您使用 Windows Server 2019 或 Windows Server 2016 作為SnapCenter Server 主機，則必須安裝 Java 11。互通性矩陣工具 (IMT) 包含有關要求的最新資訊。
+
++
+http://www.java.com/en/download/manual.jsp["下載適用於 Linux 的 JAVA"]
+
++
+https://developer.ibm.com/languages/java/semeru-runtimes/downloads/?license=IBM["下載適用於 AIX 的 JAVA"]
+
++
+https://imt.netapp.com/matrix/imt.jsp?components=117018;&solution=1259&isHWU&src=IMT["NetApp互通性表工具"]
+
+* 您必須為非 root 使用者設定 sudo 權限以提供對多個路徑的存取權限。使用 visudo Linux 實用程式將以下行新增至 /etc/sudoers 檔案。
++
+
+NOTE: 確保您使用的是 Sudo 版本 1.8.7 或更高版本。
+
++
+[listing, subs="+quotes"]
+----
+Cmnd_Alias HPPLCMD = sha224:checksum_value== /home/_LINUX_USER_/.sc_netapp/snapcenter_linux_host_plugin.bin, /opt/NetApp/snapcenter/spl/installation/plugins/uninstall, /opt/NetApp/snapcenter/spl/bin/spl, /opt/NetApp/snapcenter/scc/bin/scc
+Cmnd_Alias PRECHECKCMD = sha224:checksum_value== /home/_LINUX_USER_/.sc_netapp/Linux_Prechecks.sh
+Cmnd_Alias CONFIGCHECKCMD = sha224:checksum_value== /opt/NetApp/snapcenter/spl/plugins/scu/scucore/configurationcheck/Config_Check.sh
+Cmnd_Alias SCCMD = sha224:checksum_value== /opt/NetApp/snapcenter/spl/bin/sc_command_executor
+Cmnd_Alias SCCCMDEXECUTOR =checksum_value== /opt/NetApp/snapcenter/scc/bin/sccCommandExecutor
+_LINUX_USER_ ALL=(ALL) NOPASSWD:SETENV: HPPLCMD, PRECHECKCMD, CONFIGCHECKCMD, SCCCMDEXECUTOR, SCCMD
+Defaults: _LINUX_USER_ env_keep += "IATEMPDIR"
+Defaults: _LINUX_USER_ env_keep += "JAVA_HOME"
+Defaults: _LINUX_USER_ !visiblepw
+Defaults: _LINUX_USER_ !requiretty
+----
++
+_LINUX_USER_ 是您建立的非 root 使用者的名稱。
+
++
+您可以從 *sc_unix_plugins_checksum.txt* 檔案中取得 _checksum_value_，該檔案位於：
+
++
+** _C:\ProgramData\ NetApp\ SnapCenter\Package Repository\sc_unix_plugins_checksum.txt_（如果SnapCenter Server 安裝在 Windows 主機上）。
+** _/opt/ NetApp/snapcenter/SnapManagerWeb/Repository/sc_unix_plugins_checksum.txt_ 如果SnapCenter Server 安裝在 Linux 主機上。
++
+
+IMPORTANT: 此範例僅應作為建立您自己的資料的參考。
+
+
+
+
+
+
+
+== AIX 主機需求
+
+在安裝適用於 AIX 的SnapCenter插件包之前，您應該確保主機符合要求。
+
+
+NOTE: AIX 支援儲存和 Oracle 應用程式。
+
+
+NOTE: SnapCenter Plug-in for UNIX 是SnapCenter Plug-ins Package for AIX 的一部分，不支援並發磁碟區組。
+
+|===
+| 物品 | 要求 
+
+
+ a| 
+作業系統
+ a| 
+AIX 7.1 或更高版本
+
+
+
+ a| 
+主機上SnapCenter插件的最小 RAM
+ a| 
+4GB
+
+
+
+ a| 
+主機上SnapCenter插件的最小安裝和日誌空間
+ a| 
+2GB
+
+
+NOTE: 您應該分配足夠的磁碟空間並監控日誌資料夾的儲存消耗。所需的日誌空間取決於要保護的實體的數量和資料保護操作的頻率。如果沒有足夠的磁碟空間，則不會為最近執行的操作建立日誌。
+
+
+
+ a| 
+所需軟體包
+ a| 
+Java 11 IBM Java
+
+如果您已將 JAVA 升級至最新版本，則必須確保位於 /var/opt/snapcenter/spl/etc/spl.properties 的 JAVA_HOME 選項設定為正確的 JAVA 版本和正確的路徑。
+
+|===
+有關受支援版本的最新信息，請參閱 https://imt.netapp.com/matrix/imt.jsp?components=121073;&solution=1257&isHWU&src=IMT["NetApp互通性表工具"^]。
+
+
+
+=== 為 AIX 主機的非 root 使用者配置 sudo 權限
+
+SnapCenter 4.4 及更高版本允許非 root 用戶安裝適用於 AIX 的SnapCenter插件包並啟動插件進程。插件進程將以有效的非 root 使用者身分運行。您應該為非 root 使用者配置 sudo 權限以提供對多個路徑的存取。
+
+*您需要什麼*
+
+* Sudo 版本 1.8.7 或更高版本。
+* 編輯_/etc/ssh/sshd_config_文件，設定訊息認證碼演算法：MACs hmac-sha2-256、MACs hmac-sha2-512。
++
+更新設定檔後重新啟動sshd服務。
+
++
+範例：
+
++
+[listing]
+----
+#Port 22
+#AddressFamily any
+#ListenAddress 0.0.0.0
+#ListenAddress ::
+#Legacy changes
+#KexAlgorithms diffie-hellman-group1-sha1
+#Ciphers aes128-cbc
+#The default requires explicit activation of protocol
+Protocol 2
+HostKey/etc/ssh/ssh_host_rsa_key
+MACs hmac-sha2-256
+----
+
+
+*關於此任務*
+
+您應該為非 root 使用者配置 sudo 權限以提供對以下路徑的存取權限：
+
+* /home/_AIX_USER_/.sc_netapp/snapcenter_aix_host_plugin.bsx
+* /custom_location/ NetApp/snapcenter/spl/安裝/插件/卸載
+* /custom_location/ NetApp/snapcenter/spl/bin/spl
+
+
+*步驟*
+
+. 登入要安裝適用於 AIX 的SnapCenter插件包的 AIX 主機。
+. 使用 visudo Linux 實用程式將以下行新增至 /etc/sudoers 檔案。
++
+[listing, subs="+quotes"]
+----
+Cmnd_Alias HPPACMD = sha224:checksum_value== /home/_AIX_USER_/.sc_netapp/snapcenter_aix_host_plugin.bsx,
+/opt/NetApp/snapcenter/spl/installation/plugins/uninstall, /opt/NetApp/snapcenter/spl/bin/spl
+Cmnd_Alias PRECHECKCMD = sha224:checksum_value== /home/_AIX_USER_/.sc_netapp/AIX_Prechecks.sh
+Cmnd_Alias CONFIGCHECKCMD = sha224:checksum_value== /opt/NetApp/snapcenter/spl/plugins/scu/scucore/configurationcheck/Config_Check.sh
+Cmnd_Alias SCCMD = sha224:checksum_value== /opt/NetApp/snapcenter/spl/bin/sc_command_executor
+_AIX_USER_ ALL=(ALL) NOPASSWD:SETENV: HPPACMD, PRECHECKCMD, CONFIGCHECKCMD, SCCMD
+Defaults: _LINUX_USER_ env_keep += "IATEMPDIR"
+Defaults: _LINUX_USER_ env_keep += "JAVA_HOME"
+Defaults: _AIX_USER_ !visiblepw
+Defaults: _AIX_USER_ !requiretty
+----
++
+
+NOTE: 如果您有 RAC 設置，以及其他允許的命令，您應該將以下內容添加到 /etc/sudoers 檔案：“/<crs_home>/bin/olsnodes”
+
+
+
+您可以從_/etc/oracle/olr.loc_檔中取得_crs_home_的值。
+
+_AIX_USER_ 是您建立的非 root 使用者的名稱。
+
+您可以從 *sc_unix_plugins_checksum.txt* 檔案中取得 _checksum_value_，該檔案位於：
+
+* _C:\ProgramData\ NetApp\ SnapCenter\Package Repository\sc_unix_plugins_checksum.txt_（如果SnapCenter Server 安裝在 Windows 主機上）。
+* _/opt/ NetApp/snapcenter/SnapManagerWeb/Repository/sc_unix_plugins_checksum.txt_ 如果SnapCenter Server 安裝在 Linux 主機上。
+
+
+
+IMPORTANT: 此範例僅應作為建立您自己的資料的參考。

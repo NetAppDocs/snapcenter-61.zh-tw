@@ -1,0 +1,52 @@
+---
+permalink: upgrade/upgrade_snapcenter_server_linux.html 
+sidebar: sidebar 
+keywords: upgrade, upgrade snapcenter server, linux 
+summary: 您可以使用SnapCenter Server 安裝程式檔案來升級SnapCenter Server。 
+---
+= 升級 Linux 主機上的SnapCenter伺服器
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以使用SnapCenter Server 安裝程式檔案來升級SnapCenter Server。
+
+*步驟*
+
+. 執行其中一項操作來升級SnapCenter伺服器。
++
+|===
+| 如果你想表演... | 這樣做... 
+
+
+ a| 
+非互動式升級
+ a| 
+`sudo ./snapcenter-linux-server-(el8/el9/sles15).bin -i silent -DUPGRADE=<value> -DINSTALL_LOG_NAME=<filename>`
+
+範例：sudo ./snapcenter_linux_server.bin -i silent -DUPGRADE=1 -DINSTALL_LOG_NAME=InstallerLog.log
+
+日誌將儲存在 _/var/opt/snapcenter/logs_。
+
+升級需要傳遞的參數：
+
+** DINSTALL_LOG_NAME：儲存安裝日誌的日誌檔案名稱。
+** DUPGRADE：預設值為 0。指定此參數及其值為 0 以外的任何整數來升級SnapCenter伺服器。
+
+
+
+
+ a| 
+互動式安裝
+ a| 
+`./snapcenter-linux-server-(el8/el9/sles15).bin`
+
+系統將提示您確認升級。輸入 0 以外的任何值以確認SnapCenter伺服器升級。
+
+|===
+
+
+
+NOTE: 您應該登出然後登入SnapCenter，或關閉然後開啟新的瀏覽器來存取SnapCenter GUI。

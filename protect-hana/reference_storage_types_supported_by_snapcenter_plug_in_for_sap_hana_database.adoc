@@ -1,0 +1,47 @@
+---
+permalink: protect-hana/reference_storage_types_supported_by_snapcenter_plug_in_for_sap_hana_database.html 
+sidebar: sidebar 
+keywords: storage types, 
+summary: 'SnapCenter支援實體機器和虛擬機器 (VM) 上的多種儲存類型。在安裝適用於 SAP HANA 資料庫的SnapCenter插件之前，您必須驗證對您的儲存類型的支援。' 
+---
+= SnapCenter Plug-in for SAP HANA Database 支援的儲存類型
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenter支援實體機器和虛擬機器 (VM) 上的多種儲存類型。在安裝適用於 SAP HANA 資料庫的SnapCenter插件之前，您必須驗證對您的儲存類型的支援。
+
+|===
+| 機器 | 儲存類型 
+
+
+ a| 
+實體伺服器
+ a| 
+* FC 連接的 LUN
+* iSCSI 連接的 LUN
+* NFS 連結卷
+
+
+
+
+ a| 
+VMware ESXi
+ a| 
+* 透過 FC 或 iSCSI ESXi HBA 連線的 RDM LUN 主機匯流排適配器 (HBA) 掃描可能需要很長時間才能完成，因為SnapCenter會掃描主機中存在的所有主機匯流排適配器。
++
+您可以編輯位於 _/opt/ NetApp/snapcenter/spl/plugins/scu/scucore/modules/SCU/Config_ 的 *LinuxConfig.pm* 文件，將 *SCSI_HOSTS_OPTIMIZED_RESCAN* 參數的值設定為 1，以僅重新掃描 HBA_DRI VBA 中列出的那些參數的值。
+
+* iSCSI LUN 由 iSCSI 啟動器直接連接到客戶系統
+* NFS 資料儲存上的 VMDK
+* VMFS 上的 VMDK 已建立
+* NFS 磁碟區直接連接到客戶系統
+* NFS 和 SAN 上的 vVol 資料存儲
++
+vVol 資料儲存只能使用適用於 VMware vSphere 的ONTAP Tools 進行設定。
+
+
+
+|===

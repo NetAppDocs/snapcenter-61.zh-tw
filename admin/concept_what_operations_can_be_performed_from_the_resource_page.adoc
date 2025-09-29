@@ -1,0 +1,185 @@
+---
+permalink: admin/concept_what_operations_can_be_performed_from_the_resource_page.html 
+sidebar: sidebar 
+keywords: Resources page 
+summary: 您可以從資源頁面發現資源並執行資料保護操作。根據您用來管理資源的插件，您可以執行的操作會有所不同。 
+---
+= 資源頁面支援的操作
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以從資源頁面發現資源並執行資料保護操作。根據您用來管理資源的插件，您可以執行的操作會有所不同。
+
+在資源頁面中，您可以執行下列任務：
+
+|===
+| 您可以執行這些任務... | 對於 Microsoft Exchange Server | 對於 Microsoft SQL Server | 對於 Microsoft Windows | 對於 Oracle 資料庫 | 對於 SAP HANA 資料庫 
+
+
+ a| 
+確定資源是否可用於備份
+ a| 
+是的
+ a| 
+是的
+ a| 
+是的
+ a| 
+是的
+ a| 
+是的
+
+
+
+ a| 
+執行資源的按需備份
+ a| 
+是的
+ a| 
+是的
+ a| 
+是的
+ a| 
+是的
+ a| 
+是的
+
+
+
+ a| 
+從備份還原
+ a| 
+是的
+ a| 
+是的
+ a| 
+是的
+ a| 
+是的
+ a| 
+是的
+
+
+
+ a| 
+克隆備份
+ a| 
+不
+ a| 
+是的
+ a| 
+是的
+ a| 
+是的
+ a| 
+是的
+
+
+
+ a| 
+管理備份
+ a| 
+是的
+ a| 
+是的
+ a| 
+是的
+ a| 
+是的
+ a| 
+是的
+
+
+
+ a| 
+管理複製
+ a| 
+不
+ a| 
+是的
+ a| 
+是的
+ a| 
+是的
+ a| 
+是的
+
+
+
+ a| 
+管理政策
+ a| 
+是的
+ a| 
+是的
+ a| 
+是的
+ a| 
+是的
+ a| 
+是的
+
+
+
+ a| 
+管理儲存連接
+ a| 
+是的
+ a| 
+是的
+ a| 
+是的
+ a| 
+是的
+ a| 
+是的
+
+
+
+ a| 
+掛載備份
+ a| 
+不
+ a| 
+不
+ a| 
+不
+ a| 
+是的
+ a| 
+不
+
+
+
+ a| 
+卸載備份
+ a| 
+不
+ a| 
+不
+ a| 
+不
+ a| 
+是的
+ a| 
+不
+
+
+
+ a| 
+查看詳細信息
+ a| 
+是的
+ a| 
+是的
+ a| 
+是的
+ a| 
+是的
+ a| 
+是的
+
+|===

@@ -1,0 +1,29 @@
+---
+permalink: get-started/snapmirror-active-sync-snapcenter.html 
+sidebar: sidebar 
+keywords: snapmirror active sync 
+summary: 當發生資源損壞或伺服器崩潰等災難時，您可以使用SnapCenter災難復原功能恢復SnapCenter伺服器。 
+---
+= SnapCenter中的SnapMirror主動同步
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapMirror主動同步使業務服務即使在整個站點發生故障時也能繼續運行，支援應用程式使用輔助副本透明地進行故障轉移。無需手動幹預或額外的腳本即可透過SnapMirror主動同步觸發故障轉移。
+
+有關SnapMirror主動同步的更多信息，請參閱 https://docs.netapp.com/us-en/ontap/smbc/index.html["SnapMirror主動同步概述"]。
+
+對於SnapMirror主動同步，請確保您已滿足各種硬體、軟體和系統配置要求。更多資訊請參閱 https://docs.netapp.com/us-en/ontap/smbc/smbc_plan_prerequisites.html["先決條件"]
+
+此功能支援的插件有適用於 SQL Server 的SnapCenter插件、適用於 Windows 的SnapCenter插件、適用於 Oracle 資料庫的SnapCenter插件、適用於 SAP HANA 資料庫的SnapCenter插件、適用於 Microsoft Exchange Server 的SnapCenter插件和適用於 Unix 的SnapCenter插件。
+
+
+NOTE: 為了支援SnapCenter中的主機啟動器鄰近性，應在ONTAP中設定其值（來源或目標）。
+
+SnapCenter不支援的用例：
+
+* 如果您透過將ONTAP中SnapMirror活動同步關係上的政策從 _automatedfailover_ 變更為 _automatedfailoverduplex_ 來將現有的非對稱SnapMirror活動同步工作負載轉換為對稱工作負載，則SnapCenter不支援此操作。
+* 如果存在資源群組的備份（已在SnapCenter中受到保護），然後在ONTAP中將SnapMirror活動同步關係上的儲存策略從 _automatedfailover_ 變更為 _automatedfailoverduplex_，則SnapCenter不支援此操作。
+

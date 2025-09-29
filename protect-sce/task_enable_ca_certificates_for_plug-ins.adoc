@@ -1,0 +1,42 @@
+---
+permalink: protect-sce/task_enable_ca_certificates_for_plug-ins.html 
+sidebar: sidebar 
+keywords: SnapCenter 
+summary: 您應該設定 CA 憑證並在SnapCenter伺服器和對應的插件主機中部署 CA 憑證。 
+---
+= 為插件啟用 CA 憑證
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您應該設定 CA 憑證並在SnapCenter伺服器和對應的插件主機中部署 CA 憑證。您應該為插件啟用 CA 憑證驗證。
+
+.開始之前
+* 您可以使用執行_Set-SmCertificateSettings_ cmdlet 來啟用或停用 CA 憑證。
+* 您可以使用_Get-SmCertificateSettings_顯示插件的憑證狀態。
+
+
+可以透過執行_Get-Help command_name_來取得有關可與 cmdlet 一起使用的參數及其描述的資訊。或者，您也可以參考 https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["SnapCenter軟體 Cmdlet 參考指南"^]。
+
+.步驟
+. 在左側導覽窗格中，按一下「*主機*」。
+. 在「主機」頁面中，按一下「*託管主機*」。
+. 選擇單一或多個插件主機。
+. 按一下“更多選項”。
+. 選擇*啟用憑證驗證*。
+
+
+.完成後
+託管主機選項卡主機顯示一個掛鎖，掛鎖的顏色表示SnapCenter伺服器和插件主機之間的連線狀態。
+
+* *image:../media/enable_ca_issues_icon.png["CA 憑證未啟用，也未指派給插件主機圖標"] * 表示 CA 憑證未啟用或未指派給插件主機。
+* *image:../media/enable_ca_good_icon.png["CA 憑證已成功驗證圖標"] * 表示 CA 憑證驗證成功。
+* *image:../media/enable_ca_failed_icon.png["無法驗證 CA 憑證圖標"] * 表示無法驗證 CA 憑證。
+* *image:../media/enable_ca_undefined_icon.png["無法檢索連接資訊圖標"] * 表示無法檢索連線資訊。
++
+
+NOTE: 當狀態為黃色或綠色時，表示資料保護操作已成功完成。
+
+

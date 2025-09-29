@@ -1,0 +1,30 @@
+---
+permalink: protect-mysql/install-snapcenter-plug-in-packages-for-linux-or-windows-on-multiple-remote-hosts-using-cmdlets-mysql.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in Packages for Linux, SnapCenter Plug-in Packages for Windows 
+summary: 您可以使用 Install-SmHostPackage PowerShell cmdlet 同時在多個主機上安裝適用於 Linux 或 Windows 的SnapCenter插件套件。 
+---
+= 使用 cmdlet 在多個遠端主機上安裝適用於 Linux 或 Windows 的SnapCenter插件包
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以使用 Install-SmHostPackage PowerShell cmdlet 同時在多個主機上安裝適用於 Linux 或 Windows 的SnapCenter插件套件。
+
+.開始之前
+您必須以網域使用者身分登入SnapCenter ，並在要安裝插件包的每個主機上擁有本機管理員權限。
+
+.步驟
+. 啟動 PowerShell。
+. 在SnapCenter Server 主機上，使用 Open-SmConnection cmdlet 建立會話，然後輸入您的憑證。
+. 使用 Install-SmHostPackage cmdlet 和所需參數在多個主機上安裝插件。
++
+可以透過執行_Get-Help command_name_來取得有關可與 cmdlet 一起使用的參數及其描述的資訊。或者，您也可以參考 https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["SnapCenter軟體 Cmdlet 參考指南"^]。
+
++
+當您手動安裝了插件並且不想驗證主機是否符合安裝插件的要求時，可以使用 -skipprecheck 選項。
+
+. 輸入您的遠端安裝憑證。
+

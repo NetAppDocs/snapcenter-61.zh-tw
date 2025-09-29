@@ -1,0 +1,40 @@
+---
+permalink: uninstall/task_remove_a_host.html 
+sidebar: sidebar 
+keywords: uninstall, remove, remove host 
+summary: 當SnapCenter伺服器刪除主機時，它會先刪除SnapCenter資源頁面上為該主機列出的備份、複製、複製作業、資源群組和資源，然後卸載主機上的插件包。 
+---
+= 刪除主機
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+當SnapCenter伺服器刪除主機時，它會先刪除SnapCenter資源頁面上為該主機列出的備份、複製、複製作業、資源群組和資源，然後卸載主機上的插件包。
+
+.關於此任務
+* 如果刪除主機，則與該主機關聯的備份、複製和資源群組也將被刪除。
+* 當您刪除資源組時，所有相關的計劃也會被刪除。
+* 如果主機具有與另一個主機共用的資源群組並且您刪除該主機，則資源群組也會被刪除。
+* 您應該使用 _Remove-SmHost_ cmdlet 來刪除已退役或無法存取的插件主機。
++
+可以透過執行_Get-Help command_name_來取得有關可與 cmdlet 一起使用的參數及其描述的資訊。或者，您也可以參考 https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["SnapCenter軟體 Cmdlet 參考指南"^]
+
+* 刪除主機所需的時間取決於備份的數量和保留設定。這是因為快照已從每個控制器中刪除，且元資料已清除。
+
+
+.步驟
+. 在左側導覽窗格中，按一下「*主機*」。
+. 在「*主機*」頁面中，按一下「*託管主機*」。
+. 選擇要刪除的主機，然後按一下“*刪除*”。
+. 對於 Oracle RAC 集群，要從集群中的所有主機中刪除SnapCenter software，請選擇「包含集群的所有主機」。
++
+您也可以刪除叢集的一個節點，然後逐一刪除所有節點。
+
+. 按一下“*確定*”。
++
+
+NOTE: 當您在叢集上卸載並重新安裝主機插件時，叢集資源不會被自動發現。選擇叢集主機名，然後按一下「刷新資源」以自動發現叢集資源。
+
+

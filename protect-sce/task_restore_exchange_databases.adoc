@@ -1,0 +1,203 @@
+---
+permalink: protect-sce/task_restore_exchange_databases.html 
+sidebar: sidebar 
+keywords: SnapCenter plug-in for Exchange Server 
+summary: 您可以使用SnapCenter還原備份的 Exchange 資料庫。 
+---
+= 還原 Exchange 資料庫
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以使用SnapCenter還原備份的 Exchange 資料庫。
+
+.開始之前
+* 您必須備份資源組、資料庫或資料庫可用性群組 (DAG)。
+* 當 Exchange 資料庫遷移到另一個位置時，復原作業對舊備份不起作用。
+* 如果您要將快照複製到映像或保管庫， SnapCenter管理員必須已為您指派來源磁碟區和目標磁碟區的 SVM。
+* 在 DAG 中，如果主動資料庫副本位於非NetApp儲存體上，而您想要從NetApp儲存裝置上的被動資料庫副本備份進行還原，則將被動副本（NetApp儲存）設為主動副本，重新整理資源並執行還原作業。
++
+運行 `Move-ActiveMailboxDatabase`命令將被動資料庫副本設為主動資料庫副本。
+
++
+這 https://docs.microsoft.com/en-us/powershell/module/exchange/move-activemailboxdatabase?view=exchange-ps["Microsoft 文件"^]包含有關此命令的資訊。
+
+
+
+.關於此任務
+* 當對資料庫執行復原作業時，資料庫將重新安裝在同一主機上，並且不會建立新的磁碟區。
+* 必須從單一資料庫還原 DAG 等級的備份。
+* 當存在 Exchange 資料庫 (.edb) 檔案以外的檔案時，不支援完整磁碟還原。
++
+如果磁碟包含 Exchange 檔案（例如用於複製的檔案），則 Exchange 外掛程式不會對磁碟執行完全還原。當完全還原可能會影響 Exchange 功能時，Exchange 外掛程式會執行單一檔案還原操作。
+
+* Exchange 外掛程式無法還原 BitLocker 加密的磁碟機。
+* SCRIPTS_PATH 是使用插件主機的 SMCoreServiceHost.exe.Config 檔案中的 PredefinedWindowsScriptsDirectory 鍵定義的。
++
+如果需要，您可以變更此路徑並重新啟動 SMcore 服務。為了安全起見，建議您使用預設路徑。
+
++
+可以透過 API 從 Swagger 顯示該鍵的值：API /4.7/configsettings
+
++
+您可以使用 GET API 來顯示鍵的值。不支援 SET API。
+
+* 對於ONTAP 9.12.1 及以下版本、作為復原的一部分從SnapLock Vault 快照建立的克隆將繼承SnapLock Vault 到期時間。儲存管理員應在SnapLock到期後手動清理克隆。
+* 對於SnapMirror活動同步恢復操作，您必須從主位置選擇備份。
+
+
+[role="tabbed-block"]
+====
+.SnapCenter使用者介面
+--
+.步驟
+. 在左側導覽窗格中，按一下資源頁面左上角的「*資源*」。
+. 從下拉清單中選擇 Exchange Server 插件。
+. 在資源頁面中，從視圖清單中選擇*資料庫*。
+. 從清單中選擇資料庫。
+. 從“管理副本”視圖中，從“主備份”表中選擇“*備份*”，然後按一下*image:../media/restore_icon.gif["恢復圖示"] *.
+. 在「選項」頁面中，選擇下列日誌備份選項之一：
++
+|===
+| 選項 | 描述 
+
+
+ a| 
+所有日誌備份
+ a| 
+選擇*所有日誌備份*執行最新的備份還原作業，以還原完整備份後所有可用的日誌備份。
+
+
+
+ a| 
+通過日誌備份直到
+ a| 
+選擇「按日誌備份直到」來執行時間點還原作業，該操作會根據日誌備份直到所選日誌來還原資料庫。
+
+
+NOTE: 下拉清單中顯示的日誌數量是基於 UTM。例如，如果完整備份保留為 5，UTM 保留為 3，則可用的日誌備份數為 5，但在下拉式選單中僅列出 3 個日誌來執行復原作業。
+
+
+
+ a| 
+按特定日期直至
+ a| 
+選擇「以特定日期直到」來指定將交易日誌套用到復原的資料庫的日期和時間。此時間點還原作業將還原在指定日期和時間的最後一次備份之前記錄的交易日誌條目。
+
+
+
+ a| 
+沒有任何
+ a| 
+當您只需要還原完整備份而不還原任何日誌備份時，請選擇「*無*」。
+
+|===
++
+您可以執行下列操作之一：
+
++
+** *恢復後恢復並掛載資料庫* - 預設選擇此選項。
+** *恢復前不要驗證備份中交易日誌的完整性* - 預設情況下， SnapCenter在執行復原作業之前驗證備份中交易日誌的完整性。
++
+|===
+
+
+| *最佳實務：*您不應選擇此選項。 
+|===
+
+
+. 在腳本頁面中，分別輸入應在復原作業之前或之後執行的預腳本或後腳本的路徑和參數。
++
+恢復處方參數包括 $Database 和 $ServerInstance。
+
++
+復原後記參數包括 $Database、$ServerInstance、$BackupName、$LogDirectory 和 $TargetServerInstance。
+
++
+您可以執行腳本來更新 SNMP 陷阱、自動發出警報、發送日誌等。
+
++
+
+NOTE: 前言或後記路徑不應包含磁碟機或共用。該路徑應相對於 SCRIPTS_PATH。
+
+. 在通知頁面中，從*電子郵件首選項*下拉清單中，選擇您想要傳送電子郵件的場景。
++
+您也必須指定寄件者和收件者的電子郵件地址以及電子郵件的主題。
+
+. 查看摘要，然後按一下「*完成*」。
+. 您可以透過展開頁面底部的活動面板來查看還原作業的狀態。
++
+您應該使用「*監控*」>「*作業*」頁面來監控復原過程。
+
+
+
+從備份還原活動資料庫時，如果副本和活動資料庫之間存在滯後，則被動資料庫可能會進入掛起或失敗狀態。
+
+當活動資料庫的日誌鏈分叉並開始中斷複製的新分支時，可能會發生狀態變化。  Exchange Server 嘗試修復副本，但如果無法修復，則在還原後，您應該建立新的備份，然後重新播種副本。
+
+--
+.PowerShell cmdlet
+--
+.步驟
+. SnapCenter `Open-SmConnection`命令。
++
+[listing]
+----
+Open-smconnection  -SMSbaseurl  https://snapctr.demo.netapp.com:8146/
+----
+. 使用 `Get-SmBackup`命令。
++
+此範例顯示有關所有可用備份的資訊：
+
++
+[listing]
+----
+PS C:\> Get-SmBackup
+
+BackupId                      BackupName                    BackupTime                    BackupType
+--------                      ----------                    ----------                    ----------
+341                           ResourceGroup_36304978_UTM... 12/8/2017 4:13:24 PM          Full Backup
+342                           ResourceGroup_36304978_UTM... 12/8/2017 4:16:23 PM          Full Backup
+355                           ResourceGroup_06140588_UTM... 12/8/2017 6:32:36 PM          Log Backup
+356                           ResourceGroup_06140588_UTM... 12/8/2017 6:36:20 PM          Full Backup
+----
+. 使用 `Restore-SmBackup`命令。
++
+此範例恢復最新備份：
+
++
+[listing]
+----
+C:\PS> Restore-SmBackup -PluginCode SCE -AppObjectId 'sce-w2k12-exch.sceqa.com\sce-w2k12-exch_DB_2' -BackupId 341 -IsRecoverMount:$true
+----
++
+此範例還原時間點備份：
+
++
+[listing]
+----
+C:\ PS> Restore-SmBackup -PluginCode SCE -AppObjectId 'sce-w2k12-exch.sceqa.com\sce-w2k12-exch_DB_2' -BackupId 341 -IsRecoverMount:$true -LogRestoreType ByTransactionLogs -LogCount 2
+----
++
+此範例將二級儲存上的備份還原到主儲存：
+
++
+[listing]
+----
+C:\ PS> Restore-SmBackup -PluginCode 'SCE' -AppObjectId 'DB2' -BackupId 81 -IsRecoverMount:$true -Confirm:$false
+-archive @{Primary="paw_vs:vol1";Secondary="paw_vs:vol1_mirror"} -logrestoretype All
+----
++
+這 `-archive`參數可讓您指定要用於還原的主磁碟區和輔助磁碟區。
+
++
+這 `-IsRecoverMount:$true`參數可讓您在還原後掛載資料庫。
+
+
+
+可以透過執行_Get-Help command_name_來取得有關可與 cmdlet 一起使用的參數及其描述的資訊。或者，您也可以參考 https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["SnapCenter軟體 Cmdlet 參考指南"^]。
+
+--
+====

@@ -1,0 +1,281 @@
+---
+permalink: protect-nsp/clone_from_a_backup.html 
+sidebar: sidebar 
+keywords: clone 
+summary: 您可以使用SnapCenter克隆備份。您可以從主備份或輔助備份複製。克隆操作的功能取決於您使用的插件。 
+---
+= 從備份克隆
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以使用SnapCenter克隆備份。您可以從主備份或輔助備份複製。克隆操作的功能取決於您使用的插件。
+
+.開始之前
+* 您必須已備份資源或資源群組。
+* 預設克隆操作僅克隆儲存物件。只有當NetApp支援的插件提供該功能時，才可以執行應用程式層級的複製操作。
+* 您應確保託管磁碟區的聚合位於儲存虛擬機器 (SVM) 的已指派聚合清單中。
+
+
+.關於此任務
+對於ONTAP 9.12.1 及以下版本、作為復原的一部分從SnapLock Vault 快照建立的克隆將繼承SnapLock Vault 到期時間。儲存管理員應在SnapLock到期後手動清理克隆。
+
+[role="tabbed-block"]
+====
+.SnapCenter使用者介面
+--
+.步驟
+. 在左側導覽窗格中，按一下“*資源*”，然後從清單中選擇適當的外掛程式。
+. 在「*資源*」頁面中，根據資源類型從「*檢視*」下拉清單中過濾資源。
++
+資源與類型、主機或叢集名稱、相關資源群組和策略以及狀態等資訊一起顯示。
+
+. 選擇資源或資源組。
++
+如果選擇資源組，則必須選擇資源。
+
++
+進入資源或資源群組拓撲頁面。
+
+. 從「管理副本」檢視中，從主儲存系統或輔助儲存系統（鏡像或保管）中選擇「*備份*」。
+. 從表中選擇資料備份，然後按一下image:../media/clone_icon.gif["複製圖示"]。
+. 在位置頁面中執行以下操作：
++
+|===
+| 對於這個領域... | 這樣做... 
+
+
+ a| 
+克隆伺服器
+ a| 
+預設情況下，來源主機已填入。
+
+如果要指定不同的主機，請選擇要安裝複製並安裝插件的主機。
+
+
+
+ a| 
+克隆後綴
+ a| 
+當克隆目標與來源相同時，這是強制性的。
+
+輸入將附加到新克隆的資源名稱的後綴。此後綴確保克隆的資源在主機上是唯一的。
+
+例如，rs1_clone。如果要複製到與原始資源相同的主機，則必須提供後綴以區分複製的資源和原始資源；否則操作將失敗。
+
+|===
++
+如果選擇的資源是 LUN，且您正在從輔助備份進行克隆，則會列出目標磁碟區。單一來源可以有多個目標磁碟區。
+
+. 在「*設定*」頁面中，執行以下操作：
++
+|===
+| 對於這個領域... | 這樣做... 
+
+
+ a| 
+發起者名稱
+ a| 
+輸入主機啟動器名稱，可以是 IQDN 或 WWPN。
+
+
+
+ a| 
+Igroup協議
+ a| 
+選擇 Igroup 協定。
+
+|===
++
+
+NOTE: 僅當儲存類型為 LUN 時才會顯示設定頁面。
+
+. 在腳本頁面中，輸入分別應在克隆操作之前或之後運行的預克隆或後克隆命令。輸入 mount 指令將檔案系統掛載到主機。
++
+例如：
+
++
+** 克隆前指令：刪除現有的同名資料庫
+** 克隆後指令：驗證資料庫或啟動資料庫。
++
+Linux 電腦上磁碟區或 qtree 的掛載指令：mount<VSERVER_NAME>:%<VOLUME_NAME_Clone /mnt>
+
+
+
+. 在*通知*頁面中，從*電子郵件首選項*下拉清單中，選擇您想要傳送電子郵件的場景。
++
+您也必須指定寄件者和收件者的電子郵件地址以及電子郵件的主題。
+
+. 查看摘要並點擊“完成”。
+. 透過點選「*監視*」>「*作業*」來監視操作進度。
+
+
+--
+.PowerShell cmdlet
+--
+.步驟
+. 使用 Open-SmConnection cmdlet 為指定使用者啟動與SnapCenter伺服器的連線會話。
++
+[listing]
+----
+Open-SmConnection  -SMSbaseurl  https:\\snapctr.demo.netapp.com:8146/
+----
+. 列出可以使用 Get-SmBackup 或 Get-SmResourceGroup cmdlet 克隆的備份。
++
+此範例顯示有關所有可用備份的資訊：
+
++
+[listing]
+----
+ C:\PS>PS C:\> Get-SmBackup
+
+BackupId                      BackupName                    BackupTime                    BackupType
+--------                      ----------                    ----------                    ----------
+   1              Payroll Dataset_vise-f6_08... 8/4/2015    11:02:32 AM                   Full Backup
+   2              Payroll Dataset_vise-f6_08... 8/4/2015    11:23:17 AM
+----
++
+此範例顯示有關指定資源組的資訊：
+
++
+[listing]
+----
+PS C:\> Get-SmResourceGroup
+
+    Description                 :
+    CreationTime                : 10/10/2016 4:45:53 PM
+    ModificationTime            : 10/10/2016 4:45:53 PM
+    EnableEmail                 : False
+    EmailSMTPServer             :
+    EmailFrom                   :
+    EmailTo                     :
+    EmailSubject                :
+    EnableSysLog                : False
+    ProtectionGroupType         : Backup
+    EnableAsupOnFailure         : False
+    Policies                    : {}
+    HostResourceMaping          : {}
+    Configuration               : SMCoreContracts.SmCloneConfiguration
+    LastBackupStatus            : Completed
+    VerificationServer          :
+    EmailBody                   :
+    EmailNotificationPreference : Never
+    VerificationServerInfo      :
+    SchedulerSQLInstance        :
+    CustomText                  :
+    CustomSnapshotFormat        :
+    SearchResources             : False
+    ByPassCredential            : False
+    IsCustomSnapshot            :
+    MaintenanceStatus           : Production
+    PluginProtectionGroupTypes  : {SMSQL}
+    Tag                         :
+    IsInternal                  : False
+    EnableEmailAttachment       : False
+    VerificationSettings        : {}
+    Name                        : NFS_DB
+    Type                        : Group
+    Id                          : 2
+    Host                        :
+    UserName                    :
+    Passphrase                  :
+    Deleted                     : False
+    Auth                        : SMCoreContracts.SmAuth
+    IsClone                     : False
+    CloneLevel                  : 0
+    Hosts                       :
+    StorageName                 :
+    ResourceGroupNames          :
+    PolicyNames                 :
+
+    Description                 :
+    CreationTime                : 10/10/2016 4:51:36 PM
+    ModificationTime            : 10/10/2016 5:27:57 PM
+    EnableEmail                 : False
+    EmailSMTPServer             :
+    EmailFrom                   :
+    EmailTo                     :
+    EmailSubject                :
+    EnableSysLog                : False
+    ProtectionGroupType         : Backup
+    EnableAsupOnFailure         : False
+    Policies                    : {}
+    HostResourceMaping          : {}
+    Configuration               : SMCoreContracts.SmCloneConfiguration
+    LastBackupStatus            : Failed
+    VerificationServer          :
+    EmailBody                   :
+    EmailNotificationPreference : Never
+    VerificationServerInfo      :
+    SchedulerSQLInstance        :
+    CustomText                  :
+    CustomSnapshotFormat        :
+    SearchResources             : False
+    ByPassRunAs                 : False
+    IsCustomSnapshot            :
+    MaintenanceStatus           : Production
+    PluginProtectionGroupTypes  : {SMSQL}
+    Tag                         :
+    IsInternal                  : False
+    EnableEmailAttachment       : False
+    VerificationSettings        : {}
+    Name                        : Test
+    Type                        : Group
+    Id                          : 3
+    Host                        :
+    UserName                    :
+    Passphrase                  :
+    Deleted                     : False
+    Auth                        : SMCoreContracts.SmAuth
+    IsClone                     : False
+    CloneLevel                  : 0
+    Hosts                       :
+    StorageName                 :
+    ResourceGroupNames          :
+    PolicyNames                 :
+----
+. 使用 New-SmClone cmdlet 從複製資源組或現有備援啟動複製作業。
++
+此範例從包含所有日誌的指定備份建立複製：
+
++
+[listing]
+----
+New-SmClone -BackupName Verify_delete_clone_on_qtree_windows_scc54_10-04-2016_19.05.48.0886 -Resources @{"Host"="scc54.sccore.test.com";"Uid"="QTREE1"}  -
+CloneToInstance scc54.sccore.test.com -Suffix '_QtreeCloneWin9'  -AutoAssignMountPoint -AppPluginCode 'DummyPlugin' -initiatorname 'iqn.1991-
+05.com.microsoft:scc54.sccore.test.com' -igroupprotocol 'mixed'
+----
+. 使用 Get-SmCloneReport cmdlet 查看複製作業的狀態。
++
+此範例顯示指定作業 ID 的複製報表：
+
++
+[listing]
+----
+PS C:\> Get-SmCloneReport -JobId 186
+
+    SmCloneId           : 1
+    SmJobId             : 186
+    StartDateTime       : 8/3/2015 2:43:02 PM
+    EndDateTime         : 8/3/2015 2:44:08 PM
+    Duration            : 00:01:06.6760000
+    Status              : Completed
+    ProtectionGroupName : Draper
+    SmProtectionGroupId : 4
+    PolicyName          : OnDemand_Clone
+    SmPolicyId          : 4
+    BackupPolicyName    : OnDemand_Full_Log
+    SmBackupPolicyId    : 1
+    CloneHostName       : SCSPR0054212005.mycompany.com
+    CloneHostId         : 4
+    CloneName           : Draper__clone__08-03-2015_14.43.53
+    SourceResources     : {Don, Betty, Bobby, Sally}
+    ClonedResources     : {Don_DRAPER, Betty_DRAPER, Bobby_DRAPER, Sally_DRAPER}
+    SmJobError          :
+----
+
+
+--
+====

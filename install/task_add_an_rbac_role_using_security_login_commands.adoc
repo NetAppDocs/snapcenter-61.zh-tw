@@ -1,0 +1,85 @@
+---
+permalink: install/task_add_an_rbac_role_using_security_login_commands.html 
+sidebar: sidebar 
+keywords: RBAC roles, add, NetApp ONTAP RBAC role, storage system 
+summary: 當您的儲存系統執行叢集NetApp ONTAP時，您可以使用安全登入指令新增NetApp ONTAP RBAC 角色。 
+---
+= 使用安全登入指令新增NetApp ONTAP RBAC 角色
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+當您的儲存系統執行叢集ONTAP時，您可以使用安全登入指令新增NetApp ONTAP RBAC 角色。
+
+.開始之前
+* 確定您要執行的任務以及執行這些任務所需的權限。
+* 授予命令和/或命令目錄權限。
++
+每個命令/命令目錄有兩種存取等級：全部存取和唯讀。
+
++
+您必須始終先指派所有存取權限。
+
+* 為使用者指派角色。
+* 根據您的SnapCenter插件是連接到整個叢集的叢集管理員 IP 還是直接連接到叢集內的 SVM 來確定您的配置。
+
+
+.關於此任務
+為了簡化儲存系統上這些角色的配置，您可以使用NetApp ONTAP工具的 RBAC 使用者建立器，該工具發佈在NetApp社群論壇上。
+
+該工具會自動正確設定ONTAP權限。例如， NetApp ONTAP的 RBAC User Creator 工具會自動以正確的順序新增權限，以便所有存取權限會先出現。如果您先新增唯讀權限，然後新增所有存取權限，ONTAP會將所有存取權限標記為重複並忽略它們。
+
+
+NOTE: 如果您稍後升級SnapCenter或ONTAP，則應重新執行NetApp ONTAP的 RBAC User Creator 工具來更新您先前建立的使用者角色。為早期版本的SnapCenter或ONTAP所建立的使用者角色無法與升級後的版本正常搭配使用。當您重新運行該工具時，它會自動處理升級。您不需要重新建立角色。
+
+有關設定ONTAP RBAC 角色的更多信息，請參閱 http://docs.netapp.com/ontap-9/topic/com.netapp.doc.pow-adm-auth-rbac/home.html["ONTAP 9 管理員驗證和 RBAC 電源指南"^]。
+
+.步驟
+. 在儲存系統上，輸入以下指令以建立新角色：
++
+`security login role create <role_name\> -cmddirname "command" -access all –vserver <svm_name\>`
+
++
+** svm_name 是 SVM 的名稱。如果將其留空，則預設為叢集管理員。
+** role_name 是您為角色指定的名稱。
+** 指令是ONTAP功能。
++
+
+NOTE: 您必須對每個權限重複此命令。請記住，全訪問命令必須在只讀命令之前列出。
+
++
+有關權限清單的信息，請參閱link:../install/task_create_an_ontap_cluster_role_with_minimum_privileges.html#ontap-cli-commands-for-creating-cluster-roles-and-assigning-permissions["用於建立角色和分配權限的ONTAP CLI 命令"^]。
+
+
+
+. 輸入以下命令建立使用者名稱：
++
+`security login create -username <user_name\> -application ontapi -authmethod <password\> -role <name_of_role_in_step_1\> –vserver <svm_name\> -comment "user_description"`
+
++
+** user_name 是您正在建立的使用者的名稱。
+** <password> 是您的密碼。如果您未指定密碼，系統會提示您輸入密碼。
+** svm_name 是 SVM 的名稱。
+
+
+. 透過輸入以下命令將角色指派給使用者：
++
+`security login modify username <user_name\> –vserver <svm_name\> -role <role_name\> -application ontapi -application console -authmethod <password\>`
+
++
+** <user_name> 是您在步驟 2 中建立的使用者的名稱。此命令允許您修改使用者以將其與角色關聯。
+** <svm_name> 是 SVM 的名稱。
+** <role_name> 是您在步驟 1 中建立的角色的名稱。
+** <password> 是您的密碼。如果您未指定密碼，系統會提示您輸入密碼。
+
+
+. 輸入以下命令驗證使用者是否已正確建立：
++
+`security login show –vserver <svm_name\> -user-or-group-name <user_name\>`
+
++
+user_name 是您在步驟 3 中建立的使用者的名稱。
+
+

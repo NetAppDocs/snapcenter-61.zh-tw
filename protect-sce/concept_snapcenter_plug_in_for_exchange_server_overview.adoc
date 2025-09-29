@@ -1,0 +1,28 @@
+---
+permalink: protect-sce/concept_snapcenter_plug_in_for_exchange_server_overview.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for Exchange Server 
+summary: 適用於 Microsoft Exchange Server 的SnapCenter外掛程式是 NetAppSnapCenter 軟體的主機端元件，可實現 Exchange 資料庫的應用程式感知資料保護管理。  Exchange 外掛程式可自動備份並還原SnapCenter環境中的 Exchange 資料庫。 
+---
+= 適用於 Microsoft Exchange Server 的SnapCenter外掛程式概述
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+適用於 Microsoft Exchange Server 的SnapCenter外掛程式是NetApp SnapCenter軟體的主機端元件，可實現 Exchange 資料庫的應用程式感知資料保護管理。  Exchange 外掛程式可自動備份並還原SnapCenter環境中的 Exchange 資料庫。
+
+安裝 Exchange 外掛程式後，您可以使用SnapCenter和NetApp SnapMirror技術在另一個磁碟區上建立備份集的鏡像副本，並使用NetApp SnapVault技術執行磁碟到磁碟備份複製，以滿足標準合規性或存檔目的。
+
+如果您想要復原郵件或郵件信箱而不是完整的 Exchange 資料庫，您可以使用單一郵件匣復原 (SMBR) 軟體。  NetApp® 單一信箱復原已於 2023 年 5 月 12 日停止提供 (EOA)。  NetApp將在支援期限內繼續為已透過 2020 年 6 月 24 日推出的行銷零件號碼購買郵箱容量、維護和支援的客戶提供支援。
+
+NetApp Single Mailbox Recovery 是 Ontrack 提供的合作夥伴產品。 Ontrack PowerControls 提供的功能與NetApp Single Mailbox Recovery 類似。客戶可以從 Ontrack（透過 licenceteam@ontrack.com）購買新的 Ontrack PowerControls 軟體許可證以及 Ontrack PowerControls 維護和支援續訂，以實現細粒度的郵箱恢復。
+
+Exchange 外掛程式支援SnapMirror主動同步（最初是作為SnapMirror業務連續性 [SM-BC] 發布），即使整個網站發生故障，該功能也能使業務服務繼續運行，並支援應用程式使用輔助副本透明地進行故障轉移。無需手動幹預或額外的腳本即可透過SnapMirror主動同步觸發故障轉移。
+
+它支援SnapMirror Active Sync 的非對稱、故障轉移或非雙工模式。這是指最佳化路徑僅來自主側 LUN 擁有節點的解決方案。任何來自輔助集群路徑的 I/O 都透過代理到主集群來提供服務。同步複製是單向的，從主節點到次節點。
+
+* 自動執行SnapCenter環境中 Microsoft Exchange Server 資料庫和資料庫可用性群組 (DAG) 的應用程式感知備份和還原作業
+* 當您部署SnapCenter Plug-in for VMware vSphere並向SnapCenter註冊外掛程式時，支援 RDM LUN 上的虛擬化 Exchange 伺服器。
+

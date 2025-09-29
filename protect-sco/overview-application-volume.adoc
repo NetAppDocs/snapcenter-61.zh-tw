@@ -1,0 +1,27 @@
+---
+permalink: protect-sco/overview-application-volume.html 
+sidebar: sidebar 
+keywords: application volume, overview, backup, non-data volumes 
+summary: 應用程式磁碟區是儲存與 Oracle 資料庫相關的資訊的儲存空間。 
+---
+= 什麼是應用卷
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+應用程式磁碟區是儲存配置、安裝程式和其他與 Oracle 資料庫相關的非資料檔案等資訊的儲存空間。
+
+Oracle 資料庫的SnapCenter插件可讓您與 Oracle 資料庫一起建立應用程式磁碟區（非資料磁碟區）的一致備份。
+
+該外掛程式可自動執行應用程式磁碟區的備份和複製。
+
+* 在單一資源群組中保護應用程式磁碟區以及 Oracle 資料庫磁碟區。
+* 建立應用程式捲的備份。
+* 建立 Oracle 資料庫以及應用程式磁碟區的備份。
+* 建立資料庫的克隆以及某個時間點的應用程式磁碟區。
+* 安排備份作業。
+* 監控所有操作。
+* 查看備份和克隆作業的報告。
+

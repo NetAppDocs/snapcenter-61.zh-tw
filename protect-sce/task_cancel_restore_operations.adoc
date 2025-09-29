@@ -1,0 +1,50 @@
+---
+permalink: protect-sce/task_cancel_restore_operations.html 
+sidebar: sidebar 
+keywords: SnapCenter plug-in for Exchange Server 
+summary: 您可以取消排隊的還原作業。 
+---
+= 取消 Exchange 資料庫的還原操作
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以取消排隊的還原作業。
+
+您應該以SnapCenter管理員或作業所有者的身分登入才能取消恢復操作。
+
+.關於此任務
+* 您可以從「*監視*」頁面或「*活動*」窗格取消排隊的復原操作。
+* 您無法取消正在執行的復原操作。
+* 您可以使用SnapCenter GUI、PowerShell cmdlet 或 CLI 指令取消排隊的還原作業。
+* 對於無法取消的復原操作，「*取消作業*」按鈕將被停用。
+* 如果您在建立角色時在“使用者\群組”頁面中選擇了“*此角色的所有成員都可以檢視和操作其他成員的物件*”，則可以在使用該角色時取消其他成員的排隊復原作業。
+
+
+.步
+執行下列操作之一：
+
+|===
+| 從... | 行動 
+
+
+ a| 
+監控頁面
+ a| 
+. 在左側導覽窗格中，按一下「*監控*」>「*作業*」。
+. 選擇作業並點選「取消作業」。
+
+
+
+
+ a| 
+活動窗格
+ a| 
+. 啟動恢復操作後，按一下image:../media/activity_pane_icon.gif["活動窗格圖示"]在活動窗格上查看最近的五項操作。
+. 選擇操作。
+. 在「工作詳情」頁面中，按一下「取消工作」。
+
+
+|===

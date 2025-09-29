@@ -1,0 +1,41 @@
+---
+permalink: protect-scsql/task_failback_from_scsql_secondary_storage_to_primary_storage.html 
+sidebar: sidebar 
+keywords: failback, snapcenter 
+summary: 在 SQL Server 主儲存的SnapCenter外掛程式還原連線後，您應該故障還原到主儲存。 
+---
+= 從適用於 SQL Server 二級儲存的SnapCenter插件故障還原到主存儲
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+在 SQL Server 主儲存的SnapCenter外掛程式還原連線後，您應該故障還原到主儲存。
+
+.開始之前
+* 從託管主機頁面將 SQL Server 的SnapCenter插件置於*維護*模式。
+* 中斷輔助儲存與主機的連線並從主儲存進行連線。
+* 若要故障恢復到主存儲，請透過執行反向重新同步操作確保關係方向與故障轉移之前保持相同。
++
+為了在反向重新同步操作後保留主儲存和輔助儲存的角色，請再次執行反向重新同步操作。
+
++
+更多資訊請參見link:https://docs.netapp.com/us-en/ontap-sm-classic/online-help-96-97/task_reverse_resynchronizing_snapmirror_relationships.html["反向重新同步鏡像關係"]
+
+* 重新啟動 MSSQL 伺服器服務。
+* 確保 SQL 資源重新連線。
+
+
+
+NOTE: 在插件故障轉移或故障回復期間，插件整體狀態不會立即刷新。主機和插件的整體狀態在後續的主機刷新操作中更新。
+
+.步驟
+. 在「設定」頁面中，導覽至「*設定*」>「*全域設定*」>「*災難復原*」。
+. 取消選擇“啟用災難復原”。
+. 按一下“*應用*”。
+. 按一下「*監控*」>「*作業*」來驗證 DR 作業是否已啟用。
+
+
+.完成後
+您可以使用 UI 或以下 cmdlet 刪除故障轉移期間建立的 SQL Server 備份的SnapCenter插件： `Remove-SmDRFailoverBackups`

@@ -1,0 +1,17 @@
+= 
+:allow-uri-read: 
+
+
+您可以產生憑證簽署要求 (CSR) 並匯入可使用產生的 CSR 從憑證授權單位 (CA) 取得的憑證。該憑證將有一個與之關聯的私鑰。
+
+CSR 是一段編碼文本，提供給授權憑證供應商以取得簽署的 CA 憑證。
+
+
+NOTE: CA 憑證 RSA 金鑰長度必須至少為 3072 位元。
+
+有關生成 CSR 的信息，請參閱 https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/How_to_generate_CA_Certificate_CSR_file["如何產生CA憑證CSR文件"^]。
+
+
+NOTE: 如果您擁有您的網域（*.domain.company.com）或您的系統（machine1.domain.company.com）的 CA 證書，您可以跳過生成 CA 證書 CSR 檔案。您可以使用SnapCenter部署現有的 CA 憑證。
+
+對於叢集配置，CA 憑證中應提及叢集名稱（虛擬叢集 FQDN）和對應的主機名稱。在取得憑證之前，可以透過填寫主題備用名稱 (SAN) 欄位來更新憑證。對於通配符憑證（*.domain.company.com），該憑證將隱式包含網域的所有主機名稱。

@@ -1,0 +1,139 @@
+---
+permalink: install/concept_provision_storage_in_vmware_environments.html 
+sidebar: sidebar 
+keywords: guest OS, VMware ESXi server, limitations, RDM, Microsoft cluster 
+summary: 您可以在 VMware 環境中使用適用於 Microsoft Windows 的SnapCenter外掛程式來建立和管理 LUN 以及管理 Snapshot 備份副本。 
+---
+= 在 VMware 環境中設定存儲
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以在 VMware 環境中使用適用於 Microsoft Windows 的SnapCenter外掛程式來建立和管理 LUN 以及管理快照。
+
+
+
+== 支援的 VMware 客戶作業系統平台
+
+* 支援的 Windows Server 版本
+* Microsoft 群集配置
++
+使用 Microsoft iSCSI Software Initiator 時，VMware 上最多支援 16 個節點，使用 FC 時最多支援兩個節點
+
+* RDM LUN
++
+對於普通 RDMS，最多支援 56 個 RDM LUN，配備四個 LSI Logic SCSI 控制器；對於 Windows 配置，VMware VM MSCS 盒對盒插件最多支援 42 個 RDM LUN，配備三個 LSI Logic SCSI 控制器
+
++
+支援 VMware ParaVirtual SCSI 控制器。  RDM 磁碟上可支援 256 個磁碟。
+
+
+
+有關受支援版本的最新信息，請參閱 https://imt.netapp.com/matrix/imt.jsp?components=121034;&solution=1517&isHWU&src=IMT["NetApp互通性表工具"^]。
+
+
+
+=== VMware ESXi 伺服器相關限制
+
+* 不支援使用 ESXi 憑證在虛擬機器上的 Microsoft 叢集上安裝適用於 Windows 的插件。
++
+在叢集虛擬機器上安裝適用於 Windows 的插件時，您應該使用 vCenter 憑證。
+
+* 所有叢集節點必須對同一個叢集磁碟使用相同的目標 ID（在虛擬 SCSI 適配器上）。
+* 當您在適用於 Windows 的插件之外建立 RDM LUN 時，必須重新啟動插件服務以使其能夠識別新建立的磁碟。
+* 您無法在 VMware 客戶作業系統上同時使用 iSCSI 和 FC 啟動器。
+
+
+
+
+=== SnapCenter RDM 操作所需的最低 vCenter 權限
+
+您應該在主機上擁有下列 vCenter 權限才能在來賓作業系統中執行 RDM 操作：
+
+* 資料儲存：刪除文件
+* 主機：配置 > 儲存分區配置
+* 虛擬機器：配置
+
+
+您必須將這些權限指派給 Virtual Center Server 等級的角色。您指派了這些權限的角色不能指派給沒有 root 權限的任何使用者。
+
+指派這些權限後，您可以在來賓作業系統上安裝適用於 Windows 的插件。
+
+
+
+== 管理 Microsoft 叢集中的 FC RDM LUN
+
+您可以使用適用於 Windows 的插件來管理使用 FC RDM LUN 的 Microsoft 群集，但必須先在插件外部建立共用 RDM 仲裁和共用存儲，然後將磁碟新增至叢集中的虛擬機器。
+
+從 ESXi 5.5 開始，您也可以使用 ESX iSCSI 和 FCoE 硬體來管理 Microsoft 叢集。  Windows 外掛程式包含對 Microsoft 叢集的開箱即用支援。
+
+
+
+=== 要求
+
+當您滿足特定的配置要求時，適用於 Windows 的插件可為 Microsoft 群集提供支持，這些群集使用屬於兩個不同 ESX 或 ESXi 伺服器的兩個不同虛擬機器上的 FC RDM LUN，也稱為跨箱群集。
+
+* 虛擬機器 (VM) 必須執行相同的 Windows Server 版本。
+* 每個 VMware 父主機的 ESX 或 ESXi 伺服器版本必須相同。
+* 每個父主機必須至少有兩個網路介面卡。
+* 兩個 ESX 或 ESXi 伺服器之間必須共用至少一個 VMware 虛擬機器檔案系統 (VMFS) 資料儲存。
+* VMware 建議在 FC SAN 上建立共用資料儲存。
++
+如果需要，也可以透過 iSCSI 建立共享資料儲存。
+
+* 共享 RDM LUN 必須處於實體相容模式。
+* 必須在 Windows 外掛程式之外手動建立共享 RDM LUN。
++
+您不能將虛擬磁碟用於共享儲存。
+
+* 必須在實體相容模式下在叢集中的每個虛擬機器上設定 SCSI 控制器：
++
+Windows Server 2008 R2 要求您在每個虛擬機器上設定 LSI Logic SAS SCSI 控制器。如果僅存在一個相同類型的控制器且該控制器已連接到 C: 驅動器，則共用 LUN 無法使用現有的 LSI Logic SAS 控制器。
+
++
+VMware Microsoft 叢集不支援半虛擬化類型的 SCSI 控制器。
+
++
+
+NOTE: 當您在實體相容模式下將 SCSI 控制器新增至虛擬機器上的共用 LUN 時，您必須在 VMware Infrastructure Client 中選擇 *原始裝置對應* (RDM) 選項，而不是 *建立新磁碟* 選項。
+
+* Microsoft 虛擬機器叢集不能成為 VMware 叢集的一部分。
+* 在屬於 Microsoft 叢集的虛擬機器上安裝適用於 Windows 的插件時，必須使用 vCenter 憑證，而非 ESX 或 ESXi 憑證。
+* Windows 外掛程式無法使用來自多個主機的啟動器建立單一 igroup。
++
+在建立將用作共用叢集磁碟的 RDM LUN 之前，必須在儲存控制器上建立包含所有 ESXi 主機的啟動器的 igroup。
+
+* 確保使用 FC 啟動器在 ESXi 5.0 上建立 RDM LUN。
++
+建立 RDM LUN 時，將使用 ALUA 建立啟動器群組。
+
+
+
+
+
+=== 限制
+
+Windows 外掛程式支援在屬於不同 ESX 或 ESXi 伺服器的不同虛擬機器上使用 FC/iSCSI RDM LUN 的 Microsoft 叢集。
+
+
+NOTE: ESX 5.5i 之前的版本不支援此功能。
+
+* Windows 插件不支援 ESX iSCSI 和 NFS 資料儲存上的叢集。
+* Windows 外掛程式不支援叢集環境中的混合啟動器。
++
+啟動器必須是 FC 或 Microsoft iSCSI，但不能同時是兩者。
+
+* Microsoft 叢集中的共用磁碟不支援 ESX iSCSI 啟動器和 HBA。
+* 如果虛擬機器是 Microsoft 叢集的一部分，則適用於 Windows 的外掛程式不支援使用 vMotion 進行虛擬機器遷移。
+* Windows 外掛程式不支援 Microsoft 群集中虛擬機器上的 MPIO。
+
+
+
+
+=== 建立共享 FC RDM LUN
+
+在使用 FC RDM LUN 在 Microsoft 叢集中的節點之間共用儲存體之前，您必須先建立共用仲裁磁碟和共用儲存磁碟，然後將它們新增至叢集中的兩個虛擬機器。
+
+共享磁碟不是使用 Windows 插件建立的。您應該建立共用 LUN，然後將其新增至叢集中的每個虛擬機器。有關信息，請參閱 https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/6-7/setup-for-failover-clustering-and-microsoft-cluster-service.html["跨實體主機叢集虛擬機"^]。

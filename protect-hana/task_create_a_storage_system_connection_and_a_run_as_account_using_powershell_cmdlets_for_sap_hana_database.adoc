@@ -1,0 +1,94 @@
+---
+permalink: protect-hana/task_create_a_storage_system_connection_and_a_run_as_account_using_powershell_cmdlets_for_sap_hana_database.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for SAP HANA Database 
+summary: '在使用 PowerShell cmdlet 備份、還原或複製 SAP HANA 資料庫之前，必須建立儲存虛擬機器 (SVM) 連線和憑證。' 
+---
+= 使用 PowerShell cmdlet 為 SAP HANA 資料庫建立儲存系統連線和憑證
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+在使用 PowerShell cmdlet 備份、還原或複製 SAP HANA 資料庫之前，必須建立儲存虛擬機器 (SVM) 連線和憑證。
+
+.開始之前
+* 您應該已經準備好 PowerShell 環境來執行 PowerShell cmdlet。
+* 您應該擁有基礎設施管理員角色所需的權限來建立儲存連線。
+* 您應該確保插件安裝沒有正在進行中。
++
+新增儲存系統連線時，不得進行主機外掛程式安裝，因為主機快取可能不會更新，且資料庫狀態可能會在SnapCenter GUI 中顯示為「不可用於備份」或「不在NetApp儲存上」。
+
+* 儲存系統名稱應該是唯一的。
++
+SnapCenter不支援不同叢集上具有相同名稱的多個儲存系統。  SnapCenter支援的每個儲存系統都應具有唯一的名稱和唯一的資料 LIF IP 位址。
+
+
+
+.步驟
+. 使用 Open-SmConnection cmdlet 啟動 PowerShell 連線會話。
++
+[listing]
+----
+PS C:\> Open-SmStorageConnection
+----
+. 使用 Add-SmStorageConnection cmdlet 建立與儲存系統的新連線。
++
+[listing]
+----
+PS C:\> Add-SmStorageConnection -StorageType DataOntap -Type DataOntap -OntapStorage ‘scsnfssvm’ -Protocol Https -Timeout 60
+----
+. 使用 Add-SmCre​​dential cmdlet 建立新憑證。
++
+此範例顯示如何使用 Windows 憑證建立名為 FinanceAdmin 的新憑證：
+
++
+[listing]
+----
+PS C:> Add-SmCredential -Name FinanceAdmin -AuthMode Windows
+-Credential sddev\administrator
+----
+. 將 SAP HANA 通訊主機新增至SnapCenter伺服器。
++
+[listing]
+----
+PS C:> Add-SmHost -HostName 10.232.204.61 -OSType Windows -RunAsName FinanceAdmin -PluginCode hana
+----
+. 在主機上安裝軟體套件和適用於 SAP HANA 資料庫的SnapCenter插件。
++
+對於 Linux：
+
++
+[listing]
+----
+PS C:> Install-SmHostPackage -HostNames 10.232.204.61 -ApplicationCode hana
+----
++
+對於 Windows：
+
++
+[listing]
+----
+Install-SmHostPackage -HostNames 10.232.204.61 -ApplicationCode hana -FilesystemCode scw -RunAsName FinanceAdmin
+----
+. 設定 HDBSQL 客戶端的路徑。
++
+對於 Windows：
+
++
+[listing]
+----
+PS C:> Set-SmConfigSettings -Plugin -HostName 10.232.204.61 -PluginCode hana -configSettings @{"HANA_HDBSQL_CMD" = "C:\Program Files\sap\hdbclient\hdbsql.exe"}
+----
++
+對於 Linux：
+
++
+[listing]
+----
+Set-SmConfigSettings -Plugin -HostName scs-hana.gdl.englab.netapp.com -PluginCode hana -configSettings @{"HANA_HDBSQL_CMD"="/usr/sap/hdbclient/hdbsql"}
+----
+
+
+可以透過執行_Get-Help command_name_來取得有關可與 cmdlet 一起使用的參數及其描述的資訊。或者，您也可以參考 https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["SnapCenter軟體 Cmdlet 參考指南"^]。

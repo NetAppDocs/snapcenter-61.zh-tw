@@ -1,0 +1,16 @@
+---
+permalink: protect-mysql/how-snapcenter-plug-in-for-mysql-uses-consistency-group-snapshot-copies.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for MySQL 
+summary: 您可以使用外掛程式為資源組建立一致性組快照。一致性群組是一個可以容納多個磁碟區的容器，以便您可以將它們作為一個實體進行管理。一致性組是多個磁碟區的同時快照，提供一組磁碟區的一致副本。 
+---
+= SnapCenter Plug-in for MySQL 如何使用一致性群組快照
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以使用外掛程式為資源組建立一致性組快照。一致性群組是一個可以容納多個磁碟區的容器，以便您可以將它們作為一個實體進行管理。一致性組是多個磁碟區的同時快照，提供一組磁碟區的一致副本。
+
+您也可以指定儲存控制器對快照進行一致分組的等待時間。可用的等待時間選項有*緊急*、*中等*和*寬鬆*。您也可以在一致的群組快照操作期間啟用或停用任意位置寫入檔案佈局 (WAFL) 同步。  WAFL同步提高了一致性組快照的效能。

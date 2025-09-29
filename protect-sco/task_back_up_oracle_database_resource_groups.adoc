@@ -1,0 +1,55 @@
+---
+permalink: protect-sco/task_back_up_oracle_database_resource_groups.html 
+sidebar: sidebar 
+keywords: backup, resource group 
+summary: 資源組是主機或叢集上的資源的集合。資源組上的備份作業會針對資源組中定義的所有資源執行。 
+---
+= 備份 Oracle 資料庫資源組
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+資源組是主機或叢集上的資源的集合。備份操作針對資源組中定義的所有資源執行。
+
+您可以從資源頁面按需備份資源群組。如果資源組附加了策略並配置了計劃，則會根據計劃建立備份。
+
+.步驟
+. 在左側導覽窗格中，選擇“*資源*”，然後從清單中選擇適當的插件。
+. 在資源頁面中，從*視圖*清單中選擇*資源組*。
+. 在搜尋框中輸入資源組名稱，或按一下image:../media/filter_icon.gif["篩選圖標"]，然後選擇標籤。
++
+點選image:../media/filter_icon.gif["篩選圖標"]關閉篩選器窗格。
+
+. 在資源組頁面中，選擇要備份的資源組。
++
+
+NOTE: 如果您有一個包含兩個資料庫的聯合資源群組，而其中一個資料庫的資料位於非NetApp儲存體上，則即使另一個資料庫位於NetApp儲存體上，備份作業也會中止。
+
+. 在備份頁面中，執行以下步驟：
++
+.. 如果您有多個與資源群組關聯的策略，請從「*策略*」下拉清單中選擇要使用的備份策略。
++
+如果為按需備份選擇的策略與備份計畫相關聯，則按需備份將根據為計畫類型指定的保留設定進行保留。
+
+.. 選擇*備份*。
+
+
+. 透過選擇「監控」>「作業」來監控進度。
+
+
+.完成後
+* 在 AIX 設定中，您可以使用 `lkdev`命令鎖定和 `rendev`指令重新命名備份資料庫所在的磁碟。
++
+當您使用該備份進行還原時，鎖定或重新命名裝置不會影響復原作業。
+
+* 如果由於資料庫查詢執行時間超過逾時值而導致備份操作失敗，則應透過執行下列命令來變更 ORACLE_SQL_QUERY_TIMEOUT 和 ORACLE_PLUGIN_SQL_QUERY_TIMEOUT 參數的值 `Set-SmConfigSettings`命令：
++
+修改參數值後，透過執行以下命令重新啟動SnapCenter插件Loader(SPL) 服務 `/opt/NetApp/snapcenter/spl/bin/spl restart`
+
+* 如果在驗證過程中無法存取該檔案且掛載點不可用，則操作可能會失敗，並出現錯誤代碼 DBV-00100 指定檔案。您應該修改sco.properties中VERIFICATION_DELAY_和VERIFICATION_RETRY_COUNT參數的值。
++
+修改參數值後，透過執行以下命令重新啟動SnapCenter插件Loader(SPL) 服務 `/opt/NetApp/snapcenter/spl/bin/spl restart`
+
+

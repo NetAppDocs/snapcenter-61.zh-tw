@@ -1,0 +1,90 @@
+---
+permalink: upgrade/task_upgrade_snapcenter.html 
+sidebar: sidebar 
+keywords: upgrade, upgrade snapcenter server, windows 
+summary: 您可以使用SnapCenter Server 安裝程式執行檔來升級SnapCenter Server。 
+---
+= 升級 Windows 主機上的SnapCenter伺服器
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您應該升級SnapCenter伺服器以存取最新版本中提供的最新功能和增強功能。
+
+.開始之前
+* 使用最新的 Windows 更新來更新SnapCenter Server 主機，並確保沒有待處理的系統重新啟動。
+* 確保在開始升級之前沒有其他操作正在運行。
+* 安裝 ASP.NET Core Runtime 8.0.12（以及所有後續 8.0.x 修補程式）託管包和 PowerShell 7.4.2 或更高版本。
+* 確保沒有正在執行的作業後，備份SnapCenter儲存庫（MySQL）資料庫。在升級SnapCenter Server 和 Exchange 插件之前建議這樣做。
++
+有關信息，請參閱link:../admin/concept_manage_the_snapcenter_server_repository.html#back-up-the-snapcenter-repository["備份SnapCenter儲存庫"^]。
+
+* 備份SnapCenter伺服器主機或插件主機上修改的所有已修改的SnapCenter設定檔。
++
+SnapCenter設定檔範例：SnapDriveService.exe.config、SMCoreServiceHost.exe.config 等等。
+
+* 如果您在SnapCenter 5.0 中安裝了多個版本的自訂插件，則在升級到 6.0 或更高版本之前，您應該執行 powershell cmdlet 從SnapCenter儲存庫（NSM 資料庫）中刪除所有早期版本的自訂插件（最新版本除外）。
++
+** 跑步 `Open-SmConnection`並使用 SnapCenterAdmin 角色憑證登入
+** 跑步 `Remove-SmPluginPackage -PluginName M<plug-in name> -PluginVersion <version number>`
++
+有關更多信息，請參閱 https://kb.netapp.com/data-mgmt/SnapCenter/SC_KBs/SnapCenter_6.0_upgrade_fails_in_nsm_repository_upgrade_SQL_script_8["升級到SnapCenter 6.0 或更高版本失敗"] 。
+
+
+
+
+
+.關於此任務
+* 在升級期間， SnapCenter執行 SQL 腳本來更新 NSM 資料庫中的 Exchange 數據，將 DAG 和主機短名稱轉換為 FQDN。這僅適用於將SnapCenter Server 與 Exchange 外掛程式一起使用的情況。
+* 如果您已手動將伺服器主機置於維護模式，則升級後選擇*主機*>*啟動計劃*以使伺服器主機退出維護模式。
+* 對於策略中啟用了前置腳本和後置腳本的現有備份和驗證計劃，升級後備份作業將繼續進行。
++
+在*作業詳情*頁面中，一條警告訊息建議客戶將腳本複製到 SCRIPTS_PATH 並編輯策略以提供相對於 SCRIPTS_PATH 的路徑。對於複製生命週期作業，警告訊息出現在子作業層級。
+
+
+
+.步驟
+. 從NetApp支援網站下載SnapCenter Server 安裝套件。
++
+https://mysupport.netapp.com/site/products/all/details/snapcenter/downloads-tab[]
+
+. 建立位於 C:\Program Files\ NetApp\ SnapCenter WebApp 的 web.config 的副本。
+. 如果升級失敗，請從 Windows 工作排程器匯出SnapCenter插件主機方案以還原它們。
++
+`md d:\\SCBackup``schtasks /query /xml /TN taskname >> "D:\SCBackup\taskname.xml"`
+
+. 如果未配置儲存庫備份，則建立SnapCenter MySQL 資料庫轉儲。
++
+`md d:\\SCBackup``mysqldump --all-databases --single-transaction --add-drop-database --triggers --routines --events -u root -p > D:\SCBackup\SCRepoBackup.dmp`
+
++
+出現提示時，輸入密碼。
+
+. 雙擊下載的 .exe 檔案以啟動SnapCenter伺服器升級。
++
+開始升級後， SnapCenter會執行預檢查。如果系統不符合最低要求， SnapCenter會顯示錯誤或警告訊息。您可以忽略警告並繼續安裝，但必須修復所有錯誤。
+
++
+
+NOTE: SnapCenter繼續使用安裝早期版本的SnapCenter Server 期間提供的現有 MySQL Server 儲存庫資料庫密碼。
+
+. 選擇*升級*。
++
+如果您在任何階段選擇“*取消*”， SnapCenter將停止升級。它不會將SnapCenter伺服器回滾到先前的狀態。
+
++
+*最佳實務：*登出並重新登錄，或開啟新的瀏覽器來存取SnapCenter使用者介面。
+
+
+
+.完成後
+* 如果使用 sudo 使用者安裝插件，則應複製 _C:\ProgramData\ NetApp\ SnapCenter\Package Repository\sc_unix_plugins_checksum.txt_ 中的 sha224 金鑰來更新 _/etc/sudoers_ 檔案。
+* 您應該在伺服器主機上執行新的資源發現。
++
+如果SnapCenter顯示伺服器主機狀態為已停止，請等待一段時間並執行新的發現。您也可以將 *HostRefreshInterval* 參數的值（預設值為 3600 秒）變更為任何大於 10 分鐘的值。
+
+* 如果升級失敗，請清理失敗的安裝，重新安裝早期版本的SnapCenter，並將 NSM 資料庫還原到先前的狀態。
+* 升級伺服器主機後，還必須升級插件才能新增任何儲存系統。
+

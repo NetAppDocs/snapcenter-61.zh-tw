@@ -1,0 +1,24 @@
+---
+permalink: protect-scw/concept_snapcenter_plug_in_for_microsoft_windows_overview.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for Microsoft Windows 
+summary: 適用於 Microsoft Windows 的SnapCenter外掛程式是NetApp SnapCenter軟體的主機端元件，可實現 Microsoft 檔案系統資源的應用程式感知資料保護管理。此外，它還為 Windows 檔案系統提供儲存配置、快照一致性和空間回收。適用於 Windows 的外掛程式可在您的SnapCenter環境中自動執行檔案系統備份、復原和複製作業。 
+---
+= 適用於 Microsoft Windows 的SnapCenter外掛程式概述
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+適用於 Microsoft Windows 的SnapCenter外掛程式是NetApp SnapCenter軟體的主機端元件，可實現 Microsoft 檔案系統資源的應用程式感知資料保護管理。此外，它還為 Windows 檔案系統提供儲存配置、快照一致性和空間回收。適用於 Windows 的外掛程式可在您的SnapCenter環境中自動執行檔案系統備份、復原和複製作業。
+
+安裝適用於 Windows 的插件後，您可以將SnapCenter與NetApp SnapMirror技術結合使用，在另一個磁碟區上建立備份集的鏡像副本，並使用NetApp SnapVault技術執行磁碟到磁碟的備份複製，以滿足存檔或標準合規性。
+
+* 為SnapCenter環境中 Windows 主機中執行的其他外掛程式啟用應用程式感知資料保護
+* 自動執行SnapCenter環境中 Microsoft 檔案系統的應用程式感知備份、還原和複製作業
+* 支援 Windows 主機的儲存配置、快照一致性和空間回收
+
+
+
+NOTE: Windows 外掛程式在實體和 RDM LUN 上設定 SMB 共用和 Windows 檔案系統，但不支援對 SMB 共用上的 Windows 檔案系統進行備份作業。

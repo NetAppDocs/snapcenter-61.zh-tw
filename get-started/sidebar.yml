@@ -1,0 +1,28 @@
+---
+section: get-started
+title: 開始
+entries:
+- title: 了解SnapCenter software
+  entries:
+  - title: 概況
+    url: "/get-started/concept_snapcenter_overview.html"
+  - title: 安全性和身份驗證
+    url: "/get-started/reference_data_security.html"
+  - title: 基於角色的存取控制
+    url: "/get-started/rbac-snapcenter.html"
+  - title: 災難復原
+    url: "/get-started/concept_disaster_recovery.html"
+  - title: 授權
+    url: "/get-started/concept_snapcenter_licenses.html"
+  - title: SnapMirror主動同步
+    url: "/get-started/snapmirror-active-sync-snapcenter.html"
+  - title: 資料保護的關鍵概念
+    url: "/get-started/concept_resources_resource_groups_and_policies.html"
+  - title: 支援的儲存系統和應用程式
+    url: "/get-started/reference_supported_storage_systems_and_applications.html"
+  - title: 身份驗證方法
+    url: "/get-started/concept_authentication_methods_for_your_credentials.html"
+- title: ASA r2 系統支援的SnapCenter操作
+  url: "/get-started/learn-about-snapcenter-support-for-asa-r2-systems.html"
+- title: 快速啟動
+  url: "/get-started/quick-start-snapcenter.html"

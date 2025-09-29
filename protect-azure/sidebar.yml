@@ -1,0 +1,66 @@
+---
+section: protect-azure
+title: 保護在Azure NetApp Files上運行的應用程式
+entries:
+- title: 保護在Azure NetApp Files上運行的應用程式
+  url: "/protect-azure/protect-applications-azure-netapp-files.html"
+- title: 安裝SnapCenter並建立憑證
+  entries:
+  - title: 在 Azure 虛擬機器上安裝SnapCenter
+    url: "/protect-azure/install-snapcenter-azure-virtual-machine.html"
+  - title: 在SnapCenter中建立 Azure 憑證
+    url: "/protect-azure/create-azure-credential.html"
+  - title: 配置 Azure 儲存體帳戶
+    url: "/protect-azure/configure-azure-storage-account.html"
+  - title: 建立憑證以新增插件主機
+    url: "/protect-azure/create-credential-add-plugin-host.html"
+- title: 保護 SAP HANA 資料庫
+  entries:
+  - title: 為 SAP HANA 資料庫新增主機並安裝SnapCenter插件
+    url: "/protect-azure/add-hosts-install-plugin-for-sap-hana.html"
+  - title: 新增 SAP HANA 資料庫
+    url: "/protect-azure/add-sap-hana-database.html"
+  - title: 為 SAP HANA 資料庫建立備份策略
+    url: "/protect-azure/create-backup-policies-sap-hana.html"
+  - title: 建立資源組並附加 SAP HANA 備份策略
+    url: "/protect-azure/create-resource-groups-attach-sap-hana-backup-policies.html"
+  - title: 備份在Azure NetApp Files上執行的 SAP HANA 資料庫
+    url: "/protect-azure/backup-sap-hana-databases.html"
+  - title: 備份 SAP HANA 資源組
+    url: "/protect-azure/backup-sap-hana-resource-groups.html"
+  - title: 還原和還原 SAP HANA 資料庫
+    url: "/protect-azure/restore-recover-sap-hana-backups.html"
+  - title: 克隆 SAP HANA 資料庫備份
+    url: "/protect-azure/clone-sap-hana-database-backups.html"
+- title: 保護 Microsoft SQL Server 資料庫
+  entries:
+  - title: 新增主機並為 SQL Server 資料庫安裝SnapCenter插件
+    url: "/protect-azure/add-hosts-install-plugin-for-sql.html"
+  - title: 為 SQL Server 資料庫建立備份策略
+    url: "/protect-azure/create-backup-policies-sql.html"
+  - title: 建立資源組並附加 SQL 備份策略
+    url: "/protect-azure/create-resource-groups-attach-sql-backup-policies.html"
+  - title: 備份在Azure NetApp Files上執行的 SQL Server 資料庫
+    url: "/protect-azure/backup-sql-server-databases.html"
+  - title: 備份 SQL Server 資源組
+    url: "/protect-azure/backup-sql-resource-groups.html"
+  - title: 還原和還原 SQL Server 資料庫
+    url: "/protect-azure/restore-recover-sql-backups.html"
+  - title: 克隆 SQL Server 資料庫備份
+    url: "/protect-azure/clone-sql-database-backups.html"
+- title: 保護 Oracle 資料庫
+  entries:
+  - title: 新增主機並為 Oracle 資料庫安裝SnapCenter插件
+    url: "/protect-azure/add-hosts-install-plugin-for-oracle.html"
+  - title: 為 Oracle 資料庫建立備份策略
+    url: "/protect-azure/create-backup-policies-oracle.html"
+  - title: 建立資源組並附加 Oracle 備份策略
+    url: "/protect-azure/create-resource-groups-attach-oracle-backup-policies.html"
+  - title: 備份在Azure NetApp Files上執行的 Oracle 資料庫
+    url: "/protect-azure/backup-oracle-databases.html"
+  - title: 備份 Oracle 資源組
+    url: "/protect-azure/backup-oracle-resource-groups.html"
+  - title: 還原和還原 Oracle 資料庫
+    url: "/protect-azure/restore-recover-oracle-backups.html"
+  - title: 克隆 Oracle 資料庫備份
+    url: "/protect-azure/clone-oracle-database-backups.html"

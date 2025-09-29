@@ -1,0 +1,46 @@
+---
+permalink: protect-nsp/back_up_resource_groups_of_netapp_supported_plugins_resources.html 
+sidebar: sidebar 
+keywords: backup, NetApp supported plug-ins 
+summary: 您可以從資源頁面按需備份資源群組。如果資源組附加了策略並配置了計劃，則備份將根據計劃自動進行。 
+---
+= 備份NetApp支援的插件資源的資源組
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以從資源頁面按需備份資源群組。如果資源組附加了策略並配置了計劃，則備份將根據計劃自動進行。
+
+.開始之前
+* 您必須已建立附加有策略的資源群組。
+* 如果要將具有SnapMirror關係的資源備份到二級存儲，則分配給儲存使用者的ONTAP角色應包括「`snapmirror all`」權限。但是，如果您使用“vsadmin”角色，則不需要“snapmirror all”權限。
+
+
+.步驟
+. 在左側導覽窗格中，按一下“*資源*”，然後從清單中選擇適當的外掛程式。
+. 在資源頁面中，從*視圖*清單中選擇*資源組*。
++
+您可以透過在搜尋框中輸入資源組名稱或按一下image:../media/filter_icon.gif["篩選圖標"]並選擇標籤。然後您可以點擊image:../media/filter_icon.gif["篩選圖標"]關閉篩選器窗格。
+
+. 在資源組頁面中，選擇要備份的資源組，然後按一下「立即備份」。
+. 在備份頁面中，執行以下步驟：
++
+.. 如果您已將多個策略與資源群組關聯，請從「*策略*」下拉清單中選擇要用於備份的策略。
++
+如果為按需備份選擇的策略與備份計畫相關聯，則按需備份將根據為計畫類型指定的保留設定進行保留。
+
+.. 按一下“*備份*”。
+
+
+. 透過點選「*監視*」>「*作業*」來監視操作進度。
++
+** 在MetroCluster配置中， SnapCenter可能無法在故障轉移後偵測到保護關係。
++
+https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/Unable_to_detect_SnapMirror_or_SnapVault_relationship_after_MetroCluster_failover["MetroCluster故障轉移後無法偵測SnapMirror或SnapVault關係"]
+
+** 如果您正在備份 VMDK 上的應用程式數據，並且SnapCenter Plug-in for VMware vSphere的Java 堆大小不夠大，則備份可能會失敗。若要增加 Java 堆大小，請找到腳本檔案 /opt/netapp/init_scripts/scvservice。在該腳本中， `do_start method`命令啟動SnapCenter VMware 插件服務。將該命令更新為以下內容： `Java -jar -Xmx8192M -Xms4096M` 。
+
+
+

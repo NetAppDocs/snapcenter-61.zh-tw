@@ -1,0 +1,82 @@
+---
+permalink: admin/concept_manage_resources_of_untrusted_domains.html 
+sidebar: sidebar 
+keywords: Manage resources 
+summary: '除了管理 Active Directory \(AD\) 受信任網域中的主機之外， SnapCenter還管理多個 AD 不受信任網域中的主機。不受信任的 AD 網域必須在SnapCenter伺服器上註冊。  SnapCenter支援多個不受信任的 AD 網域的使用者和群組。' 
+---
+= 管理不受信任域的資源
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+除了管理 Active Directory (AD) 受信任網域中的主機之外， SnapCenter還管理多個 AD 不受信任網域中的主機。不受信任的 AD 網域必須在SnapCenter伺服器上註冊。  SnapCenter支援多個不受信任的 AD 網域的使用者和群組。
+
+您可以在網域或工作群組中的電腦上安裝SnapCenter伺服器。若要安裝SnapCenter伺服器，如果電腦在網域中，則應指定網域憑證；如果電腦在工作群組中，則應指定本機管理員憑證。
+
+不支援屬於未在SnapCenter Server 註冊的網域的 Active Directory (AD) 群組。雖然您可以使用這些 AD 群組建立SnapCenter角色，但登入SnapCenter伺服器會失敗並顯示下列錯誤訊息：您嘗試登入的使用者不屬於任何角色。請聯絡您的管理員。
+
+
+
+== 修改不受信任的網域
+
+當您想要更新網域控制器 IP 位址或完全限定網域名稱 (FQDN) 時，可以修改不受信任的網域。
+
+*關於此任務*
+
+修改 FQDN 後，相關資產（主機、使用者和群組）可能無法如預期運作。
+
+若要修改不受信任的網域，您可以使用SnapCenter使用者介面或 PowerShell cmdlet。
+
+*步驟*
+
+. 在左側導覽窗格中，按一下「*設定*」。
+. 在設定頁面中，按一下*全域設定*。
+. 在全域設定頁面中，按一下「網域設定」。
+. 點選image:../media/edit_icon.gif["編輯圖示"]，然後提供以下詳細資訊：
++
+|===
+| 對於這個領域... | 這樣做... 
+
+
+ a| 
+域 FQDN
+ a| 
+指定 FQDN，然後按一下“解析”。
+
+
+
+ a| 
+網域控制器 IP 位址
+ a| 
+如果網域 FQDN 不可解析，請指定一個或多個網域控制器 IP 位址。
+
+|===
+. 按一下“*確定*”。
+
+
+
+
+== 取消註冊不受信任的 Active Directory 網域
+
+如果您不想使用與該網域關聯的資產，您可以取消註冊不受信任的 Active Directory 網域。
+
+.開始之前
+您應該刪除與不受信任的網域相關聯的主機、使用者、群組和憑證。
+
+*關於此任務*
+
+* 從SnapCenter Server 取消註冊網域後，該網域的使用者將無法存取SnapCenter Server。
+* 如果有關聯資產（主機、使用者和群組），則在取消註冊網域後，這些資產將無法運作。
+* 若要取消註冊不受信任的網域，您可以使用SnapCenter使用者介面或 PowerShell cmdlet。
+
+
+*步驟*
+
+. 在左側導覽窗格中，按一下「*設定*」。
+. 在設定頁面中，按一下*全域設定*。
+. 在全域設定頁面中，按一下「網域設定」。
+. 從網域清單中，選擇要取消註冊的網域。
+. 點選image:../media/delete_icon.gif["刪除圖示"]，然後按一下「*確定*」。
+

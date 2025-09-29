@@ -1,0 +1,244 @@
+---
+permalink: protect-sco/task_restore_an_oracle_database.html 
+sidebar: sidebar 
+keywords: restore, recover, Oracle 
+summary: 如果發生資料遺失，您可以使用SnapCenter將資料從一個或多個備份還原到活動檔案系統，然後還原資料庫。 
+---
+= 還原和還原 Oracle 資料庫
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+如果發生資料遺失，您可以使用SnapCenter將資料從一個或多個備份還原到活動檔案系統，然後還原資料庫。
+
+*開始之前*
+
+如果您以非 root 使用者身分安裝了該插件，則應手動為 prescript 和 postscript 目錄指派執行權限。
+
+*關於此任務*
+
+* 復原是使用設定的存檔日誌位置處可用的存檔日誌執行的。如果資料庫在 ARCHIVELOG 模式下執行，Oracle 資料庫會將已填入的重做日誌檔案組儲存到一個或多個離線目標，統稱為歸檔重做日誌。 SnapCenter根據指定的 SCN、選定的日期和時間或所有日誌選項識別並安裝最佳數量的日誌備份。如果復原所需的存檔日誌在配置的位置不可用，則應掛載包含日誌的快照並將路徑指定為外部存檔日誌。
++
+如果將 ASM 資料庫從 ASMLIB 遷移到 ASMFD，則使用 ASMLIB 建立的備份不能用於還原資料庫。您應該在 ASMFD 配置中建立備份並使用這些備份進行還原。同樣，如果 ASM 資料庫從 ASMFD 遷移到 ASMLIB，則應在 ASMLIB 配置中建立備份以便復原。
+
++
+還原資料庫時，會在 Oracle 資料庫主機的 _/var/opt/snapcenter/sco/lock_ 目錄中建立一個操作鎖定檔案 (.sm_lock_dbsid)，以避免在資料庫上執行多個操作。資料庫復原後，操作鎖定檔案將自動刪除。
+
++
+
+NOTE: 不支援恢復 SPFILE 和密碼檔案。
+
+* 對於啟用SnapLock的策略、對於ONTAP 9.12.1 及以下版本、如果指定 Snapshot 鎖定期限、則作為恢復的一部分從防篡改快照創建的克隆將繼承SnapLock到期時間。儲存管理員應在SnapLock到期後手動清理克隆。
+
+
+*步驟*
+
+. 在左側導覽窗格中，按一下“*資源*”，然後從清單中選擇適當的外掛程式。
+. 在資源頁面中，從*視圖*清單中選擇*資料庫*或*資源組*。
+. 從資料庫詳細資訊檢視或資源組詳細資料檢視中選擇資料庫。
++
+進入資料庫拓撲頁面。
+
+. 從「管理副本」檢視中，從主儲存系統或輔助（鏡像或複製）儲存系統中選擇「*備份*」。
+. 從表格中選擇備份，然後按一下*image:../media/restore_icon.gif["恢復圖示"] *.
+. 在「還原範圍」頁面中，執行下列任務：
++
+.. 如果您選擇了 Real Application Clusters (RAC) 環境中的資料庫備份，請選擇 RAC 節點。
+.. 當您選擇鏡像或保管資料時：
++
+*** 如果鏡像或保險庫中沒有日誌備份，則不會選擇任何內容，且定位器為空。
+*** 如果鏡像或保管庫中存在日誌備份，則選擇最新的日誌備份並顯示相應的定位器。
++
+
+NOTE: 如果選定的日誌備份同時存在於鏡像和保管庫位置，則會顯示兩個定位器。
+
+
+
+.. 執行以下操作：
++
+|===
+| 如果您想恢復... | 這樣做... 
+
+
+ a| 
+資料庫的所有資料文件
+ a| 
+選擇*所有資料檔*。
+
+僅恢復資料庫的資料檔。控制檔案、存檔日誌或重做日誌檔案未復原。
+
+
+
+ a| 
+表空間
+ a| 
+選擇*表空間*。
+
+您可以指定要復原的表空間。
+
+
+
+ a| 
+控製文件
+ a| 
+選擇*控製檔*。
+
+
+NOTE: 恢復控製檔案時，請確保目錄結構存在或應使用正確的使用者和群組所有權（如果有）創建，以允許復原過程將檔案複製到目標位置。如果該目錄不存在，則還原作業將會失敗。
+
+
+
+ a| 
+重做日誌文件
+ a| 
+選擇*重做日誌檔*。
+
+此選項僅適用於 Data Guard 備用資料庫或 Active Data Guard 備用資料庫。
+
+
+NOTE: 非 Data Guard 資料庫不會備份重做日誌檔。對於非 Data Guard 資料庫，使用存檔日誌執行復原。
+
+
+
+ a| 
+可插拔資料庫（PDB）
+ a| 
+選擇*可插入資料庫*，然後指定要復原的 PDB。
+
+
+
+ a| 
+可插拔資料庫 (PDB) 表空間
+ a| 
+選擇*可插入資料庫 (PDB) 表空間*，然後指定要復原的 PDB 和該 PDB 的表空間。
+
+只有當您選擇了要還原的 PDB 時，此選項才可用。
+
+|===
+.. 選擇*如果需要還原和復原則變更資料庫狀態*將資料庫的狀態變更為執行還原和復原作業所需的狀態。
++
+資料庫的各種狀態從高到低依序為open、mounted、started、shutdown。如果資料庫處於較高狀態，則必須選取此複選框，但必須將狀態變更為較低狀態才能執行還原操作。如果資料庫處於較低狀態，但必須將狀態變更為較高狀態才能執行還原操作，則即使您未選取該複選框，資料庫狀​​態也會自動變更。
+
++
+如果資料庫處於開啟狀態，並且為了恢復資料庫需要處於安裝狀態，則只有選取此核取方塊才會變更資料庫狀態。
+
+.. 如果要在備份後新增資料檔案或在 LVM 磁碟組中新增、刪除或重新建立 LUN 的情況下執行就地還原，請選擇「強制就地還原」。
+
+
+. 在「恢復範圍」頁面中，執行以下操作：
++
+|===
+| 如果你... | 這樣做... 
+
+
+ a| 
+想要恢復到最後一筆交易
+ a| 
+選擇“*所有日誌*”。
+
+
+
+ a| 
+想要恢復到特定的系統變更號碼 (SCN)
+ a| 
+選擇*直到 SCN（系統變更號碼）*。
+
+
+
+ a| 
+想要恢復到特定的資料和時間
+ a| 
+選擇*日期和時間*。
+
+您必須指定資料庫主機時區的日期和時間。
+
+
+
+ a| 
+不想恢復
+ a| 
+選擇*不恢復*。
+
+
+
+ a| 
+想要指定任何外部歸檔日誌位置
+ a| 
+如果資料庫在 ARCHIVELOG 模式下執行， SnapCenter會根據指定的 SCN、選取的日期和時間或所有日誌選項識別並安裝最佳數量的日誌備份。
+
+如果您仍想指定外部存檔日誌檔案的位置，請選擇*指定外部存檔日誌位置*。
+
+如果將存檔日誌作為備份的一部分被修剪，且您已手動安裝了所需的存檔日誌備份，則必須指定已安裝的備份路徑作為還原的外部存檔日誌位置。
+
+
+NOTE: 在將掛載路徑列為外部日誌位置之前，您應該驗證其路徑和內容。
+
+** https://docs.netapp.com/us-en/ontap-apps-dbs/oracle/oracle-dp-overview.html["使用ONTAP進行 Oracle 資料保護"^]
+** https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/ORA-00308%3A_cannot_open_archived_log_ORA_LOG_arch1_123_456789012.arc["操作失敗，出現 ORA-00308 錯誤"^]
+
+
+|===
++
+如果存檔日誌磁碟區未受保護但資料磁碟區受到保護，則無法透過從輔助備份還原來執行還原。您只能透過選擇“不恢復”來恢復。
+
++
+如果您在選擇開啟資料庫選項的情況下還原 RAC 資料庫，則只有啟動復原作業的 RAC 執行個體才會還原為開啟狀態。
+
++
+
+NOTE: Data Guard 備用資料庫和 Active Data Guard 備用資料庫不支援復原。
+
+. 在 PreOps 頁面中，輸入要在復原作業之前執行的處方的路徑和參數。
++
+您必須將處方儲存在 _/var/opt/snapcenter/spl/scripts_ 路徑或此路徑內的任何資料夾中。預設情況下，填入 _/var/opt/snapcenter/spl/scripts_ 路徑。如果您在此路徑內建立了任何資料夾來儲存腳本，則必須在路徑中指定這些資料夾。
+
++
+您也可以指定腳本超時值。預設值為 60 秒。
+
++
+SnapCenter可讓您在執行前腳本和後腳本時使用預先定義的環境變數。link:../protect-sco/predefined-environment-variables-prescript-postscript-restore.html["了解更多"^]
+
+. 在 PostOps 頁面中，執行下列步驟：
++
+.. 輸入要在恢復操作後運行的後記的路徑和參數。
++
+您必須將後記儲存在 _/var/opt/snapcenter/spl/scripts_ 或此路徑內的任何資料夾中。預設情況下，填入 _/var/opt/snapcenter/spl/scripts_ 路徑。如果您在此路徑內建立了任何資料夾來儲存腳本，則必須在路徑中指定這些資料夾。
+
++
+
+NOTE: 如果復原操作失敗，則不會執行後記，而是直接觸發清理活動。
+
+.. 如果要在復原後開啟資料庫，請選取該複選框。
++
+在恢復具有或不帶有控製檔案的容器資料庫 (CDB) 後，或在僅還原 CDB 控製檔案後，如果指定在復原後開啟資料庫，則僅開啟 CDB，而不是開啟該 CDB 中的可插拔資料庫 (PDB)。
+
++
+在 RAC 設定中，恢復後僅開啟用於復原的 RAC 實例。
+
++
+
+NOTE: 恢復具有控製檔的使用者表空間、有或沒有控製檔的系統表空間、有或沒有控製檔的PDB後，只有與復原操作相關的PDB的狀態會變成原始狀態。未用於復原的其他 PDB 的狀態不會變更為原始狀態，因為這些 PDB 的狀態未儲存。您必須手動變更未用於還原的 PDB 的狀態。
+
+
+
+. 在通知頁面中，從*電子郵件首選項*下拉清單中，選擇您想要傳送電子郵件通知的場景。
++
+您也必須指定寄件者和收件者的電子郵件地址以及電子郵件的主題。如果您想要附加執行的復原作業的報告，您必須選擇*附加作業報告*。
+
++
+
+NOTE: 對於電子郵件通知，您必須使用 GUI 或 PowerShell 命令 Set-SmSmtpServer 指定 SMTP 伺服器詳細資訊。
+
+. 查看摘要，然後按一下「*完成*」。
+. 透過點選「*監視*」>「*作業*」來監視操作進度。
+
+
+*更多資訊*
+
+* https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/Oracle_RAC_One_Node_database_is_skipped_for_performing_SnapCenter_operations["跳過 Oracle RAC One Node 資料庫來執行SnapCenter操作"^]
+* https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/Failed_to_restore_from_a_secondary_SnapMirror_or_SnapVault_location["無法從輔助SnapMirror或SnapVault位置還原"^]
+* https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/Failed_to_restore_when_a_backup_of_an_orphan_incarnation_is_selected["無法從孤立化身的備份中恢復"^]
+* https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/What_are_the_customizable_parameters_for_backup_restore_and_clone_operations_on_AIX_systems["AIX 系統上備份、還原和克隆作業的可自訂參數"^]
+

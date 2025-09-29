@@ -1,0 +1,16 @@
+---
+permalink: protect-scsql/task_define_a_backup_strategy_for_sql_server_resources.html 
+sidebar: sidebar 
+keywords: backup strategy 
+summary: 在建立備份作業之前定義備份策略有助於確保您擁有成功還原或複製資料庫所需的備份。您的服務等級協定（SLA）、復原時間目標（RTO）和復原點目標（RPO）在很大程度上決定了您的備份策略。 
+---
+= 定義 SQL Server 資源的備份策略
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+在建立備份作業之前定義備份策略有助於確保您擁有成功還原或複製資料庫所需的備份。您的服務等級協定 (SLA)、復原時間目標 (RTO) 和復原點目標 (RPO) 在很大程度上決定了您的備份策略。
+
+SLA 定義了預期的服務等級並解決了許多與服務相關的問題，包括服務的可用性和效能。  RTO 是指服務中斷後必須恢復業務流程的時間。  RPO 定義了必須從備份儲存中復原的檔案的年齡策略，以便在故障後復原常規作業。  SLA、RTO 和 RPO 有助於備份策略。

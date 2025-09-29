@@ -1,0 +1,195 @@
+---
+permalink: protect-scu/task_configure_snapcenter_plug_in_loader_service.html 
+sidebar: sidebar 
+keywords: SPL, plug-in loader service 
+summary: SnapCenter插件載入Loader服務會載入 Linux 的插件包以便與SnapCenter伺服器互動。安裝適用於 Linux 的SnapCenter插件包時，也會安裝SnapCenter插件載入Loader服務。 
+---
+= 配置SnapCenter插件Loader服務
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenter插件載入Loader服務會載入 Linux 的插件包以便與SnapCenter伺服器互動。安裝適用於 Linux 的SnapCenter插件包時，也會安裝SnapCenter插件載入Loader服務。
+
+*關於此任務*
+
+安裝適用於 Linux 的SnapCenter插件包後， SnapCenter插件Loader服務將自動啟動。如果SnapCenter插件Loader服務無法自動啟動，您應該：
+
+* 確保插件運行的目錄沒有被刪除
+* 增加分配給 Java 虛擬機器的記憶體空間
+
+
+spl.properties 檔案位於 _/custom_location/ NetApp/snapcenter/spl/etc/_，包含下列參數。這些參數被分配了預設值。
+
+|===
+| 參數名稱 | 描述 
+
+
+ a| 
+日誌等級
+ a| 
+顯示支援的日誌等級。
+
+可能的值是 TRACE、DEBUG、INFO、WARN、ERROR 和 FATAL。
+
+
+
+ a| 
+SPL_協定
+ a| 
+顯示SnapCenter插件Loader程式支援的協定。
+
+僅支援HTTPS協定。如果缺少預設值，您可以新增該值。
+
+
+
+ a| 
+SNAPCENTER_SERVER_協議
+ a| 
+顯示SnapCenter Server 支援的協定。
+
+僅支援HTTPS協定。如果缺少預設值，您可以新增該值。
+
+
+
+ a| 
+跳過JAVAHOME更新
+ a| 
+預設情況下，SPL 服務會偵測 java 路徑並更新 JAVA_HOME 參數。
+
+因此預設值設定為 FALSE。如果您想要停用預設行為並手動修復 java 路徑，可以將其設定為 TRUE。
+
+
+
+ a| 
+SPL_KEYSTORE_PASS
+ a| 
+顯示密鑰庫檔案的密碼。
+
+僅當您變更密碼或建立新的金鑰庫檔案時才可以變更此值。
+
+
+
+ a| 
+SPL_埠
+ a| 
+顯示SnapCenter插件Loader服務正在執行的連接埠號碼。
+
+如果缺少預設值，您可以新增該值。
+
+
+NOTE: 安裝插件後您不應更改該值。
+
+
+
+ a| 
+SNAPCENTER_SERVER_HOST
+ a| 
+顯示SnapCenter伺服器的 IP 位址或主機名稱。
+
+
+
+ a| 
+SPL_KEYSTORE_PATH
+ a| 
+顯示密鑰庫檔案的絕對路徑。
+
+
+
+ a| 
+SNAPCENTER_SERVER_PORT
+ a| 
+顯示SnapCenter伺服器正在執行的連接埠號碼。
+
+
+
+ a| 
+日誌最大數量
+ a| 
+顯示保留在 _/custom_location/snapcenter/spl/logs_ 資料夾中的SnapCenter插件Loader日誌檔案的數量。
+
+預設值設定為 5000。如果計數超過指定值，則保留最後 5000 個修改的檔案。從SnapCenter插件Loader服務啟動時起，每 24 小時自動檢查一次檔案數量。
+
+
+NOTE: 如果手動刪除 spl.properties 文件，則要保留的文件數將設定為 9999。
+
+
+
+ a| 
+JAVA_HOME
+ a| 
+顯示用於啟動 SPL 服務的 JAVA_HOME 的絕對目錄路徑。
+
+此路徑是在安裝期間和啟動 SPL 的過程中確定的。
+
+
+
+ a| 
+日誌最大大小
+ a| 
+顯示作業日誌檔案的最大大小。
+
+一旦達到最大大小，日誌檔案就會被壓縮，並且日誌會被寫入該作業的新檔案中。
+
+
+
+ a| 
+保留最近幾天的日誌
+ a| 
+顯示日誌最多保留的天數。
+
+
+
+ a| 
+啟用憑證驗證
+ a| 
+當主機啟用 CA 憑證驗證時顯示 true。
+
+您可以透過編輯 spl.properties 或使用SnapCenter GUI 或 cmdlet 來啟用或停用此參數。
+
+|===
+如果這些參數中的任何一個沒有分配預設值或您想要分配或更改值，那麼您可以修改 spl.properties 檔案。您也可以驗證 spl.properties 檔案並編輯該檔案以解決與指派給參數的值相關的任何問題。修改 spl.properties 檔案後，您應該重新啟動SnapCenter插件Loader服務。
+
+*步驟*
+
+. 根據需要執行以下操作之一：
++
+** 啟動SnapCenter插件Loader服務：
++
+*** 以 root 使用者身分執行： `/custom_location/NetApp/snapcenter/spl/bin/spl start`
+*** 以非 root 使用者身分執行： `sudo /custom_location/NetApp/snapcenter/spl/bin/spl start`
+
+
+** 停止SnapCenter插件Loader服務：
++
+*** 以 root 使用者身分執行： `/custom_location/NetApp/snapcenter/spl/bin/spl stop`
+*** 以非 root 使用者身分執行： `sudo /custom_location/NetApp/snapcenter/spl/bin/spl stop`
++
+
+NOTE: 您可以將 -force 選項與 stop 命令結合使用來強制停止SnapCenter插件Loader服務。但是，在執行此操作之前應謹慎，因為它也會終止現有操作。
+
+
+
+** 重新啟動SnapCenter插件Loader服務：
++
+*** 以 root 使用者身分執行： `/custom_location/NetApp/snapcenter/spl/bin/spl restart`
+*** 以非 root 使用者身分執行： `sudo /custom_location/NetApp/snapcenter/spl/bin/spl restart`
+
+
+** 尋找SnapCenter插件Loader服務的狀態：
++
+*** 以 root 使用者身分執行： `/custom_location/NetApp/snapcenter/spl/bin/spl status`
+*** 以非 root 使用者身分執行： `sudo /custom_location/NetApp/snapcenter/spl/bin/spl status`
+
+
+** 尋找SnapCenter插件Loader服務中的變更：
++
+*** 以 root 使用者身分執行： `/custom_location/NetApp/snapcenter/spl/bin/spl change`
+*** 以非 root 使用者身分執行： `sudo /custom_location/NetApp/snapcenter/spl/bin/spl change`
+
+
+
+
+

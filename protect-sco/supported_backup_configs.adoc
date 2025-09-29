@@ -1,0 +1,47 @@
+---
+permalink: protect-sco/supported_backup_configs.html 
+sidebar: sidebar 
+keywords: backup type, preferred nodes, catalog backups, schedules, backup name format, retention, verification 
+summary: SnapCenter支援不同 Oracle 資料庫配置的備份。 
+---
+= 支援的 Oracle 資料庫備份配置
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenter支援不同 Oracle 資料庫配置的備份。
+
+* Oracle 獨立版
+* Oracle 真正應用叢集 (RAC)
+* Oracle 獨立舊版
+* Oracle 獨立容器資料庫 (CDB)
+* Oracle Data Guard 備用
++
+您只能建立 Data Guard 備用資料庫的離線安裝備份。不支援離線關閉備份、僅存檔日誌備份和完整備份。
+
+* Oracle Active Data Guard 備用
++
+您只能建立 Active Data Guard 備用資料庫的線上備份。不支援僅存檔日誌備份和完整備份。
+
++
+在建立 Data Guard 備用資料庫或 Active Data Guard 備用資料庫的備份之前，託管復原程序 (MRP) 將停止，一旦建立備份，MRP 就會啟動。
+
+* 自動儲存管理 (ASM)
++
+** 虛擬機器磁碟 (VMDK) 上的 ASM 獨立和 ASM RAC
++
+在 Oracle 資料庫支援的所有還原方法中，您只能在 VMDK 上執行 ASM RAC 資料庫的連線和複製還原。
+
+** ASM 獨立版和原始設備映射 (RDM) 上的 ASM RAC + 您可以在 ASM 上對 Oracle 資料庫執行備份、復原和複製操作，無論是否使用 ASMLib。
+** Oracle ASM 過濾驅動程式 (ASMFD)
++
+不支援 PDB 遷移和 PDB 克隆操作。
+
+** Oracle Flex ASM
+
+
+
+
+有關支援的 Oracle 版本的最新信息，請參閱 https://imt.netapp.com/matrix/imt.jsp?components=121071;&solution=1259&isHWU&src=IMT["NetApp互通性表工具"^]。

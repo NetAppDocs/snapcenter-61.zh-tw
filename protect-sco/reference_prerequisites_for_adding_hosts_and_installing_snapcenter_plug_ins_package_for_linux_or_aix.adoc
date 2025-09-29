@@ -1,0 +1,452 @@
+---
+permalink: protect-sco/reference_prerequisites_for_adding_hosts_and_installing_snapcenter_plug_ins_package_for_linux_or_aix.html 
+sidebar: sidebar 
+keywords: prerequisites, iSCSI, Oracle path, host requirement for Linux, sudo privileges, non-root user, host requirements for AIX, credentials, authenticate, domain administrator, local administrator, workgroup, sudo, root user 
+summary: 在新增主機和安裝插件包之前，您必須完成所有要求。 
+---
+= 新增主機並安裝 Linux 或 AIX 插件包的先決條件
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+在新增主機和安裝插件包之前，您必須完成所有要求。
+
+* 如果您正在使用 iSCSI，則 iSCSI 服務必須正在執行。
+* 您必須為 root 使用者或非 root 使用者啟用基於密碼的 SSH 連線。
++
+非 root 使用者可以安裝適用於 Oracle 資料庫的SnapCenter插件。但是，您應該為非 root 使用者配置 sudo 權限來安裝和啟動插件進程。安裝插件後，進程將作為有效的非 root 用戶運行。
+
+* 如果您正在 AIX 主機上安裝適用於 AIX 的SnapCenter插件包，則應該手動解析目錄級符號連結。
++
+AIX 的SnapCenter插件包會自動解析文件級符號鏈接，但不解析目錄級符號鏈接以獲取 JAVA_HOME 絕對路徑。
+
+* 為安裝使用者建立驗證模式為 Linux 或 AIX 的憑證。
+* 您必須在 Linux 或 AIX 主機上安裝 Java 11。
++
+** Linux 支援 Oracle 和 OpenJDK 的 Java
+** 適用於 AIX 的 IBM Java。您可以從下載 https://developer.ibm.com/languages/java/semeru-runtimes/downloads/?version=11&os=AIX["IBM Semeru 執行階段下載"]
++
+
+NOTE: 確保您在 Linux 主機上僅安裝了 JAVA 11 的認證版本。
+
+
+
+* 對於在 Linux 或 AIX 主機上執行的 Oracle 資料庫，您應該同時安裝適用於 Oracle 資料庫的SnapCenter插件和適用於 UNIX 的SnapCenter插件。
++
+
+NOTE: 您也可以使用 Oracle 資料庫外掛程式來管理 SAP 的 Oracle 資料庫。但是，不支援 SAP BR*Tools 整合。
+
+* 如果您使用的是 Oracle 資料庫 11.2.0.3 或更高版本，則必須安裝 13366202 Oracle 修補程式。
+
+
+
+NOTE: SnapCenter不支援 /etc/fstab 檔案中的 UUID 對映。
+
+* 您應該將 *bash* 作為插件安裝的預設 shell。
+
+
+
+
+== Linux 主機需求
+
+在安裝適用於 Linux 的SnapCenter插件包之前，您應該確保主機符合要求。
+
+|===
+| 物品 | 要求 
+
+
+ a| 
+作業系統
+ a| 
+* 紅帽企業 Linux
+* Oracle Linux
++
+
+NOTE: 如果您在 Oracle Linux 或 Red Hat Enterprise Linux 6.6 或 7.0 作業系統中的 LVM 上使用 Oracle 資料庫，則必須安裝最新版本的邏輯磁碟區管理器 (LVM)。
+
+* SUSE Linux 企業伺服器 (SLES)
+
+
+
+
+ a| 
+主機上SnapCenter插件的最小 RAM
+ a| 
+2GB
+
+
+
+ a| 
+主機上SnapCenter插件的最小安裝和日誌空間
+ a| 
+2GB
+
+
+NOTE: 您應該分配足夠的磁碟空間並監控日誌資料夾的儲存消耗。所需的日誌空間取決於要保護的實體的數量和資料保護操作的頻率。如果沒有足夠的磁碟空間，則不會為最近執行的操作建立日誌。
+
+
+
+ a| 
+所需軟體包
+ a| 
+Java 11 Oracle 和 OpenJDK
+
+
+NOTE: 確保您在 Linux 主機上僅安裝了 JAVA 11 的認證版本。
+
+如果您已將 JAVA 升級至最新版本，則必須確保位於 /var/opt/snapcenter/spl/etc/spl.properties 的 JAVA_HOME 選項設定為正確的 JAVA 版本和正確的路徑。
+
+|===
+有關受支援版本的最新信息，請參閱 https://imt.netapp.com/matrix/imt.jsp?components=121073;&solution=1257&isHWU&src=IMT["NetApp互通性表工具"^]。
+
+
+
+=== 為 Linux 主機的非 root 使用者配置 sudo 權限
+
+SnapCenter 2.0 及更高版本允許非 root 用戶安裝適用於 Linux 的SnapCenter插件套件並啟動插件進程。插件進程將以有效的非 root 使用者身分運行。您應該為非 root 使用者配置 sudo 權限以提供對多個路徑的存取。
+
+*您需要什麼*
+
+* Sudo 版本 1.8.7 或更高版本。
+* 如果 umask 為 0027，請確保 java 資料夾及其內部的所有檔案的權限為 555。否則插件安裝可能會失敗。
+* 對於非root用戶，請確保非root用戶的名稱和用戶所在群組的名稱相同。
+* 編輯_/etc/ssh/sshd_config_文件，設定訊息認證碼演算法：MACs hmac-sha2-256、MACs hmac-sha2-512。
++
+更新設定檔後重新啟動sshd服務。
+
++
+範例：
+
++
+[listing]
+----
+#Port 22
+#AddressFamily any
+#ListenAddress 0.0.0.0
+#ListenAddress ::
+#Legacy changes
+#KexAlgorithms diffie-hellman-group1-sha1
+#Ciphers aes128-cbc
+#The default requires explicit activation of protocol
+Protocol 2
+HostKey/etc/ssh/ssh_host_rsa_key
+MACs hmac-sha2-256
+----
+
+
+*關於此任務*
+
+您應該為非 root 使用者配置 sudo 權限以提供對以下路徑的存取權限：
+
+* /home/_LINUX_USER_/.sc_netapp/snapcenter_linux_host_plugin.bin
+* /custom_location/ NetApp/snapcenter/spl/安裝/插件/卸載
+* /custom_location/ NetApp/snapcenter/spl/bin/spl
+
+
+*步驟*
+
+. 登入要安裝適用於 Linux 的SnapCenter插件套件的 Linux 主機。
+. 使用 visudo Linux 實用程式將以下行新增至 /etc/sudoers 檔案。
++
+[listing, subs="+quotes"]
+----
+Cmnd_Alias HPPLCMD = sha224:checksum_value== /home/_LINUX_USER_/.sc_netapp/snapcenter_linux_host_plugin.bin, /opt/NetApp/snapcenter/spl/installation/plugins/uninstall, /opt/NetApp/snapcenter/spl/bin/spl, /opt/NetApp/snapcenter/scc/bin/scc
+Cmnd_Alias PRECHECKCMD = sha224:checksum_value== /home/_LINUX_USER_/.sc_netapp/Linux_Prechecks.sh
+Cmnd_Alias CONFIGCHECKCMD = sha224:checksum_value== /opt/NetApp/snapcenter/spl/plugins/scu/scucore/configurationcheck/Config_Check.sh
+Cmnd_Alias SCCMD = sha224:checksum_value== /opt/NetApp/snapcenter/spl/bin/sc_command_executor
+Cmnd_Alias SCCCMDEXECUTOR =checksum_value== /opt/NetApp/snapcenter/scc/bin/sccCommandExecutor
+_LINUX_USER_ ALL=(ALL) NOPASSWD:SETENV: HPPLCMD, PRECHECKCMD, CONFIGCHECKCMD, SCCCMDEXECUTOR, SCCMD
+Defaults: _LINUX_USER_ env_keep += "IATEMPDIR"
+Defaults: _LINUX_USER_ env_keep += "JAVA_HOME"
+Defaults: _LINUX_USER_ !visiblepw
+Defaults: _LINUX_USER_ !requiretty
+----
++
+
+NOTE: 如果您有 RAC 設置，以及其他允許的命令，您應該將以下內容添加到 /etc/sudoers 檔案：“/<crs_home>/bin/olsnodes”
+
+
+
+您可以從_/etc/oracle/olr.loc_檔中取得_crs_home_的值。
+
+_LINUX_USER_ 是您建立的非 root 使用者的名稱。
+
+您可以從 *sc_unix_plugins_checksum.txt* 檔案中取得 _checksum_value_，該檔案位於：
+
+* _C:\ProgramData\ NetApp\ SnapCenter\Package Repository\sc_unix_plugins_checksum.txt_（如果SnapCenter Server 安裝在 Windows 主機上）。
+* _/opt/ NetApp/snapcenter/SnapManagerWeb/Repository/sc_unix_plugins_checksum.txt_ 如果SnapCenter Server 安裝在 Linux 主機上。
+
+
+
+IMPORTANT: 此範例僅應作為建立您自己的資料的參考。
+
+
+
+== AIX 主機需求
+
+在安裝適用於 AIX 的SnapCenter插件包之前，您應該確保主機符合要求。
+
+
+NOTE: SnapCenter Plug-in for UNIX 是SnapCenter Plug-ins Package for AIX 的一部分，不支援並發磁碟區組。
+
+|===
+| 物品 | 要求 
+
+
+ a| 
+作業系統
+ a| 
+AIX 7.1 或更高版本
+
+
+
+ a| 
+主機上SnapCenter插件的最小 RAM
+ a| 
+4GB
+
+
+
+ a| 
+主機上SnapCenter插件的最小安裝和日誌空間
+ a| 
+2GB
+
+
+NOTE: 您應該分配足夠的磁碟空間並監控日誌資料夾的儲存消耗。所需的日誌空間取決於要保護的實體的數量和資料保護操作的頻率。如果沒有足夠的磁碟空間，則不會為最近執行的操作建立日誌。
+
+
+
+ a| 
+所需軟體包
+ a| 
+Java 11 IBM Java
+
+如果您已將 JAVA 升級至最新版本，則必須確保位於 /var/opt/snapcenter/spl/etc/spl.properties 的 JAVA_HOME 選項設定為正確的 JAVA 版本和正確的路徑。
+
+|===
+有關受支援版本的最新信息，請參閱 https://imt.netapp.com/matrix/imt.jsp?components=121073;&solution=1257&isHWU&src=IMT["NetApp互通性表工具"^]。
+
+
+
+=== 為 AIX 主機的非 root 使用者配置 sudo 權限
+
+SnapCenter 4.4 及更高版本允許非 root 用戶安裝適用於 AIX 的SnapCenter插件包並啟動插件進程。插件進程將以有效的非 root 使用者身分運行。您應該為非 root 使用者配置 sudo 權限以提供對多個路徑的存取。
+
+*您需要什麼*
+
+* Sudo 版本 1.8.7 或更高版本。
+* 如果 umask 為 0027，請確保 java 資料夾及其內部的所有檔案的權限為 555。否則插件安裝可能會失敗。
+* 編輯_/etc/ssh/sshd_config_文件，設定訊息認證碼演算法：MACs hmac-sha2-256、MACs hmac-sha2-512。
++
+更新設定檔後重新啟動sshd服務。
+
++
+範例：
+
++
+[listing]
+----
+#Port 22
+#AddressFamily any
+#ListenAddress 0.0.0.0
+#ListenAddress ::
+#Legacy changes
+#KexAlgorithms diffie-hellman-group1-sha1
+#Ciphers aes128-cbc
+#The default requires explicit activation of protocol
+Protocol 2
+HostKey/etc/ssh/ssh_host_rsa_key
+MACs hmac-sha2-256
+----
+
+
+*關於此任務*
+
+您應該為非 root 使用者配置 sudo 權限以提供對以下路徑的存取權限：
+
+* /home/_AIX_USER_/.sc_netapp/snapcenter_aix_host_plugin.bsx
+* /custom_location/ NetApp/snapcenter/spl/安裝/插件/卸載
+* /custom_location/ NetApp/snapcenter/spl/bin/spl
+
+
+*步驟*
+
+. 登入要安裝適用於 AIX 的SnapCenter插件包的 AIX 主機。
+. 使用 visudo Linux 實用程式將以下行新增至 /etc/sudoers 檔案。
++
+[listing, subs="+quotes"]
+----
+Cmnd_Alias HPPACMD = sha224:checksum_value== /home/_AIX_USER_/.sc_netapp/snapcenter_aix_host_plugin.bsx,
+/opt/NetApp/snapcenter/spl/installation/plugins/uninstall, /opt/NetApp/snapcenter/spl/bin/spl
+Cmnd_Alias PRECHECKCMD = sha224:checksum_value== /home/_AIX_USER_/.sc_netapp/AIX_Prechecks.sh
+Cmnd_Alias CONFIGCHECKCMD = sha224:checksum_value== /opt/NetApp/snapcenter/spl/plugins/scu/scucore/configurationcheck/Config_Check.sh
+Cmnd_Alias SCCMD = sha224:checksum_value== /opt/NetApp/snapcenter/spl/bin/sc_command_executor
+_AIX_USER_ ALL=(ALL) NOPASSWD:SETENV: HPPACMD, PRECHECKCMD, CONFIGCHECKCMD, SCCMD
+Defaults: _LINUX_USER_ env_keep += "IATEMPDIR"
+Defaults: _LINUX_USER_ env_keep += "JAVA_HOME"
+Defaults: _AIX_USER_ !visiblepw
+Defaults: _AIX_USER_ !requiretty
+----
++
+
+NOTE: 如果您有 RAC 設置，以及其他允許的命令，您應該將以下內容添加到 /etc/sudoers 檔案：“/<crs_home>/bin/olsnodes”
+
+
+
+您可以從_/etc/oracle/olr.loc_檔中取得_crs_home_的值。
+
+_AIX_USER_ 是您建立的非 root 使用者的名稱。
+
+您可以從 *sc_unix_plugins_checksum.txt* 檔案中取得 _checksum_value_，該檔案位於：
+
+* _C:\ProgramData\ NetApp\ SnapCenter\Package Repository\sc_unix_plugins_checksum.txt_（如果SnapCenter Server 安裝在 Windows 主機上）。
+* _/opt/ NetApp/snapcenter/SnapManagerWeb/Repository/sc_unix_plugins_checksum.txt_ 如果SnapCenter Server 安裝在 Linux 主機上。
+
+
+
+IMPORTANT: 此範例僅應作為建立您自己的資料的參考。
+
+
+
+== 設定憑證
+
+SnapCenter使用憑證對SnapCenter操作的使用者進行身份驗證。您應該建立用於在 Linux 或 AIX 主機上安裝插件包的憑證。
+
+*關於此任務*
+
+憑證是為 root 使用者或具有 sudo 權限的非 root 使用者建立的，用於安裝和啟動插件進程。
+
+有關信息，請參閱：<<為 Linux 主機的非 root 使用者配置 sudo 權限>>或者<<為 AIX 主機的非 root 使用者配置 sudo 權限>>
+
+|===
+
+
+| *最佳實務：*雖然您可以在部署主機和安裝外掛程式後建立憑證，但最佳實務是在新增 SVM 之後、部署主機和安裝外掛程式之前建立憑證。 
+|===
+*步驟*
+
+. 在左側導覽窗格中，按一下「*設定*」。
+. 在「設定」頁面中，按一下「*憑證*」。
+. 點選“*新建*”。
+. 在憑證頁面中，輸入憑證資訊：
++
+|===
+| 對於這個領域... | 這樣做... 
+
+
+ a| 
+憑證名稱
+ a| 
+輸入憑證的名稱。
+
+
+
+ a| 
+使用者名稱/密碼
+ a| 
+輸入用於身份驗證的使用者名稱和密碼。
+
+** 網域管理員
++
+指定要安裝SnapCenter插件的系統上的網域管理員。用戶名字段的有效格式為：
+
++
+*** _NetBIOS\使用者名稱_
+*** _域 FQDN\用戶名_
+
+
+** 本機管理員（僅適用於工作群組）
++
+對於屬於工作群組的系統，請在要安裝SnapCenter插件的系統上指定內建的本機管理員。如果使用者帳戶具有提升的權限或主機系統上停用了使用者存取控制功能，則可以指定屬於本機管理員群組的本機使用者帳戶。使用者名字段的有效格式為：_UserName_
+
+
+
+
+
+ a| 
+認證模式
+ a| 
+選擇您想要使用的身份驗證模式。
+
+根據插件主機的作業系統，選擇 Linux 或 AIX。
+
+
+
+ a| 
+使用 sudo 權限
+ a| 
+如果您要為非 root 使用者建立憑證，請勾選「*使用 sudo 權限*」複選框。
+
+|===
+. 按一下“*確定*”。
+
+
+完成憑證設定後，您可能想要在*使用者和存取*頁面上將憑證維護指派給使用者或使用者群組。
+
+
+
+== 配置 Oracle 資料庫的憑證
+
+您必須設定用於在 Oracle 資料庫上執行資料保護作業的憑證。
+
+*關於此任務*
+
+您應該查看 Oracle 資料庫支援的不同身份驗證方法。有關信息，請參閱link:../get-started/concept_authentication_methods_for_your_credentials.html["您的憑證的身份驗證方法"^]。
+
+如果您為單一資源群組設定憑證，且使用者名稱沒有完全管理權限，則該使用者名稱至少必須具有資源群組和備份權限。
+
+如果您啟用了 Oracle 資料庫驗證，資源視圖中會顯示一個紅色掛鎖圖示。您必須配置資料庫憑證才能保護資料庫或將其新增至資源組以執行資料保護操作。
+
+
+NOTE: 如果您在建立憑證時指定了不正確的詳細信息，則會顯示錯誤訊息。您必須按一下“*取消*”，然後重試。
+
+*步驟*
+
+. 在左側導覽窗格中，按一下“*資源*”，然後從清單中選擇適當的外掛程式。
+. 在資源頁面中，從*視圖*清單中選擇*資料庫*。
+. 點選image:../media/filter_icon.gif["篩選圖標"]，然後選擇主機名稱和資料庫類型來過濾資源。
++
+然後您可以點擊image:../media/filter_icon.gif["篩選圖標"]關閉篩選器窗格。
+
+. 選擇資料庫，然後按一下*資料庫設定*>*配置資料庫*。
+. 在設定資料庫設定部分中，從*使用現有憑證*下拉清單中，選擇套用於在 Oracle 資料庫上執行資料保護作業的憑證。
++
+
+NOTE: Oracle 使用者應具有 sysdba 權限。
+
++
+您也可以透過點擊建立憑證image:../media/add_icon_configure_database.gif["在配置資料庫畫面中新增圖標"]。
+
+. 在設定 ASM 設定部分中，從*使用現有憑證*下拉清單中，選擇套用於在 ASM 實例上執行資料保護作業的憑證。
++
+
+NOTE: ASM 使用者應該具有 sysasm 權限。
+
++
+您也可以透過點擊建立憑證image:../media/add_icon_configure_database.gif["在配置資料庫畫面中新增圖標"]。
+
+. 在設定 RMAN 目錄設定部分中，從 *使用現有憑證* 下拉清單中，選擇套用於在 Oracle Recovery Manager (RMAN) 目錄資料庫上執行資料保護作業的憑證。
++
+您也可以透過點擊建立憑證image:../media/add_icon_configure_database.gif["在配置資料庫畫面中新增圖標"]。
+
++
+在 *TNSName* 欄位中，輸入SnapCenter伺服器將用於與資料庫通訊的透明網路底層 (TNS) 檔案名稱。
+
+. 在「*首選 RAC 節點*」欄位中，指定備份所需的 Real Application Cluster (RAC) 節點。
++
+首選節點可能是 RAC 資料庫實例所在的一個或所有叢集節點。備份操作僅在這些優先節點上按優先順序觸發。
+
++
+在 RAC One Node 中，首選節點中僅列出一個節點，該節點是資料庫目前所在的節點。
+
++
+在 RAC One Node 資料庫故障轉移或重新定位後，刷新SnapCenter資源頁面中的資源將從資料庫先前託管的 *首選 RAC 節點* 清單中刪除該主機。資料庫重新定位的 RAC 節點將在 *RAC 節點* 中列出，並且需要手動配置為首選 RAC 節點。
+
++
+有關更多信息，請參閱link:../protect-sco/task_define_a_backup_strategy_for_oracle_databases.html#preferred-nodes-in-rac-setup["RAC 設定中的首選節點"^] 。
+
+. 按一下“*確定*”。
+

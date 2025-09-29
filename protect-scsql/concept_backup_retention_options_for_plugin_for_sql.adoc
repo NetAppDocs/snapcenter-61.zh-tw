@@ -1,0 +1,23 @@
+---
+permalink: protect-scsql/concept_backup_retention_options_for_plugin_for_sql.html 
+sidebar: sidebar 
+keywords: Backup retention options 
+summary: 您可以選擇保留備份副本的天數，或指定要保留的備份副本數量， ONTAP最多可保留 255 份。例如，您的組織可能要求您保留 10 天的備份副本或 130 份備份副本。 
+---
+= SQL Server 外掛程式的備份保留選項
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以選擇保留備份副本的天數，或指定要保留的備份副本數量， ONTAP最多可保留 255 份。例如，您的組織可能要求您保留 10 天的備份副本或 130 份備份副本。
+
+建立策略時，您可以指定備份類型和計畫類型的保留選項。
+
+如果您設定了SnapMirror複製，則保留政策將在目標磁碟區上鏡像。
+
+SnapCenter會刪除具有與計劃類型相符的保留標籤的保留備份。如果資源或資源群組的計劃類型發生更改，則具有舊計劃類型標籤的備份可能仍保留在系統中。
+
+
+NOTE: 為了長期保留備份副本，您應該使用SnapVault備份。

@@ -1,0 +1,223 @@
+---
+permalink: protect-sce/task_back_up_exchange_databases.html 
+sidebar: sidebar 
+keywords: SnapCenter plug-in for Exchange Server 
+summary: 如果資料庫不屬於任何資源群組，您可以從資源頁面備份資料庫或資料庫可用性群組。 
+---
+= 備份 Exchange 資料庫
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+如果資料庫不屬於任何資源群組，您可以從資源頁面備份資料庫或資料庫可用性群組。
+
+.開始之前
+* 您必須已經建立了備份策略。
+* 您必須已將備份作業正在使用的聚合指派給資料庫使用的 SVM。
+* 如果要備份與二級儲存具有SnapMirror關係的資源，則指派給儲存使用者的角色應包括「`snapmirror all`」權限。但是，如果您使用“vsadmin”角色，則不需要“snapmirror all”權限。
+* 如果您要對在NetApp和非NetApp儲存上具有主動/被動資料庫副本的資料庫或資料庫可用性群組執行備份，並且您在政策中選擇了*備份主動副本*或*備份在備份作業建立時要選擇的伺服器上的副本*選項，則備份作業將進入警告狀態。對於NetApp儲存上的主動/被動資料庫副本，備份將會成功；對於非NetApp儲存體上的主動/被動資料庫副本，備份將會失敗。
++
+|===
+
+
+| *最佳實務：*不要同時執行主動資料庫和被動資料庫的備份。可能會出現競爭情況，並且其中一個備份可能會失敗。 
+|===
+
+
+[role="tabbed-block"]
+====
+.SnapCenter使用者介面
+--
+.步驟
+. 在左側導覽窗格中，按一下“*資源*”，然後從清單中選擇“*Microsoft Exchange Server 外掛程式*”。
+. 在資源頁面中，從*視圖*清單中選擇*資料庫*或*資料庫可用性群組*。
++
+在資源頁面中，image:../media/not_supported_icon.gif["不支援的圖標"]圖示表示資料庫位於非NetApp儲存體上。
+
++
+
+NOTE: 在 DAG 中，如果主動資料庫副本位於非NetApp儲存體上，且至少一個被動資料庫副本駐留在NetApp儲存上，那麼您可以保護資料庫。
+
++
+點擊 *image:../media/filter_icon.gif["篩選圖標"] *，然後選擇主機名稱和資料庫類型來過濾資源。然後您可以點擊 *image:../media/filter_icon.gif["篩選圖標"] * 關閉篩選窗格。
+
++
+** 如果要備份資料庫，請按一下資料庫名稱。
++
+... 如果顯示拓撲視圖，請按一下「保護」。
+... 如果顯示資料庫 - 保護資源精靈，請繼續步驟 3。
+
+
+** 如果要備份資料庫可用性群組，請按一下資料庫可用性群組名稱。
+
+
+. 如果要指定自訂快照名稱，請在資源頁面中選取*使用自訂名稱格式作為快照副本*複選框，然後輸入要用於快照名稱的自訂名稱格式。
++
+例如，_customtext_policy_hostname_ 或 _resource_hostname_。預設情況下，時間戳記會附加到快照名稱。
+
+. 在「策略」頁面中，執行以下步驟：
++
+.. 從下拉清單中選擇一個或多個策略。
++
+
+NOTE: 您也可以透過點擊 * 來建立策略image:../media/add_policy_from_resourcegroup.gif["從資源群組新增策略"]*.
+
++
+
+NOTE: 如果政策包含*在建立備份作業時選擇的伺服器上備份副本*選項，則會顯示伺服器選擇選項以選擇一個或多個伺服器。伺服器選擇選項將僅列出所選資料庫位於NetApp儲存裝置上的伺服器。
+
+
+
++
+在「為選定策略配置計畫」部分中，列出了選定的策略。
+
++
+.. 點擊 *image:../media/add_policy_from_resourcegroup.gif["從資源群組新增策略"] * 在您想要設定計畫的政策的設定計畫列中。
+.. 在為政策_policy_name_新增計劃視窗中，配置計劃，然後按一下*確定*。
++
+其中，_policy_name_ 是您選擇的政策的名稱。
+
++
+配置的計劃列在「已套用的計劃」欄位中。
+
+
+
+. 在通知頁面中，從*電子郵件首選項*下拉清單中，選擇您想要傳送電子郵件的場景。
++
+您也必須指定寄件者和收件者的電子郵件地址以及電子郵件的主題。如果要附加對資源執行的備份作業的報告，請選擇*附加作業報告*。
+
++
+
+NOTE: 對於電子郵件通知，您必須使用 GUI 或 PowerShell 命令 Set-SmSmtpServer 指定 SMTP 伺服器詳細資訊。
+
+. 查看摘要，然後按一下「*完成*」。
++
+進入資料庫拓撲頁面。
+
+. 點選*立即備份*。
+. 在備份頁面中，執行以下步驟：
++
+.. 如果您已對資源套用了多個策略，請從「*策略*」下拉清單中選擇要用於備份的策略。
++
+如果為按需備份選擇的策略與備份計畫相關聯，則按需備份將根據為計畫類型指定的保留設定進行保留。
+
+.. 按一下“*備份*”。
+
+
+. 透過雙擊頁面底部「活動」窗格中的作業來監控備份進度，以顯示「作業詳細資料」頁面。
++
+** 在MetroCluster配置中， SnapCenter可能無法在故障轉移後偵測到保護關係。
++
+有關信息，請參閱： https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/Unable_to_detect_SnapMirror_or_SnapVault_relationship_after_MetroCluster_failover["MetroCluster故障轉移後無法偵測SnapMirror或SnapVault關係"^]
+
+** 如果您正在備份 VMDK 上的應用程式數據，並且SnapCenter Plug-in for VMware vSphere的Java 堆大小不夠大，則備份可能會失敗。
++
+若要增加 Java 堆大小，請找到腳本檔案 _/opt/netapp/init_scripts/scvservice_。在該腳本中，_do_start method_ 命令啟動SnapCenter VMware 插件服務。將此指令更新為以下內容：_Java -jar -Xmx8192M -Xms4096M_
+
+
+
+
+
+--
+.PowerShell cmdlet
+--
+.步驟
+. 使用 Open-SmConnection cmdlet 為指定使用者啟動與SnapCenter伺服器的連線會話。
++
+[listing]
+----
+Open-smconnection  -SMSbaseurl  https://snapctr.demo.netapp.com:8146/
+----
++
+顯示使用者名稱和密碼提示。
+
+. 使用 Add-SmPolicy cmdlet 建立備份策略。
++
+此範例建立一個具有完整備份和日誌備份 Exchange 備份類型的新備份策略：
+
++
+[listing]
+----
+C:\PS> Add-SmPolicy -PolicyName SCE_w2k12_Full_Log_bkp_Policy -PolicyType Backup -PluginPolicytype SCE -SceBackupType FullBackupAndLogBackup -BackupActiveCopies
+----
++
+此範例建立一個新的備份策略，其中包含每小時完整備份和日誌備份 Exchange 備份類型：
+
++
+[listing]
+----
+C:\PS> Add-SmPolicy -PolicyName SCE_w2k12_Hourly_Full_Log_bkp_Policy -PolicyType Backup -PluginPolicytype SCE -SceBackupType FullBackupAndLogBackup -BackupActiveCopies -ScheduleType Hourly -RetentionSettings @{'BackupType'='DATA';'ScheduleType'='Hourly';'RetentionCount'='10'}
+----
++
+此範例建立新的備份策略以僅備份 Exchange 日誌：
+
++
+[listing]
+----
+Add-SmPolicy -PolicyName SCE_w2k12_Log_bkp_Policy -PolicyType Backup -PluginPolicytype SCE -SceBackupType LogBackup -BackupActiveCopies
+----
+. 使用 Get-SmResources cmdlet 來發現主機資源。
++
+此範例發現指定主機上的 Microsoft Exchange Server 外掛程式的資源：
+
++
+[listing]
+----
+C:\PS> Get-SmResources -HostName vise-f6.sddev.mycompany.com -PluginCode SCE
+----
+. 使用 Add-SmResourceGroup cmdlet 為SnapCenter新增新的資源組。
++
+此範例使用指定的政策和資源建立一個新的 Exchange Server 資料庫備份資源組：
+
++
+[listing]
+----
+C:\PS> Add-SmResourceGroup -ResourceGroupName SCE_w2k12_bkp_RG -Description 'Backup ResourceGroup with Full and Log backup policy' -PluginCode SCE -Policies SCE_w2k12_Full_bkp_Policy,SCE_w2k12_Full_Log_bkp_Policy,SCE_w2k12_Log_bkp_Policy -Resources @{'Host'='sce-w2k12-exch';'Type'='Exchange Database';'Names'='sce-w2k12-exch.sceqa.com\sce-w2k12-exch_DB_1,sce-w2k12-exch.sceqa.com\sce-w2k12-exch_DB_2'}
+----
++
+此範例使用指定的政策和資源建立一個新的 Exchange 資料庫可用性群組 (DAG) 備份資源群組：
+
++
+[listing]
+----
+Add-SmResourceGroup -ResourceGroupName SCE_w2k12_bkp_RG -Description 'Backup ResourceGroup with Full and Log backup policy' -PluginCode SCE -Policies SCE_w2k12_Full_bkp_Policy,SCE_w2k12_Full_Log_bkp_Policy,SCE_w2k12_Log_bkp_Policy -Resources @{"Host"="DAGSCE0102";"Type"="Database Availability Group";"Names"="DAGSCE0102"}
+----
+. 使用 New-SmBackup cmdlet 啟動新的備份作業。
++
+[listing]
+----
+C:\PS> New-SmBackup -ResourceGroupName SCE_w2k12_bkp_RG -Policy SCE_w2k12_Full_Log_bkp_Policy
+----
++
+此範例建立了到輔助儲存的新備份：
+
++
+[listing]
+----
+New-SMBackup -DatasetName ResourceGroup1 -Policy Secondary_Backup_Policy4
+----
+. 使用 Get-SmBackupReport cmdlet 查看備份作業的狀態。
++
+此範例顯示在指定日期執行的所有作業的作業摘要報表：
+
++
+[listing]
+----
+C:\PS> Get-SmJobSummaryReport -Date ?1/27/2018?
+----
++
+此範例顯示特定作業 ID 的作業摘要報表：
+
++
+[listing]
+----
+C:\PS> Get-SmJobSummaryReport -JobId 168
+----
+
+
+可以透過執行_Get-Help command_name_來取得有關可與 cmdlet 一起使用的參數及其描述的資訊。或者，參見 https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["SnapCenter軟體 Cmdlet 參考指南"^]。
+
+--
+====

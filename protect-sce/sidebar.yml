@@ -1,0 +1,100 @@
+---
+section: protect-sce
+title: 保護 Microsoft Exchange Server 資料庫
+entries:
+- title: 適用於 Microsoft Exchange Server 的SnapCenter外掛程式概念
+  entries:
+  - title: 概況
+    url: "/protect-sce/concept_snapcenter_plug_in_for_exchange_server_overview.html"
+  - title: SnapCenter外掛程式 for Microsoft Exchange Server 的功能
+    url: "/protect-sce/concept_what_you_can_do_with_snapcenter_plug_in_for_microsoft_exchange_server.html"
+  - title: SnapCenter外掛程式（適用於 Microsoft Windows 和 Microsoft Exchange Server）支援的儲存類型
+    url: "/protect-sce/reference_storage_types_supported_by_snapcenter_plug_in_for_microsoft_windows_and_for_microsoft_exchange_server.html"
+  - title: 所需的最低ONTAP權限
+    url: "/protect-sce/concept_minimum_privileges_required_exchange_plug_in.html"
+  - title: 為SnapMirror和SnapVault複製準備儲存系統
+    url: "/protect-sce/reference_prepare_storage_system_for_snapmirror_and_snapvault.html"
+  - title: 定義 Exchange Server 資源的備份策略
+    url: "/protect-sce/task_define_a_backup_strategy_for_exchange_server_resources.html"
+  - title: 定義 Exchange 資料庫的還原策略
+    url: "/protect-sce/task_define_a_restore_strategy_for_exchange_databases.html"
+- title: 為 Microsoft Exchange Server 安裝SnapCenter插件
+  entries:
+  - title: 適用於 Microsoft Exchange Server 的SnapCenter插件的安裝工作流程
+    url: "/protect-sce/concept_install_snapcenter_plug_in_for_microsoft_exchange_server.html"
+  - title: 新增主機並安裝適用於 Microsoft Exchange Server 的SnapCenter外掛程式的先決條件
+    url: "/protect-sce/reference_prerequisites_to_add_hosts_and_install_snapcenter_plug_in_for_microsoft_exchange_server.html"
+  - title: 為 Windows 版SnapCenter插件設定憑證
+    url: "/protect-sce/task_set_up_credentials_for_the_snapcenter_plug_in_for_windows_sce.html"
+  - title: 在 Windows Server 2016 或更高版本上設定 gMSA
+    url: "/protect-sce/task_configure_gMSA_on_windows_server_2012_or_later.html"
+  - title: 新增主機並安裝 Exchange 插件
+    url: "/protect-sce/task_add_hosts_and_install_plug_in_for_exchange.html"
+  - title: 使用 PowerShell cmdlet 從SnapCenter伺服器主機安裝 Exchange 插件
+    url: "/protect-sce/task_install_plug_in_for_exchange_from_the_snapcenter_server_host_using_powershell_cmdlets.html"
+  - title: 從命令列靜默安裝適用於 Exchange 的SnapCenter插件
+    url: "/protect-sce/task_install_the_snapcenter_plug_in_for_exchange_silently_from_the_command_line.html"
+  - title: 監控SnapCenter插件包安裝狀態
+    url: "/protect-sce/task_monitor_snapcenter_plug_in_package_installation_status.html"
+  - title: 設定 CA 憑證
+    entries:
+    - title: 產生CA憑證CSR文件
+      url: "/protect-sce/reference_generate_CA_certificate_CSR_file.html"
+    - title: 匯入 CA 憑證
+      url: "/protect-sce/task_import_CA_certificates.html"
+    - title: 取得 CA 憑證指紋
+      url: "/protect-sce/task_get_the_CA_certificate_thumbprint.html"
+    - title: 使用 Windows 主機插件服務設定 CA 憑證
+      url: "/protect-sce/task_configure_CA_certificate_with_Windows_host_plug-in_services.html"
+    - title: 為插件啟用 CA 憑證
+      url: "/protect-sce/task_enable_ca_certificates_for_plug-ins.html"
+  - title: 配置SnapManager 7.x 以使 Exchange 和SnapCenter共存
+    url: "/protect-sce/task_configure_snapmanager_7_x_for_exchange_and_snapcenter_plug_in_for_exchange_to_coexist.html"
+- title: SnapCenter Plug-in for VMware vSphere
+  url: "/protect-sce/task_install_snapcenter_plug_in_for_vmware_vsphere.html"
+- title: 做好資料保護準備
+  url: "/protect-sce/concept_prepare_for_data_protection.html"
+- title: 備份 Exchange 資源
+  entries:
+  - title: 備份工作流程
+    url: "/protect-sce/concept_back_up_exchange_resources.html"
+  - title: Exchange 資料庫和備份驗證
+    url: "/protect-sce/reference_exchange_database_and_backup_verification.html"
+  - title: 確定 Exchange 資源是否可用於備份
+    url: "/protect-sce/task_determine_whether_exchange_resources_are_available_for_backup_sce.html"
+  - title: 為 Exchange Server 資料庫建立備份策略
+    url: "/protect-sce/task_create_backup_policies_for_exchange_server_databases.html"
+  - title: 為 Exchange 伺服器建立資源組並附加策略
+    url: "/protect-sce/task_create_resource_groups_and_attach_policies_for_exchange_servers.html"
+  - title: 使用 PowerShell cmdlet 為 Exchange Server 建立儲存系統連線和憑證
+    url: "/protect-sce/task_create_a_storage_system_connection_and_a_credential_using_powershell_cmdlets_for_exchange_database.html"
+  - title: 備份 Exchange 資料庫
+    url: "/protect-sce/task_back_up_exchange_databases.html"
+  - title: 備份 Exchange 資源組
+    url: "/protect-sce/task_back_up_exchange_resources_groups.html"
+  - title: 監視備份作業
+    url: "/protect-sce/task_monitor_backup_operations.html"
+  - title: 取消 Exchange 資料庫的備份作業
+    url: "/protect-sce/task_cancel_backup_operations_for_exchange_database.html"
+  - title: 在拓樸頁面中查看 Exchange 備份
+    url: "/protect-sce/task_view_exchange_backups_in_the_topology_page.html"
+- title: 還原 Exchange 資源
+  entries:
+  - title: 復原工作流程
+    url: "/protect-sce/reference_restore_exchange_resources.html"
+  - title: 還原 Exchange 資料庫的要求
+    url: "/protect-sce/concept_requirements_for_restoring_an_exchange_database.html"
+  - title: 還原 Exchange 資料庫
+    url: "/protect-sce/task_restore_exchange_databases.html"
+  - title: 郵件和郵箱的粒度恢復
+    url: "/protect-sce/reference_granular_recovery_of_mails_and_mailbox.html"
+  - title: 從輔助儲存還原 Exchange Server 資料庫
+    url: "/protect-sce/task_restore_an_exchange_server_database_from_secondary_storage.html"
+  - title: 重新植入被動 Exchange 節點副本
+    url: "/protect-sce/task_reseed_a_passive_exchange_node_replica.html"
+  - title: 使用 PowerShell cmdlet 為 Exchange 資料庫重新設定副本
+    url: "/protect-sce/task_reseed_a_replica_using_powershell_cmdlets_for_exchange_database.html"
+  - title: 監視恢復操作
+    url: "/protect-sce/task_monitor_restore_operations.html"
+  - title: 取消恢復操作
+    url: "/protect-sce/task_cancel_restore_operations.html"

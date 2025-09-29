@@ -1,0 +1,28 @@
+---
+permalink: protect-scsql/reference_restore_sql_server_resources.html 
+sidebar: sidebar 
+keywords: Restore workflow 
+summary: 您可以使用SnapCenter透過將一個或多個備份中的資料還原到活動檔案系統，然後還原資料庫來還原 SQL Server 資料庫。您也可以還原可用性群組中的資料庫，然後將還原的資料庫新增至可用性群組。在還原 SQL Server 資料庫之前，您必須執行幾項準備任務。 
+---
+= 復原工作流程
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以使用SnapCenter透過將一個或多個備份中的資料還原到活動檔案系統，然後還原資料庫來還原 SQL Server 資料庫。您也可以還原可用性群組中的資料庫，然後將還原的資料庫新增至可用性群組。在還原 SQL Server 資料庫之前，您必須執行幾項準備任務。
+
+以下工作流程顯示了執行資料庫還原作業的順序：
+
+image::../media/all_plug_ins_restore_workflow.gif[所有插件恢復工作流程]
+
+您也可以手動或在腳本中使用 PowerShell cmdlet 來執行備份、還原、還原、驗證和複製作業。有關 PowerShell cmdlet 的詳細信息，請使用SnapCenter cmdlet 協助或參閱 https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["SnapCenter軟體 Cmdlet 參考指南"]
+
+*查找更多資訊*
+
+link:task_restore_a_sql_server_database_from_secondary_storage.html["從輔助儲存還原 SQL Server 資料庫"]
+
+link:task_restore_and_recover_resources_using_powershell_cmdlets_for_sql.html["使用 PowerShell cmdlet 還原和復原資源"]
+
+link:https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/Restore_operation_might_fail_on_Windows_2008_R2["在 Windows 2008 R2 上還原作業可能會失敗"]

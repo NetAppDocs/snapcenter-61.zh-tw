@@ -1,0 +1,16 @@
+---
+permalink: protect-nsp/number_of_backup_jobs_needed.html 
+sidebar: sidebar 
+keywords: backup jobs 
+summary: '決定所需備份作業數量的因素包括資源的大小、使用的磁碟區數、資源的變化率以及服務等級協定 (SLA)。' 
+---
+= 所需備份作業的數量
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+決定所需備份作業數量的因素包括資源的大小、使用的磁碟區數、資源的變化率以及服務等級協定 (SLA)。
+
+您選擇的備份作業的數量通常取決於您放置資源的磁碟區的數量。例如，如果您將一組小資源放在一個磁碟區上，並將一組大資源放在另一個磁碟區上，則可以為小資源建立一個備份作業，為大資源建立一個備份作業。

@@ -1,0 +1,226 @@
+---
+permalink: protect-nsp/back_up_individual_netapp_supported_plugins_resources.html 
+sidebar: sidebar 
+keywords: backup, NetApp supported plug-ins, NetApp supported plug-ins, MongoDB, ORASCPM, Oracle Applications, SAP ASE, SAP MaxDB, Storage plug-in 
+summary: 如果單一NetApp支援的外掛資源不屬於任何資源組，您可以從「資源」頁面備份該資源。您可以按需備份資源，或者，如果資源附加了策略並配置了計劃，則備份將根據計劃自動進行。 
+---
+= 備份單一NetApp支援的插件資源
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+如果單一NetApp支援的外掛資源不屬於任何資源組，您可以從「資源」頁面備份該資源。您可以按需備份資源，或者，如果資源附加了策略並配置了計劃，則備份將根據計劃自動進行。
+
+.開始之前
+* 您必須已經建立了備份策略。
+* 如果要備份與二級儲存具有SnapMirror關係的資源，則指派給儲存使用者的ONTAP角色應包括「`snapmirror all`」權限。但是，如果您使用“vsadmin”角色，則不需要“snapmirror all”權限。
+
+
+[role="tabbed-block"]
+====
+.SnapCenter使用者介面
+--
+.步驟
+. 在左側導覽窗格中，按一下“*資源*”，然後從清單中選擇適當的外掛程式。
+. 在資源頁面中，根據資源類型從*檢視*下拉清單中過濾資源。
++
+點選image:../media/filter_icon.gif["篩選圖標"]，然後選擇主機名稱和資源類型來過濾資源。然後您可以點擊image:../media/filter_icon.gif["篩選圖標"]關閉篩選器窗格。
+
+. 按一下要備份的資源。
+. 在資源頁面中，如果要使用自訂名稱，請選取*使用自訂名稱格式作為 Snapshot 副本*複選框，然後輸入自訂名稱格式作為 Snapshot 名稱。
++
+例如，_customtext_policy_hostname_ 或 _resource_hostname_。預設情況下，時間戳記會附加到快照名稱。
+
+. 在應用程式設定頁面中，執行以下操作：
++
+.. 按一下“*備份*”箭頭以設定其他備份選項：
++
+如果需要，請啟用一致性群組備份並執行下列任務：
+
++
+|===
+| 對於這個領域... | 這樣做... 
+
+
+ a| 
+留出時間等待一致性群組快照操作完成
+ a| 
+選擇「緊急」、「中等」或「輕鬆」來指定等待快照操作完成的時間。
+
+緊急 = 5 秒，中等 = 7 秒，輕鬆 = 20 秒。
+
+
+
+ a| 
+禁用WAFL同步
+ a| 
+選擇此項以避免強制使用WAFL一致點。
+
+|===
++
+image:../media/application_settings.gif["應用程式設定頁面"]
+
+.. 按一下「*腳本*」箭頭可執行靜止、快照和取消靜止操作的前置和後置命令。您也可以在退出備份作業之前執行預命令。
++
+前言和後記在SnapCenter伺服器中運作。
+
+.. 按一下「*自訂設定*」箭頭，然後輸入使用此資源的所有作業所需的自訂值對。
+.. 點選*Snapshot Copy Tool*箭頭選擇建立快照的工具：
++
+|===
+| 如果你想... | 然後... 
+
+
+ a| 
+SnapCenter用於拍攝儲存層級快照
+ a| 
+選擇“* 不具有檔案系統一致性的SnapCenter *”。
+
+
+
+ a| 
+SnapCenter使用 Windows 外掛程式將檔案系統置於一致狀態，然後拍攝快照
+ a| 
+選擇*具有檔案系統一致性的SnapCenter *。
+
+
+
+ a| 
+輸入建立快照的命令
+ a| 
+選擇*其他*，然後輸入建立快照的命令。
+
+|===
+
+
+. 在「策略」頁面中，執行以下步驟：
++
+.. 從下拉清單中選擇一個或多個策略。
++
+
+NOTE: 您也可以透過點擊來建立策略image:../media/add_policy_from_resourcegroup.gif["新增圖示"]。
+
++
+在「為選定策略配置計畫」部分中，列出了選定的策略。
+
+.. 點選image:../media/add_policy_from_resourcegroup.gif["新增圖示"]在要設定計劃的策略的配置計劃列中。
+.. 在為政策_policy_name_新增計劃對話方塊中，配置計劃，然後按一下*確定*。
++
+其中，_policy_name_ 是您選擇的政策的名稱。
+
++
+配置的計劃列在「已套用的計劃」欄位中。
+
+
+
+. 在通知頁面中，從*電子郵件首選項*下拉清單中，選擇您想要傳送電子郵件的場景。
++
+您也必須指定寄件者和收件者的電子郵件地址以及電子郵件的主題。也必須在*設定* > *全域設定*中配置 SMTP。
+
+. 查看摘要，然後按一下「*完成*」。
++
+進入資源拓樸頁面。
+
+. 點選*立即備份*。
+. 在備份頁面中，執行以下步驟：
++
+.. 如果您已對資源套用了多個策略，請從「*策略*」下拉清單中選擇要用於備份的策略。
++
+如果為按需備份選擇的策略與備份計畫相關聯，則按需備份將根據為計畫類型指定的保留設定進行保留。
+
+.. 按一下“*備份*”。
+
+
+. 透過點選「*監視*」>「*作業*」來監視操作進度。
+
+
+--
+.PowerShell cmdlet
+--
+.步驟
+. 使用 Open-SmConnection cmdlet 為指定使用者啟動與SnapCenter伺服器的連線會話。
++
+[listing]
+----
+Open-smconnection  -SMSbaseurl  https:\\snapctr.demo.netapp.com:8146\
+----
++
+顯示使用者名稱和密碼提示。
+
+. 使用 Add-SmResources cmdlet 新增資源。
++
+此範例新增資源：
+
++
+[listing]
+----
+Add-SmResource -HostName 'scc55.sccore.test.com' -PluginCode 'DummyPlugin' -ResourceName QDBVOL1 -ResourceType Database -StorageFootPrint ( @{"VolumeName"="qtree_vol1_scc55_sccore_test_com";"QTREENAME"="qtreeVol1";"StorageSystem"="vserver_scauto_primary"}) -Instance QTREE1
+----
+. 使用 Add-SmPolicy cmdlet 建立備份策略。
++
+此範例建立一個新的備份策略：
+
++
+[listing]
+----
+Add-SMPolicy -PolicyName 'test2' -PolicyType 'Backup' -PluginPolicyType DummyPlugin  -description 'testPolicy'
+----
+. 使用 Add-SmResourceGroup cmdlet 為SnapCenter新增新的資源組。
++
+此範例使用指定的策略和資源建立一個新的資源組：
+
++
+[listing]
+----
+Add-SmResourceGroup -ResourceGroupName 'Verify_Backup_on_Multiple_Qtree_different_vserver_windows' -Resources @(@{"Host"="scc55.sccore.test.com";"Uid"="QTREE2";"PluginName"="DummyPlugin"},@{"Host"="scc55.sccore.test.com";"Uid"="QTREE";"PluginName"="DummyPlugin"}) -Policies test2 -plugincode 'DummyPlugin' -usesnapcenterwithoutfilesystemconsistency
+----
+. 使用 New-SmBackup cmdlet 啟動新的備份作業。
++
+[listing]
+----
+New-SMBackup -DatasetName Verify_Backup_on_Multiple_Qtree_different_vserver_windows -Policy test2
+----
+. 使用 Get-SmBackupReport cmdlet 查看備份作業的狀態。
++
+此範例顯示在指定日期執行的所有作業的作業摘要報表：
+
++
+[listing]
+----
+Get-SmBackupReport -JobId 149
+
+BackedUpObjects           : {QTREE2, QTREE}
+FailedObjects             : {}
+IsScheduled               : False
+HasMetadata               : False
+SmBackupId                : 1
+SmJobId                   : 149
+StartDateTime             : 1/15/2024 1:35:17 AM
+EndDateTime               : 1/15/2024 1:36:19 AM
+Duration                  : 00:01:02.4265750
+CreatedDateTime           : 1/15/2024 1:35:51 AM
+Status                    : Completed
+ProtectionGroupName       : Verify_Backup_on_Multiple_Qtree_different_vserver_windows
+SmProtectionGroupId       : 1
+PolicyName                : test2
+SmPolicyId                : 4
+BackupName                : Verify_Backup_on_Multiple_Qtree_different_vserver_windows_scc55_01-15-2024_01.35.17.4467
+VerificationStatus        : NotApplicable
+VerificationStatuses      :
+SmJobError                :
+BackupType                : SCC_BACKUP
+CatalogingStatus          : NotApplicable
+CatalogingStatuses        :
+ReportDataCreatedDateTime :
+PluginCode                : SCC
+PluginName                : DummyPlugin
+PluginDisplayName         : DummyPlugin
+JobTypeId                 :
+JobHost                   : scc55.sccore.test.com
+----
+
+
+--
+====

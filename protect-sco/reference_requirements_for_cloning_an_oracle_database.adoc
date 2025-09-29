@@ -1,0 +1,88 @@
+---
+permalink: protect-sco/reference_requirements_for_cloning_an_oracle_database.html 
+sidebar: sidebar 
+keywords:  
+summary: 在複製 Oracle 資料庫之前，您應該確保先決條件已完成。 
+---
+= 克隆 Oracle 資料庫的要求
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+在複製 Oracle 資料庫之前，您應該確保先決條件已完成。
+
+* 您應該已經使用SnapCenter建立了資料庫的備份。
++
+您應該已經成功建立了線上資料和日誌備份或離線（安裝或關閉）備份，複製操作才能成功。
+
+* 如果要自訂控制檔或重做日誌檔案路徑，則應預先配置所需的檔案系統或自動儲存管理 (ASM) 磁碟組。
++
+預設情況下，克隆資料庫的重做日誌和控制檔案會在 ASM 磁碟組或SnapCenter為克隆資料庫的資料檔案配置的檔案系統上建立。
+
+* 如果您使用 NFS 上的 ASM，則應將 _/var/opt/snapcenter/scu/clones/*/*_ 新增至 asm_diskstring 參數中定義的現有路徑。
+* 在 asm_diskstring 參數中，如果使用 ASMFD，則應配置 _AFD:*_；如果使用 ASMLIB，則應配置 _ORCL:*_。
++
+有關如何編輯 asm_diskstring 參數的信息，請參閱 https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/Disk_paths_are_not_added_to_the_asm_diskstring_database_parameter["如何將磁碟路徑新增至 asm_diskstring"^]。
+
+* 如果要在備用主機上建立克隆，則備用主機應符合下列要求：
++
+** 應在備用主機上安裝適用於 Oracle 資料庫的SnapCenter插件。
+** 克隆主機應該能夠從主儲存或輔助儲存中發現 LUN。
++
+*** 如果您要從主儲存或輔助（Vault 或映像）儲存複製到備用主機，請確保在輔助儲存和備用主機之間建立 iSCSI 會話，或針對 FC 正確劃分區域。
+*** 如果要從 Vault 或映像儲存複製到相同主機，請確保在 Vault 或映像儲存與主機之間建立 iSCSI 會話，或針對 FC 正確劃分區域。
+*** 如果在虛擬化環境中進行克隆，請確保在主儲存或輔助儲存與託管備用主機的 ESX 伺服器之間建立 iSCSI 會話，或針對 FC 進行正確分區。
++
+有關信息，請參閱 https://docs.netapp.com/us-en/ontap-sanhost/["主機實用程式文檔"]。
+
+
+
+** 如果來源資料庫是 ASM 資料庫：
++
+*** ASM 執行個體應該會在將執行複製的主機上啟動並執行。
+*** 如果要將複製資料庫的存檔日誌檔案放置在專用 ASM 磁碟組中，則應在複製作業之前設定 ASM 磁碟組。
+*** 可以配置資料磁碟組的名稱，但請確保該名稱未被執行複製的主機上的任何其他 ASM 磁碟組使用。
++
+駐留在 ASM 磁碟組上的資料檔案會作為SnapCenter克隆工作流程的一部分進行設定。
+
+
+
+** 對於 NVMe，應安裝 NVMe util
+
+
+* 資料 LUN 和日誌 LUN 的保護類型（例如鏡像、保管庫或鏡像保管庫）應該相同，以便在使用日誌備份複製到備用主機期間發現輔助定位器。
+* 您應該在來源資料庫參數檔案中將 exclude_seed_cdb_view 的值設為 FALSE，以檢索用於複製 12_c_ 資料庫備份的種子 PDB 相關資訊。
++
+種子 PDB 是系統提供的模板，CDB 可以使用它來建立 PDB。種子 PDB 名為 PDB$SEED。有關 PDB$SEED 的信息，請參閱 Oracle Doc ID 1940806.1。
+
++
+
+NOTE: 您應該在備份 12_c_ 資料庫之前設定該值。
+
+* SnapCenter支援由 autofs 子系統管理的檔案系統的備份。如果要複製資料庫，請確保資料掛載點不在 autofs 掛載點的根目錄下，因為插件主機的根使用者沒有權限在 autofs 掛載點的根目錄下建立目錄。
++
+如果控制和重做日誌檔案位於資料掛載點下，則應修改控製檔案路徑，然後相應地修改重做日誌檔案路徑。
+
++
+
+NOTE: 您可以手動向 autofs 子系統註冊新的克隆掛載點。新克隆的掛載點不會自動註冊。
+
+* 如果您有 TDE（自動登入）並希望在同一台或備用主機上複製資料庫，則應將 _/etc/ORACLE/WALLET/$ORACLE_SID_ 下的錢包（金鑰檔案）從來源資料庫複製到複製的資料庫。
+* 您應該在 _/etc/lvm/lvm.conf_ 中設定 use_lvmetad = 0 的值並停止 lvm2-lvmetad 服務，以便在 Oracle Linux 7 或更高版本或 Red Hat Enterprise Linux (RHEL) 7 或更高版本上的儲存區域網路 (SAN) 環境中成功執行複製。
+* 如果您使用的是 Oracle 資料庫 11.2.0.3 或更高版本，並且使用 NID 腳本變更了輔助執行個體的資料庫 ID，則應安裝 13366202 Oracle 修補程式。
+* 您應確保託管磁碟區的聚合位於儲存虛擬機器 (SVM) 的已指派聚合清單中。
+* 對於 NVMe，如果必須排除任何目標連接埠的連接，則應在 /var/opt/snapcenter/scu/etc/nvme.conf 檔案中新增目標節點名稱和連接埠名稱。
++
+如果該文件不存在，您應該按照以下範例所示建立該文件：
+
++
+....
+blacklist {
+nn-0x<target_node_name_1>:pn-0x<target_port_name_1>
+nn-0x<target_node_name_2>:pn-0x<target_port_name_2>
+}
+....
+* 您應該確保 LUN 沒有使用由混合協定 iSCSI 和 FC 組成的 iGroup 對應到 AIX 主機。有關更多信息，請參閱 https://kb.netapp.com/mgmt/SnapCenter/SnapCenter_Plug-in_for_Oracle_operations_fail_with_error_Unable_to_discover_the_device_for_LUN_LUN_PATH["操作失敗，錯誤：無法發現 LUN 的設備"^] 。
+

@@ -1,0 +1,383 @@
+---
+permalink: protect-sco/task_clone_an_oracle_database_backup.html 
+sidebar: sidebar 
+keywords: Credentials, alternate host, clone, FRA, OMF 
+summary: 您可以使用SnapCenter透過資料庫備份來克隆 Oracle 資料庫。 
+---
+= 克隆 Oracle 資料庫備份
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以使用SnapCenter透過資料庫備份來克隆 Oracle 資料庫。
+
+*開始之前*
+
+如果您以非 root 使用者身分安裝了該插件，則應手動為 prescript 和 postscript 目錄指派執行權限。
+
+*關於此任務*
+
+* 複製操作會建立資料庫資料檔案的副本，並建立新的線上重做日誌檔案和控制檔。根據指定的復原選項，資料庫可以選擇性地還原到指定的時間。
++
+
+NOTE: 如果您嘗試將在 Linux 主機上建立的備份複製到 AIX 主機或反之亦然，克隆將會失敗。
+
++
+SnapCenter從 Oracle RAC 資料庫備份克隆時會建立一個獨立資料庫。  SnapCenter支援從 Data Guard 備用資料庫和 Active Data Guard 備用資料庫的備份建立複製。
+
++
+在複製期間， SnapCenter會根據 SCN 或日期和時間裝載最佳數量的日誌備份以進行復原作業。恢復後，日誌備份將被卸載。所有這些克隆都安裝在 _/var/opt/snapcenter/scu/clones/_ 下。如果您使用 NFS 上的 ASM，則應將 _/var/opt/snapcenter/scu/clones/*/*_ 新增至 asm_diskstring 參數中定義的現有路徑。
+
++
+在 SAN 環境中複製 ASM 資料庫的備份時，將在 _/etc/udev/rules.d/999-scu-netapp.rules_ 處建立複製主機裝置的 udev 規則。當您刪除複製時，與複製主機裝置關聯的這些 udev 規則也會被刪除。
+
++
+
+NOTE: 在 Flex ASM 設定中，如果基數小於 RAC 叢集中的節點數，則無法在 Leaf 節點上執行複製操作。
+
+* 對於啟用SnapLock的策略、對於ONTAP 9.12.1 及以下版本、如果指定 Snapshot 鎖定期限、則作為恢復的一部分從防篡改快照創建的克隆將繼承SnapLock到期時間。儲存管理員應在SnapLock到期後手動清理克隆。
+
+
+.步驟
+. 在左側導覽窗格中，按一下“*資源*”，然後從清單中選擇適當的外掛程式。
+. 在資源頁面中，從*視圖*清單中選擇*資料庫*或*資源組*。
+. 從資料庫詳細資訊檢視或資源組詳細資料檢視中選擇資料庫。
++
+進入資料庫拓撲頁面。
+
+. 從管理副本檢視中，從本機副本（主副本）、鏡像副本（次副本）或保管庫副本（次副本）中選擇備份。
+. 從表中選擇資料備份，然後按一下*image:../media/clone_icon.gif["複製圖示"] *.
+. 在名稱頁面中，執行下列其中一項操作：
++
+|===
+| 如果你想... | 步驟... 
+
+
+ a| 
+克隆資料庫（CDB 或非 CDB）
+ a| 
+.. 指定克隆的 SID。
++
+克隆SID預設不可用，SID最大長度為8個字元。
+
++
+
+NOTE: 您應該確保將要建立克隆的主機上不存在具有相同 SID 的資料庫。
+
+
+
+
+
+ a| 
+克隆可插拔資料庫（PDB）
+ a| 
+.. 選擇*PDB 克隆*。
+.. 指定要克隆的 PDB。
+.. 指定克隆的 PDB 的名稱。有關克隆 PDB 的詳細步驟，請參閱link:../protect-sco/task_clone_a_pluggable_database.html["克隆可插入資料庫"^]。
+
+
+|===
++
+當您選擇鏡像或保管資料時：
+
++
+** 如果鏡像或保險庫中沒有日誌備份，則不會選擇任何內容，且定位器為空。
+** 如果鏡像或保管庫中存在日誌備份，則選擇最新的日誌備份並顯示相應的定位器。
++
+
+NOTE: 如果選定的日誌備份同時存在於鏡像和保管庫位置，則會顯示兩個定位器。
+
+
+
+. 在位置頁面中，執行以下操作：
++
+|===
+| 對於這個領域... | 這樣做... 
+
+
+ a| 
+複製主機
+ a| 
+預設情況下，來源資料庫主機已填入。
+
+如果要在備用主機上建立克隆，請選擇與來源資料庫主機具有相同 Oracle 版本和作業系統的主機。
+
+
+
+ a| 
+資料檔案位置
+ a| 
+預設情況下，資料檔案位置已填入。
+
+SnapCenter對 SAN 或 NFS 檔案系統的預設命名約定是 FileSystemNameofsourcedatabase_CLONESID。
+
+SnapCenter 的ASM 磁碟組的預設命名約定是 SC_HASHCODEofDISKGROUP_CLONESID。  HASHCODEofDISKGROUP 是自動產生的數字（2 到 10 位數），每個 ASM 磁碟組都有其唯一性。
+
+
+NOTE: 如果您要自訂 ASM 磁碟組名稱，請確保名稱長度符合 Oracle 支援的最大長度。
+
+如果要指定不同的路徑，則必須輸入用於複製資料庫的資料檔案掛載點或 ASM 磁碟組名稱。自訂資料檔案路徑時，也必須將控制檔案和重做日誌檔案 ASM 磁碟群組名稱或檔案系統變更為與資料檔案相同的名稱，或變更為現有的 ASM 磁碟群組或檔案系統。
+
+
+
+ a| 
+控製文件
+ a| 
+預設情況下，控製檔案路徑被填入。
+
+控製檔案與資料檔案放置在同一個 ASM 磁碟組或檔案系統中。如果要覆寫控製檔路徑，可以提供不同的控製檔路徑。
+
+
+NOTE: 檔案系統或 ASM 磁碟組應該存在於主機上。
+
+預設情況下，控製文件的數量與來源資料庫的數量相同。您可以修改控製文件的數量，但克隆資料庫至少需要一個控製文件。
+
+您可以將控製檔案路徑自訂為與來源資料庫不同的檔案系統（現有）。
+
+
+
+ a| 
+重做日誌
+ a| 
+預設情況下，重做日誌檔案群組、路徑及其大小均已填入。
+
+重做日誌與複製資料庫的資料檔案放在同一個 ASM 磁碟組或檔案系統中。如果要覆寫重做日誌檔案路徑，則可以將重做日誌檔案路徑自訂為與來源資料庫不同的檔案系統。
+
+
+NOTE: 新的檔案系統或 ASM 磁碟組應該存在於主機上。
+
+預設情況下，重做日誌組、重做日誌檔案的數量及其大小與來源資料庫相同。您可以修改以下參數：
+
+** 重做日誌組的數量
+
+
+
+NOTE: 克隆資料庫至少需要兩個重做日誌組。
+
+** 各組重做日誌檔及其路徑
++
+您可以將重做日誌檔案路徑自訂為與來源資料庫不同的檔案系統（現有）。
+
+
+
+
+NOTE: 重做日誌組中至少需要一個重做日誌檔來克隆資料庫。
+
+** 重做日誌檔的大小
+
+
+|===
+. 在「憑證」頁面上，執行以下操作：
++
+|===
+| 對於這個領域... | 這樣做... 
+
+
+ a| 
+sys 使用者的憑證名稱
+ a| 
+選擇用於定義克隆資料庫的系統使用者密碼的憑證。
+
+如果目標主機上的 sqlnet.ora 檔案中的 SQLNET.AUTHENTICATION_SERVICES 設定為 NONE，則不應在SnapCenter GUI 中選擇 *None* 作為憑證。
+
+
+
+ a| 
+ASM 實例憑證名稱
+ a| 
+如果啟用了 OS 驗證來連線到複製主機上的 ASM 實例，請選擇 *無*。
+
+否則，請選擇使用「`sys`」使用者或具有適用於複製主機的「`sysasm`」權限的使用者配置的 Oracle ASM 憑證。
+
+|===
++
+Oracle 主目錄、使用者名稱和群組詳細資訊將從來源資料庫自動填入。您可以根據將建立複製的主機的 Oracle 環境變更這些值。
+
+. 在 PreOps 頁面中，執行下列步驟：
++
+.. 輸入要在克隆操作之前運行的處方的路徑和參數。
++
+您必須將處方儲存在 _/var/opt/snapcenter/spl/scripts_ 或此路徑內的任何資料夾中。預設情況下，填入 _/var/opt/snapcenter/spl/scripts_ 路徑。如果您已將腳本放在此路徑內的任何資料夾中，則需要提供放置腳本的資料夾的完整路徑。
+
++
+SnapCenter可讓您在執行前腳本和後腳本時使用預先定義的環境變數。link:../protect-sco/predefined-environment-variables-prescript-postscript-clone.html["了解更多"^]
+
+.. 在資料庫參數設定部分，修改用於初始化資料庫的預填資料庫參數的值。
++
+您可以透過點擊 * 新增其他參數image:../media/add_policy_from_resourcegroup.gif["從資源群組新增策略"]*.
+
++
+如果您使用的是 Oracle 標準版，且資料庫在存檔日誌模式下執行，或者您想要從存檔重做日誌還原資料庫，請新增參數並指定路徑。
+
++
+*** 日誌歸檔目標
+*** LOG_ARCHIVE_DUPLEX_DEST
++
+
+NOTE: 預先填入的資料庫參數中未定義快速恢復區 (FRA)。您可以透過新增相關參數來配置FRA。
+
++
+
+NOTE: log_archive_dest_1 的預設值是 $ORACLE_HOME/clone_sid，克隆資料庫的存檔日誌將在此位置建立。如果您刪除了 log_archive_dest_1 參數，則存檔日誌位置由 Oracle 決定。您可以透過編輯 log_archive_dest_1 來定義存檔日誌的新位置，但請確保檔案系統或磁碟組存在並在主機上可用。
+
+
+
+.. 按一下“*重設*”以取得預設資料庫參數設定。
+
+
+. 在PostOps頁面中，預設選擇*Recover database*和*Until Cancel*來執行克隆資料庫的復原。
++
+SnapCenter透過在選擇進行複製的資料備份之後安裝具有完整存檔日誌序列的最新日誌備份來執行復原。日誌和資料備份應在主儲存體上以便在主儲存體上執行克隆，且日誌和資料備份應在輔助儲存體上以便在輔助儲存體上執行複製。
+
++
+如果SnapCenter無法找到適當的日誌備份，則不會選擇「*還原資料庫*」和「*直到取消*」選項。如果「指定外部存檔日誌位置」中沒有日誌備份，您可以提供外部存檔日誌位置。您可以指定多個日誌位置。
+
++
+
+NOTE: 如果要複製配置為支援閃回復原區 (FRA) 和 Oracle 管理檔案 (OMF) 的來源資料庫，則復原的日誌目標也必須遵循 OMF 目錄結構。
+
++
+如果來源資料庫是 Data Guard 備用資料庫或 Active Data Guard 備用資料庫，則不會顯示 PostOps 頁面。對於 Data Guard 備用資料庫或活動 Data Guard 備用資料庫， SnapCenter不提供在SnapCenter GUI 中選擇恢復類型的選項，但資料庫使用「直到取消」恢復類型進行恢復，而不套用任何日誌。
+
++
+|===
+| 欄位名稱 | 描述 
+
+
+ a| 
+直到取消
+ a| 
+SnapCenter透過在選擇進行複製的資料備份之後安裝具有完整存檔日誌序列的最新日誌備份來執行復原。克隆的資料庫恢復到遺失或損壞的日誌檔案。
+
+
+
+ a| 
+日期和時間
+ a| 
+SnapCenter將資料庫還原到指定的日期和時間。接受的格式是 mm/dd/yyyy hh:mm:ss。
+
+
+NOTE: 時間可以 24 小時格式指定。
+
+
+
+ a| 
+直到 SCN（系統變更號）
+ a| 
+SnapCenter將資料庫還原到指定的系統變更號碼 (SCN)。
+
+
+
+ a| 
+指定外部歸檔日誌位置
+ a| 
+如果資料庫在 ARCHIVELOG 模式下執行， SnapCenter會根據指定的 SCN 或選取的日期和時間識別並安裝最佳數量的日誌備份。
+
+您也可以指定外部存檔日誌位置。
+
+
+NOTE: 如果您選擇了“直到取消”， SnapCenter將不會自動識別和安裝日誌備份。
+
+
+
+ a| 
+建立新的 DBID
+ a| 
+預設情況下，勾選「建立新 DBID」複選框，為複製的資料庫產生一個唯一的編號（DBID），以區別於來源資料庫。
+
+如果要將來源資料庫的 DBID 指派給複製的資料庫，請清除該核取方塊。在這種情況下，如果您想將複製的資料庫註冊到來源資料庫已註冊的外部 RMAN 目錄，則操作會失敗。
+
+
+
+ a| 
+為臨時表空間建立臨時文件
+ a| 
+如果要為克隆資料庫的預設臨時表空間建立臨時文件，請選取該複選框。
+
+如果未選取該複選框，則將建立不含臨時檔案的資料庫克隆。
+
+
+
+ a| 
+輸入建立複製時要套用的 SQL 條目
+ a| 
+新增建立克隆時要套用的 SQL 條目。
+
+
+
+ a| 
+輸入克隆操作後運行的腳本
+ a| 
+指定克隆操作後要運行的後記的路徑和參數。
+
+您應該將後記儲存在 _/var/opt/snapcenter/spl/scripts_ 中或此路徑內的任何資料夾中。預設情況下，填入 _/var/opt/snapcenter/spl/scripts_ 路徑。
+
+如果您已將腳本放在此路徑內的任何資料夾中，則需要提供放置腳本的資料夾的完整路徑。
+
+
+NOTE: 如果克隆操作失敗，則不會執行後記，直接觸發清理活動。
+
+|===
+. 在通知頁面中，從*電子郵件首選項*下拉清單中，選擇您想要傳送電子郵件的場景。
++
+您也必須指定寄件者和收件者的電子郵件地址以及電子郵件的主題。如果您想要附加執行的複製操作的報告，請選擇*附加作業報告*。
+
++
+
+NOTE: 對於電子郵件通知，您必須使用 GUI 或 PowerShell 命令 Set-SmSmtpServer 指定 SMTP 伺服器詳細資訊。
+
+. 查看摘要，然後按一下「*完成*」。
++
+
+NOTE: 在執行複製建立作業中的復原時，即使復原失敗，也會建立複製並發出警告。您可以對此克隆執行手動恢復，以使克隆資料庫達到一致狀態。
+
+. 透過點選「*監視*」>「*作業*」來監視操作進度。
+
+
+*結果*
+
+複製資料庫後，您可以刷新資源頁面，將複製的資料庫列為可供備份的資源之一。複製的資料庫可以像任何其他資料庫一樣使用標準備份工作流程進行保護，也可以包含在資源組（新建或現有）中。克隆的資料庫可以進一步克隆（克隆的克隆）。
+
+克隆後，您永遠不應重命名克隆的資料庫。
+
+
+NOTE: 如果在克隆時沒有執行恢復，則克隆資料庫的備份可能會因恢復不當而失敗，並且您可能必須執行手動恢復。如果存檔日誌的預設位置位於非NetApp儲存體上，或儲存系統未配置SnapCenter，則日誌備份也可能會失敗。
+
+在 AIX 設定中，您可以使用 lkdev 指令鎖定並使用 rendev 指令重命名複製資料庫所在的磁碟。
+
+鎖定或重新命名裝置不會影響複製刪除操作。對於在 SAN 設備上建置的 AIX LVM 佈局，不支援對克隆的 SAN 設備進行設備重新命名。
+
+*查找更多資訊*
+
+* https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/ORA-00308%3A_cannot_open_archived_log_ORA_LOG_arch1_123_456789012.arc["恢復或複製失敗並出現 ORA-00308 錯誤訊息"^]
+* https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/Failed_to_recover_a_cloned_database["無法恢復克隆的資料庫"^]
+* https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/What_are_the_customizable_parameters_for_backup_restore_and_clone_operations_on_AIX_systems["AIX 系統上備份、還原和克隆作業的可自訂參數"^]
+
+
+
+
+== 更新主機上的首選 IP
+
+複製作業完成後，儲存存取層 (SAL) 提供給複製的路徑將採用 _<nfs_lif_IP>:<JunctionPath>_ 格式。若要提供首選 IP，您必須使用 SCCLI 命令在主機上對其進行設定。
+
+.步驟
+. 登入資料庫主機。
+. 為指定使用者啟動與SnapCenter 的PowerShell 連線會話。
++
+開放簡訊連接
+
+. 建立一個空文件。
++
+觸摸/var/opt/snapcenter/scu/etc/storagepreference.properties
+
+. 為 SVM 配置首選資料 LIF。
++
+Add-SvmPreferredDataPath -SVM <SVM 名稱> -DataPath <IP 位址或 FQDN>
+
+. 驗證首選路徑。
++
+取得 SvmPreferredDataPath
+
+

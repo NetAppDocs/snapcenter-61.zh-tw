@@ -1,0 +1,140 @@
+---
+permalink: install/task_add_storage_systems.html 
+sidebar: sidebar 
+keywords: add, storage system, SVM, ASA r2 systems 
+summary: 您應該設定儲存系統，使SnapCenter能夠存取ONTAP儲存來執行資料保護和設定操作。您可以新增獨立的 SVM 或由多個 SVM 組成的叢集。 
+---
+= 新增儲存系統
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您應該設定儲存系統，使SnapCenter能夠存取ONTAP儲存、 ASA r2 系統或Amazon FSx for NetApp ONTAP來執行資料保護和設定作業。
+
+您可以新增獨立的 SVM 或由多個 SVM 組成的叢集。如果您使用的是Amazon FSx for NetApp ONTAP，則可以使用 fsxadmin 帳戶新增由多個 SVM 組成的 FSx 管理 LIF，或在SnapCenter中新增 FSx SVM。
+
+.開始之前
+* 您應該擁有基礎設施管理員角色所需的權限來建立儲存連線。
+* 您應該確保插件安裝沒有正在進行中。
++
+新增儲存系統連線時，不得進行主機外掛程式安裝，因為主機快取可能不會更新，且資料庫狀態可能會在SnapCenter GUI 中顯示為「不可用於備份」或「不在NetApp儲存上」。
+
+* 儲存系統名稱應該是唯一的。
++
+SnapCenter不支援不同叢集上具有相同名稱的多個儲存系統。  SnapCenter支援的每個儲存系統都應具有唯一的名稱和唯一的資料 LIF IP 位址。
+
+
+
+*關於此任務*
+
+* 配置儲存系統時，您還可以啟用事件管理系統 (EMS) 和AutoSupport功能。  AutoSupport工具收集有關係統健康狀況的數據，並自動將數據發送給NetApp技術支持，使他們能夠排除系統故障。
++
+如果啟用這些功能，當資源受到保護、還原或複製作業成功完成或操作失敗時， SnapCenter會將AutoSupport資訊傳送至儲存系統，並將 EMS 訊息傳送至儲存系統系統日誌。
+
+* 如果您打算將快照複製到SnapMirror目標或SnapVault目標，則必須為目標 SVM 或叢集以及來源 SVM 或叢集設定儲存系統連線。
+
+
+
+NOTE: 如果變更儲存系統密碼，排程作業、按需備份和復原作業可能會失敗。更改儲存系統密碼後，您可以透過點擊「儲存」標籤中的「修改」來更新密碼。
+
+*步驟*
+
+. 在左側導覽窗格中，按一下「*儲存系統*」。
+. 在儲存系統頁面中，按一下*新建*。
+. 在新增儲存系統頁面中，提供以下資訊：
++
+|===
+| 對於這個領域... | 這樣做... 
+
+
+ a| 
+儲存系統
+ a| 
+輸入儲存系統名稱或IP位址。
+
+
+NOTE: 儲存系統名稱（不包括網域名稱）必須包含 15 個或更少的字符，且名稱必須可解析。若要建立名稱超過 15 個字元的儲存系統連接，可以使用 Add-SmStorageConnectionPowerShell cmdlet。
+
+
+NOTE: 對於具有MetroCluster配置 (MCC) 的儲存系統，建議同時註冊本地集群和對等集群，以實現無中斷操作。
+
+SnapCenter不支援不同叢集上具有相同名稱的多個 SVM。  SnapCenter支援的每個 SVM 都必須具有唯一的名稱。
+
+
+NOTE: 將儲存連線新增至SnapCenter後，不應使用ONTAP重命名 SVM 或叢集。
+
+
+NOTE: 如果使用短名稱或 FQDN 新增了 SVM，則它必須能夠從SnapCenter和外掛程式主機解析。
+
+
+
+ a| 
+使用者名稱/密碼
+ a| 
+輸入具有存取儲存系統所需權限的儲存使用者的憑證。
+
+
+
+ a| 
+事件管理系統 (EMS) 和AutoSupport設置
+ a| 
+如果您想要將 EMS 訊息傳送到儲存系統 syslog，或想要將AutoSupport訊息傳送到儲存系統以套用保護、完成還原作業或失敗操作，請選取對應的核取方塊。
+
+當您勾選 *向儲存系統發送失敗操作的AutoSupport通知* 複選框時，也會選取 *將SnapCenter伺服器事件記錄到 syslog* 複選框，因為啟用AutoSupport通知需要 EMS 訊息傳遞。
+
+|===
+. 如果要修改指派給平台、協定、連接埠和逾時的預設值，請按一下「*更多選項*」。
++
+.. 在平台中，從下拉清單中選擇一個選項。
++
+如果 SVM 是備份關係中的輔助儲存系統，請選取 *輔助* 複選框。當選擇“*Secondary*”選項時， SnapCenter不會立即執行許可證檢查。
+
++
+如果您已在SnapCenter中新增了 SVM，則使用者需要從下拉清單中手動選擇平台類型。
+
+.. 在協定中，選擇在 SVM 或叢集設定期間配置的協議，通常是 HTTPS。
+.. 輸入儲存系統接受的連接埠。
++
+預設連接埠 443 通常有效。
+
+.. 輸入停止通訊嘗試前應經過的時間（以秒為單位）。
++
+預設值為 60 秒。
+
+.. 如果 SVM 有多個管理接口，請勾選「*首選 IP*」複選框，然後輸入 SVM 連接的首選 IP 位址。
+.. 點選“儲存”。
+
+
+. 點選“*提交*”。
+
+
+*結果*
+
+在儲存系統頁面中，從*類型*下拉式選單中執行下列其中一項：
+
+* 如果要查看已新增的所有 SVM，請選擇 * ONTAP SVM *。
++
+如果您已新增 FSx SVM，則 FSx SVM 將在此處列出。
+
+* 如果要查看所有已新增的集群，請選擇* ONTAP集群*。
++
+如果您已使用 fsxadmin 新增了 FSx 集群，則 FSx 集群將在此處列出。
+
++
+當您按一下叢集名稱時，叢集中的所有 SVM 都會顯示在儲存虛擬機器部分。
+
++
+如果使用ONTAP GUI 將新的 SVM 新增至ONTAP集群，請按一下 *重新發現* 查看新新增的 SVM。
+
+
+
+*完成後*
+
+叢集管理員必須在每個儲存系統節點上啟用AutoSupport ，以便從SnapCenter有權存取的所有儲存系統發送電子郵件通知，方法是從儲存系統命令列執行下列命令：
+
+`autosupport trigger modify -node nodename -autosupport-message client.app.info -to enable -noteto enable`
+
+
+NOTE: 儲存虛擬機器 (SVM) 管理員無法存取AutoSupport。

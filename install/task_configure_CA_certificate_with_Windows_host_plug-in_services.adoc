@@ -1,0 +1,44 @@
+---
+permalink: install/task_configure_CA_certificate_with_Windows_host_plug-in_services.html 
+sidebar: sidebar 
+keywords: SnapCenter, ca certificate, activate, digital certificate 
+summary: 您應該使用 Windows 主機外掛程式服務來設定 CA 憑證以啟動已安裝的數位憑證。 
+---
+= 使用 Windows 主機插件服務設定 CA 憑證
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您應該使用 Windows 主機外掛程式服務來設定 CA 憑證以啟動已安裝的數位憑證。
+
+在SnapCenter伺服器和所有已部署 CA 憑證的插件主機上執行下列步驟。
+
+.步驟
+. 透過執行以下命令刪除與 SMCore 預設連接埠 8145 的現有憑證綁定：
++
+`> netsh http delete sslcert ipport=0.0.0.0:_<SMCore Port>`
+
++
+例如：
+
++
+ > netsh http delete sslcert ipport=0.0.0.0:8145
+. 透過執行下列命令將新安裝的憑證與 Windows 主機插件服務綁定：
++
+....
+> $cert = “_<certificate thumbprint>_”
+> $guid = [guid]::NewGuid().ToString("B")
+> netsh http add sslcert ipport=0.0.0.0: _<SMCore Port>_ certhash=$cert appid="$guid"
+....
++
+例如：
+
++
+....
+> $cert = “a909502dd82ae41433e6f83886b00d4277a32a7b”
+> $guid = [guid]::NewGuid().ToString("B")
+> netsh http add sslcert ipport=0.0.0.0: _<SMCore Port>_ certhash=$cert appid="$guid"
+....
+

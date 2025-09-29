@@ -1,0 +1,20 @@
+---
+permalink: protect-hana/concept_snapcenter_plug_in_for_sap_hana_database_overview.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for SAP HANA Database 
+summary: SAP HANA 資料庫的SnapCenter插件是NetApp SnapCenter software的主機端元件，可實現 SAP HANA 資料庫的應用程式感知資料保護管理。  SAP HANA 資料庫外掛程式可自動在SnapCenter環境中備份、復原和複製 SAP HANA 資料庫。 
+---
+= 適用於 SAP HANA 資料庫的SnapCenter插件概述
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SAP HANA 資料庫的SnapCenter插件是NetApp SnapCenter software的主機端元件，可實現 SAP HANA 資料庫的應用程式感知資料保護管理。  SAP HANA 資料庫外掛程式可自動在SnapCenter環境中備份、復原和複製 SAP HANA 資料庫。
+
+SnapCenter支援單容器和多租戶資料庫容器 (MDC)。您可以在 Windows 和 Linux 環境中使用 SAP HANA 資料庫插件。未安裝在 HANA 資料庫主機上的插件稱為集中式主機插件。集中式主機插件可以管理跨不同主機的多個 HANA 資料庫。
+
+安裝 SAP HANA 資料庫外掛程式後，您可以使用具有NetApp SnapMirror技術的SnapCenter在另一個磁碟區上建立備份集的鏡像副本。您也可以使用具有NetApp SnapVault技術的插件來執行磁碟到磁碟的備份複製，以符合標準。
+
+SAP HANA 資料庫外掛程式支援SnapMirror主動同步（最初是作為SnapMirror業務連續性 [SM-BC] 發布），即使整個網站發生故障，該外掛程式也能使業務服務繼續運行，支援應用程式使用輔助副本透明地進行故障轉移。無需手動幹預或額外的腳本即可透過SnapMirror主動同步觸發故障轉移。

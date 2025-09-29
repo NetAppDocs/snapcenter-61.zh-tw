@@ -1,0 +1,34 @@
+---
+permalink: protect-scu/task_back_up_unix_file_systems_resource_groups.html 
+sidebar: sidebar 
+keywords: backup, resource group 
+summary: 資源組上的備份作業會針對資源組中定義的所有資源執行。 
+---
+= 備份 Unix 檔案系統資源組
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以備份資源組中定義的 Unix 檔案系統。您可以從資源頁面按需備份資源群組。如果資源組附加了策略並配置了計劃，則會根據計劃建立備份。
+
+.步驟
+. 在左側導覽窗格中，選擇“*資源*”，然後從清單中選擇適當的插件。
+. 在資源頁面中，從*視圖*清單中選擇*資源組*。
+. 在搜尋框中輸入資源組名稱，或按一下image:../media/filter_icon.gif["篩選圖標"]，然後選擇標籤。
++
+點選image:../media/filter_icon.gif["篩選圖標"]關閉篩選器窗格。
+
+. 在資源組頁面中，選擇要備份的資源組。
+. 在備份頁面中，執行以下步驟：
++
+.. 如果您有多個與資源群組關聯的策略，請從「*策略*」下拉清單中選擇要使用的備份策略。
++
+如果為按需備份選擇的策略與備份計畫相關聯，則按需備份將根據為計畫類型指定的保留設定進行保留。
+
+.. 選擇*備份*。
+
+
+. 透過選擇「監控」>「作業」來監控進度。
+

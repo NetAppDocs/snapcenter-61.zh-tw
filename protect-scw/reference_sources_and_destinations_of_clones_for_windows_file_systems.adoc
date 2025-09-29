@@ -1,0 +1,33 @@
+---
+permalink: protect-scw/reference_sources_and_destinations_of_clones_for_windows_file_systems.html 
+sidebar: sidebar 
+keywords: snapcenter 
+summary: 您可以從主儲存或輔助儲存複製檔案系統備份。您也可以選擇支援您要求的目的地；原始備份位置或同一主機或不同主機上的其他目的地。目標必須與克隆來源備份位於同一磁碟區上。 
+---
+= Windows 檔案系統複製的來源和目標
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以從主儲存或輔助儲存複製檔案系統備份。您也可以選擇支援您要求的目的地；原始備份位置或同一主機或不同主機上的其他目的地。目標必須與克隆來源備份位於同一磁碟區上。
+
+|===
+| 克隆目標 | 描述 
+
+
+ a| 
+原文、來源、地點
+ a| 
+預設情況下， SnapCenter將克隆儲存在與被複製的備份相同的位置和主機上。
+
+
+
+ a| 
+不同位置
+ a| 
+您可以將複製儲存在同一主機或不同主機的不同位置。主機必須具有與儲存虛擬機器 (SVM) 的設定連線。
+
+|===
+克隆操作完成後，您可以重新命名克隆。

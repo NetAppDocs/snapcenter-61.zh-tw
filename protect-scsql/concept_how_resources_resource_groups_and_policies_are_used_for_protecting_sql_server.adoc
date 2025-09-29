@@ -1,0 +1,34 @@
+---
+permalink: protect-scsql/concept_how_resources_resource_groups_and_policies_are_used_for_protecting_sql_server.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for SQL Server 
+summary: 在使用SnapCenter之前，了解與要執行的備份、複製和還原作業相關的基本概念會很有幫助。您與資源、資源群組和策略進行互動以執行不同的操作。 
+---
+= 如何使用資源、資源群組和原則來保護 SQL Server
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+在使用SnapCenter之前，了解與要執行的備份、複製和還原作業相關的基本概念會很有幫助。您與資源、資源群組和策略進行互動以執行不同的操作。
+
+* 資源通常是使用SnapCenter備份或複製的資料庫、資料庫執行個體或 Microsoft SQL Server 可用性群組。
+* SnapCenter資源群組是主機或叢集上的資源集合。
++
+當您對資源組執行操作時，您將根據為資源組指定的計劃對資源組中定義的資源執行該操作。
+
++
+您可以按需備份單一資源或資源群組。您也可以對單一資源和資源群組執行排程備份。
+
+* 這些策略指定了備份頻率、副本保留、複製、腳本以及資料保護作業的其他特徵。
++
+建立資源組時，您可以為該組選擇一個或多個策略。您也可以在對單一資源執行按需備份時選擇策略。
+
+
+
+可以將資源群組視為定義您想要保護的內容以及您想要在日期和時間方面保護的內容。把政策想像成定義你想如何保護它。例如，如果要備份主機的所有資料庫或所有檔案系統，則可以建立包含主機中的所有資料庫或所有檔案系統的資源群組。然後，您可以將兩個策略附加到資源群組：每日策略和每小時策略。建立資源組並附加策略時，您可以設定資源組以每天執行一次完整備份，並配置另一個每小時執行一次日誌備份的計畫。
+
+下圖說明了資料庫的資源、資源群組和策略之間的關係：
+
+image::../media/scsql_resourcegroup_policy.gif[資源組策略]

@@ -1,0 +1,27 @@
+---
+permalink: install/task_configure_iis_application_pools_to_enable_active_directory_read_permissions.html 
+sidebar: sidebar 
+keywords: IIS application pool, active directory, enable 
+summary: '當您需要為SnapCenter啟用 Active Directory 讀取權限時，您可以在 Windows Server 上設定 Internet 資訊服務 (IIS) 來建立自訂應用程式集區帳戶。' 
+---
+= 設定 IIS 應用程式集區以啟用 Active Directory 讀取權限
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+當您需要為SnapCenter啟用 Active Directory 讀取權限時，您可以在 Windows Server 上設定 Internet 資訊服務 (IIS) 來建立自訂應用程式集區帳戶。
+
+*步驟*
+
+. 在安裝了SnapCenter的 Windows Server 上開啟 IIS 管理員。
+. 在左側導覽窗格中，按一下「*應用程式集區*」。
+. 在應用程式集區清單中選擇SnapCenter ，然後按一下操作窗格中的「進階設定」。
+. 選擇“身分”，然後按一下“*...*”以編輯SnapCenter應用程式集區身分。
+. 在自訂帳戶欄位中，輸入具有 Active Directory 讀取權限的網域使用者或網域管理員帳戶名稱。
+. 按一下“確定”。
++
+自訂帳戶取代了SnapCenter應用程式集區的內建 ApplicationPoolIdentity 帳戶。
+
+

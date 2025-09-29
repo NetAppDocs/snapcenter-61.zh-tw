@@ -1,0 +1,70 @@
+---
+permalink: install/task_configure_audit_log_settings.html 
+sidebar: sidebar 
+keywords: audit, log, configure 
+summary: 您可以設定記錄軟體平台以及在這些平台上運行的所有軟體的安全事件。 
+---
+= 配置審核日誌設定
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenter伺服器的每個活動都會產生審計日誌。預設情況下，稽核日誌會儲存在預設安裝位置 _C:\Program Files\ NetApp\ SnapCenter WebApp\audit\_。
+
+透過為每個稽核事件產生數位簽章摘要來保護稽核日誌，以防止未經授權的修改。產生的摘要保存在單獨的審計校驗和文件中，並進行定期的完整性檢查以確保內容的完整性。
+
+您應該以「SnapCenterAdmin」角色登入。
+
+.關於此任務
+* 在以下情況下會發送警報：
++
+** 審計日誌完整性檢查計劃或 Syslog 伺服器已啟用或停用
+** 稽核日誌完整性檢查、稽核日誌或 Syslog 伺服器日誌故障
+** 磁碟空間不足
+
+
+* 僅當完整性檢查失敗時才發送電子郵件。
+* 您應該同時修改稽核日誌目錄和稽核校驗和日誌目錄路徑。您不能只修改其中一個。
+* 當稽核日誌目錄和稽核校驗和日誌目錄路徑被修改時，無法對先前位置的稽核日誌執行完整性檢查。
+* 稽核日誌目錄和稽核校驗和日誌目錄路徑應位於SnapCenter Server 的本機磁碟機上。
++
+不支援共用或網路安裝的磁碟機。
+
+* 如果在 Syslog 伺服器設定中使用 UDP 協議，則由於連接埠關閉或不可用而導致的錯誤無法在SnapCenter中擷取為錯誤或警報。
+* 您可以使用 Set-SmAuditSettings 和 Get-SmAuditSettings 指令來設定稽核日誌。
++
+可以透過執行 Get-Help command_name 來取得有關可與 cmdlet 一起使用的參數及其描述的資訊。或者，您也可以參考 https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["SnapCenter軟體 Cmdlet 參考指南"^]。
+
+
+
+.步驟
+. 在*設定*頁面中，導覽至*設定*>*全域設定*>*稽核日誌設定*。
+. 在審計日誌部分，輸入詳細資訊。
+. 進入*審計日誌目錄*和*審計校驗和日誌目錄*
++
+.. 輸入最大檔案大小
+.. 輸入最大日誌檔數
+.. 輸入磁碟空間使用率百分比以發送警報
+
+
+. （可選）啟用*記錄 UTC 時間*。
+. （選用）啟用*稽核日誌完整性檢查計畫*並點選*開始完整性檢查*進行按需完整性檢查。
++
+您也可以執行*Start-SmAuditIntegrityCheck*指令來啟動按需完整性檢查。
+
+. （可選）啟用轉發審計日誌到遠端系統日誌伺服器並輸入系統日誌伺服器詳細資訊。
++
+您應該將 Syslog 伺服器中的憑證匯入 TLS 1.2 協定的「受信任的根」。
+
++
+.. 輸入 Syslog 伺服器主機
+.. 輸入 Syslog 伺服器端口
+.. 輸入 Syslog 伺服器協議
+.. 輸入 RFC 格式
+
+
+. 點選“儲存”。
+. 您可以透過點選「*監視*」>「*作業*」查看稽核完整性檢查和磁碟空間檢查。
+

@@ -1,0 +1,50 @@
+---
+permalink: protect-hana/reference_types_of_restore_performed_for_auto_discovered_sap_hana_databases.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for SAP HANA Databases 
+summary: SnapCenter支援基於磁碟區的SnapRestore \（VBSR\）、單一檔案SnapRestore以及自動發現的 SAP HANA 資料庫的連線和複製復原類型。 
+---
+= 自動發現的 SAP HANA 資料庫的還原操作類型
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenter支援基於磁碟區的SnapRestore (VBSR)、單一檔案SnapRestore以及自動發現的 SAP HANA 資料庫的連線和複製還原類型。
+
+
+
+== 基於磁碟區的SnapRestore (VBSR) 在 NFS 環境中針對以下場景執行：
+
+* 當選擇要還原的備份是在SnapCenter 4.3 之前的版本上執行時，並且僅當選擇了「完整資源」選項時
+* 當在SnapCenter 4.3 中建立選擇用於還原的備份時，如果選擇了「磁碟區還原」選項
+
+
+
+
+== 單檔SnapRestore在 NFS 環境中針對以下場景執行：
+
+* 當在SnapCenter 4.3 中建立選擇用於還原的備份時，如果僅選擇了「*完整資源*」選項
+* 對於多租用戶資料庫容器 (MDC)，當選擇在SnapCenter 4.3 上進行還原的備份，並且選擇了「租用戶資料庫」選項時
+* 當選擇的備份來自SnapMirror或SnapVault二級位置，並且選擇了「完整資源」選項時
+
+
+
+
+== 單一檔案SnapRestore在 SAN 環境中針對下列場景執行：
+
+* 在SnapCenter 4.3 之前的版本上進行備份時，僅當選擇了「*完整資源*」選項時
+* 在SnapCenter 4.3 中進行備份時，僅當選擇了「完整資源」選項時
+* 從SnapMirror或SnapVault二級位置選擇備份，並選擇「完整資源」選項時
+
+
+
+
+== 在 SAN 環境中針對下列情境執行基於連線和複製的還原：
+
+* 對於 MDC，當在SnapCenter 4.3 中執行選擇用於還原的備份時，並選擇「租用戶資料庫」選項
+
+
+
+NOTE: 復原範圍頁面上提供了*完整資源*、*磁碟區復原*和*租戶資料庫*選項。

@@ -1,0 +1,64 @@
+---
+permalink: protect-mysql/monitor-mysql-backup-operations.html 
+sidebar: sidebar 
+keywords: SnapCenter Server 
+summary: 您可以使用SnapCenter作業頁面監控不同備份作業的進度。您可能需要檢查進度以確定何時完成或是否有問題。 
+---
+= 監控 MySQL 備份作業
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以使用 SnapCenterJobs 頁面監控不同備份作業的進度。您可能需要檢查進度以確定何時完成或是否有問題。
+
+.關於此任務
+以下圖示出現在「作業」頁面上並指示對應的操作狀態：
+
+* image:../media/progress_icon.gif["正在進行圖示"]進行中
+* image:../media/success_icon.gif["完成的圖標"]成功完成
+* image:../media/failed_icon.gif["失敗圖示"]失敗的
+* image:../media/warning_icon.gif["已完成，帶有警告圖標"]已完成但有警告，或因警告而無法啟動
+* image:../media/verification_job_in_queue.gif["驗證作業已排隊"]排隊
+* image:../media/cancel_icon.gif["取消圖示"]取消
+
+
+.步驟
+. 在左側導覽窗格中，按一下「*監控*」。
+. 在「監控」頁面中，按一下「作業」。
+. 在「作業」頁面中，執行下列步驟：
++
+.. 點選image:../media/filter_icon.gif["篩選圖標"]過濾清單以便僅列出備份操作。
+.. 指定開始和結束日期。
+.. 從「*類型*」下拉清單中，選擇「*備份*」。
+.. 從*狀態*下拉式選單中，選擇備份狀態。
+.. 點擊“*應用*”即可查看操作是否已成功完成。
+
+
+. 選擇一個備份作業，然後按一下「詳細資料」以查看作業詳細資料。
++
+
+NOTE: 儘管備份作業狀態顯示image:../media/success_icon.gif["完成的圖標"]，當您按一下作業詳細資料時，您可能會看到備份作業的一些子任務仍在進行中或標有警告標誌。
+
+. 在「作業詳細資料」頁面中，按一下「查看日誌」。
++
+*查看日誌*按鈕顯示所選操作的詳細日誌。
+
+
+
+
+
+== 在活動窗格中監控 MySQL 實例上的資料保護操作
+
+活動窗格顯示最近執行的五個操作。活動窗格也會顯示操作的啟動時間和操作的狀態。
+
+活動窗格顯示有關備份、復原、複製和排程備份作業的資訊。
+
+.步驟
+. 在左側導覽窗格中，按一下“*資源*”，然後從清單中選擇適當的外掛程式。
+. 點選image:../media/activity_pane_icon.gif["活動窗格圖示"]在活動窗格上查看最近的五項操作。
++
+當您按一下其中一個操作時，操作詳細資料將列在「作業詳細資料」頁面中。
+
+

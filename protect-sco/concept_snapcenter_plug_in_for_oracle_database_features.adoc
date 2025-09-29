@@ -1,0 +1,94 @@
+---
+permalink: protect-sco/concept_snapcenter_plug_in_for_oracle_database_features.html 
+sidebar: sidebar 
+keywords: plug-in for Oracle features 
+summary: Oracle 資料庫外掛程式可與 Linux 或 AIX 主機上的 Oracle 資料庫以及儲存系統上的NetApp技術整合。 
+---
+= Oracle 資料庫插件的功能
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Oracle 資料庫外掛程式可與 Linux 或 AIX 主機上的 Oracle 資料庫以及儲存系統上的NetApp技術整合。
+
+* 統一的圖形使用者介面
++
+SnapCenter介面提供跨插件和環境的標準化和一致性。  SnapCenter介面可讓您跨插件完成一致的備份、還原、還原和複製操作，使用集中式報告，使用一目了然的儀表板視圖，設定基於角色的存取控制 (RBAC)，並監控所有插件中的作業。
+
+* 自動化中央管理
++
+您可以安排備份和複製作業、配置基於政策的備份保留以及執行復原作業。您也可以透過設定SnapCenter發送電子郵件警報來主動監控您的環境。
+
+* 無中斷NetApp Snapshot 技術
++
+SnapCenter使用NetApp Snapshot 技術以及 Oracle Database 插件和 UNIX 插件來備份資料庫。快照佔用的儲存空間極小。
+
+
+
+Oracle 資料庫外掛程式還具有以下優點：
+
+* 支援備份、復原、複製、掛載、卸載和驗證工作流程
+* 自動發現主機上配置的 Oracle 資料庫
+* 支援使用 Oracle Recovery Manager (RMAN) 進行編目和取消編目
+* RBAC 支援的安全性和集中角色委派
++
+您也可以設定憑證，以便授權的SnapCenter使用者擁有應用程式等級的權限。
+
+* 支援用於復原和複製操作的存檔日誌管理 (ALM)
+* 使用NetApp FlexClone技術建立生產資料庫的空間高效和時間點副本，用於測試或資料擷取
++
+您要建立克隆的儲存系統上需要有FlexClone許可證。
+
+* 在 SAN 和 ASM 環境中建立備份時支援ONTAP的一致性群組 (CG) 功能
+* 無中斷和自動化備份驗證
+* 能夠跨多個資料庫主機同時執行多個備份
++
+在單一操作中，當單一主機中的資料庫共用同一磁碟區時，快照就會合併。
+
+* 支援實體和虛擬化基礎設施
+* 支援 NFS、iSCSI、光纖通道 (FC)、RDM、NFS 和 VMFS 上的 VMDK 以及 NFS、SAN、RDM 和 VMDK 上的 ASM
+* 支援ONTAP的選擇性 LUN 映射 (SLM) 功能
++
+SLM 功能預設為啟用，它會定期發現沒有最佳化路徑的 LUN 並進行修復。您可以透過修改位於 /var/opt/snapcenter/scu/etc 的 scu.properties 檔案中的參數來配置 SLM。
+
++
+** 您可以將 ENABLE_LUNPATH_MONITORING 參數的值設為 false 來停用此功能。
+** 您可以透過為 LUNPATH_MONITORING_INTERVAL 參數指派值（以小時為單位）來指定自動修復 LUN 路徑的頻率。有關 SLM 的信息，請參閱 https://docs.netapp.com/us-en/ontap/san-admin/index.html["ONTAP 9 SAN 管理部分"^]。
+
+
+* Linux 上對非揮發性記憶體標準 (NVMe) 的支持
++
+** 主機上應安裝 NVMe util。
++
+您必須安裝 NVMe util 才能複製或安裝到備用主機。
+
+** 除 RDM 等虛擬化環境外，NVMe 硬體支援備份、復原、複製、掛載、卸載、編目、取消編目和驗證作業。
++
+以上操作在無分區或單分區的設備上均支援。
+
++
+
+NOTE: 您可以透過在核心中設定本機多路徑選項來為 NVMe 裝置配置多路徑解決方案。不支援裝置映射器 (DM) 多路徑。
+
+** NVMe over TCP/IP 支援備份、復原、複製、掛載、卸載、編目、取消編目和驗證工作流程。
+** 在 NVMe over TCP/IP 上建立的 VMDK 佈局支援備份、復原、複製、掛載、卸載、編目、取消編目和驗證工作流程。
+
+
+* 支援SnapMirror主動同步（最初作為SnapMirror業務連續性 [SM-BC] 發布），即使整個網站發生故障，也能使業務服務繼續運行，支援應用程式使用輔助副本透明地進行故障轉移。無需手動幹預或額外的腳本即可透過SnapMirror主動同步觸發故障轉移。
+* 支援任何非預設用戶，而不是 oracle 和 grid。
++
+為了支援非預設用戶，您應該透過修改位於 _file /var/opt/snapcenter/sco/etc/_ 的 *sco.properties* 檔案中的參數值來設定非預設用戶。
+
++
+參數的預設值設定為oracle和grid。
+
++
+** DB_USER=oracle
+** DB_GROUP=安裝
+** GI_USER=網格
+** GI_GROUP=安裝
+
+
+

@@ -1,0 +1,319 @@
+---
+permalink: protect-sco/concept_import_data_from_snapmanager_for_oracle_and_snapmanager_for_sap_to_snapcenter.html 
+sidebar: sidebar 
+keywords: import, SnapManager for Oracle, SnapManager for SAP 
+summary: 將資料從SnapManager for Oracle 和SnapManager for SAP 匯入SnapCenter可讓您繼續使用先前版本的資料。 
+---
+= 將資料從SnapManager for Oracle 和SnapManager for SAP 匯入到SnapCenter
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+將資料從SnapManager for Oracle 和SnapManager for SAP 匯入SnapCenter可讓您繼續使用先前版本的資料。
+
+您可以透過從命令列介面（Linux 主機 CLI）執行導入工具，將資料從SnapManager for Oracle 和SnapManager for SAP 匯入到SnapCenter。
+
+導入工具在SnapCenter中建立政策和資源組。  SnapCenter中建立的政策和資源群組與SnapManager for Oracle 和SnapManager for SAP 中的設定檔以及使用這些設定檔執行的操作相對應。  SnapCenter導入工具與SnapManager for Oracle 和SnapManager for SAP 儲存庫資料庫以及您要匯入的資料庫進行互動。
+
+* 檢索所有設定檔、計劃以及使用設定檔執行的操作。
+* 為每個唯一操作和附加到設定檔的每個計劃建立SnapCenter備份策略。
+* 為每個目標資料庫建立一個資源組。
+
+
+您可以透過執行位於 _/opt/ NetApp/snapcenter/spl/bin_ 的 sc-migrate 腳本來執行匯入工具。在要匯入的資料庫主機上安裝適用於 Linux 的SnapCenter外掛程式套件時，sc-migrate 腳本將會複製到 _/opt/ NetApp/snapcenter/spl/bin_。
+
+
+NOTE: SnapCenter圖形使用者介面 (GUI) 不支援匯入資料。
+
+SnapCenter不支援以 7 模式運作的Data ONTAP 。您可以使用 7-模式過渡工具將儲存在運行以 7-模式運行的Data ONTAP 的系統上的資料和配置遷移到ONTAP系統。
+
+
+
+== 支援導入資料的配置
+
+在將資料從SnapManager 3.4.x for Oracle 和SnapManager 3.4.x for SAP 匯入到SnapCenter之前，您應該了解SnapCenter Plug-in for Oracle Database 支援的配置。
+
+SnapCenter插件支援的 Oracle Database 配置列在 https://imt.netapp.com/matrix/imt.jsp?components=121071;&solution=1259&isHWU&src=IMT["NetApp互通性表工具"^]。
+
+
+
+== 匯入到SnapCenter 的內容
+
+您可以匯入設定檔、計畫以及使用設定檔執行的操作。
+
+|===
+| 從SnapManager for Oracle 和SnapManager for SAP | 至SnapCenter 
+
+
+ a| 
+沒有任何操作和時間表的配置文件
+ a| 
+建立的策略預設備份類型為“線上”，備份範圍為“完整”。
+
+
+
+ a| 
+具有一個或多個操作的配置文件
+ a| 
+根據設定檔和使用該設定檔執行的操作的唯一組合來建立多個策略。
+
+SnapCenter中建立的政策包含從設定檔和對應操作中檢索的存檔日誌修剪和保留詳細資訊。
+
+
+
+ a| 
+具有 Oracle 復原管理器 (RMAN) 配置的設定文件
+ a| 
+政策是在啟用「*使用 Oracle Recovery Manager 進行目錄備份*」選項的情況下建立的。
+
+如果在SnapManager中使用了外部 RMAN 編目，則必須在SnapCenter中設定 RMAN 目錄設定。您可以選擇現有憑證或建立新憑證。
+
+如果 RMAN 是透過SnapManager中的控製檔配置的，則無需在SnapCenter中設定 RMAN。
+
+
+
+ a| 
+附於個人資料的時間表
+ a| 
+僅為了時間表而創建一項政策。
+
+
+
+ a| 
+資料庫
+ a| 
+為每個匯入的資料庫建立一個資源組。
+
+在 Real Application Clusters (RAC) 設定中，執行匯入工具的節點在匯入後將成為首選節點，並為該節點建立資源群組。
+
+|===
+
+NOTE: 匯入設定檔時，會與備份策略一起建立驗證策略。
+
+當SnapManager for Oracle 和SnapManager for SAP 設定檔、計畫以及使用設定檔執行的任何操作匯入到SnapCenter時，不同的參數值也會被匯入。
+
+|===
+| SnapManager for Oracle 和SnapManager for SAP 參數和值 | SnapCenter參數和值 | 筆記 
+
+
+ a| 
+備份範圍
+
+* 滿的
+* 數據
+* 紀錄
+
+ a| 
+備份範圍
+
+* 滿的
+* 數據
+* 紀錄
+
+ a| 
+
+
+
+ a| 
+備份模式
+
+* 汽車
+* 在線的
+* 離線
+
+ a| 
+備份類型
+
+* 在線的
+* 離線關機
+
+ a| 
+如果備份模式為自動，則匯入工具會在執行操作時檢查資料庫狀態，並適當地將備份類型設定為線上或離線關閉。
+
+
+
+ a| 
+保留
+
+* 天
+* 計數
+
+ a| 
+保留
+
+* 天
+* 計數
+
+ a| 
+SnapManager for Oracle 和SnapManager for SAP 使用天數和計數來設定保留。
+
+在SnapCenter中，有天數或數數。因此，保留是根據天數設定的，因為在SnapManager for Oracle 和SnapManager for SAP 中，天數優先於計數。
+
+
+
+ a| 
+修剪時間表
+
+* 全部
+* 系統變更號碼 (SCN)
+* 日期
+* 在指定小時、天、週和月之前建立的日誌
+
+ a| 
+修剪時間表
+
+* 全部
+* 在指定小時和日期之前建立的日誌
+
+ a| 
+SnapCenter不支援基於 SCN、日期、週和月的修剪。
+
+
+
+ a| 
+通知
+
+* 僅對成功操作發送電子郵件
+* 僅針對失敗的操作發送電子郵件
+* 操作成功和失敗時均發送電子郵件
+
+ a| 
+通知
+
+* 總是
+* 失敗時
+* 警告
+* 錯誤
+
+ a| 
+電子郵件通知已匯入。
+
+但是，您必須使用SnapCenter GUI 手動更新 SMTP 伺服器。電子郵件的主題留空，供您設定。
+
+|===
+
+
+== 哪些內容未匯入SnapCenter
+
+導入工具不會將所有內容匯入到SnapCenter。
+
+您無法將以下內容匯入SnapCenter：
+
+* 備份元數據
+* 部分備份
+* 原始設備映射 (RDM) 和虛擬儲存控制台 (VSC) 相關備份
+* SnapManager for Oracle 和SnapManager for SAP 儲存庫中可用的角色或任何憑證
+* 與驗證、恢復和克隆操作相關的數據
+* 修剪操作
+* SnapManager for Oracle 和SnapManager for SAP 設定檔中指定的複製詳細資訊
++
+匯入後，您必須手動編輯在SnapCenter中建立的相應原則以包含複製詳細資訊。
+
+* 已編目的備份訊息
+
+
+
+
+== 準備導入數據
+
+在將資料匯入SnapCenter之前，您必須執行某些任務才能成功執行匯入操作。
+
+*步驟*
+
+. 確定要匯入的資料庫。
+. 使用SnapCenter新增資料庫主機並安裝適用於 Linux 的SnapCenter插件包。
+. 使用SnapCenter設定主機上資料庫使用的儲存虛擬機器 (SVM) 的連線。
+. 在左側導覽窗格中，按一下“*資源*”，然後從清單中選擇適當的外掛程式。
+. 在資源頁面中，確保要匯入的資料庫已被發現並顯示。
++
+當您想要運行導入工具時，資料庫必須可訪問，否則資源組創建將失敗。
+
++
+如果資料庫已配置憑證，則必須在SnapCenter中建立對應的憑證，將憑證指派給資料庫，然後重新執行資料庫的發現。如果資料庫駐留在自動儲存管理 (ASM) 上，則必須為 ASM 實例建立憑證，並將該憑證指派給資料庫。
+
+. 確保執行導入工具的使用者俱有足夠的權限從SnapManager for Oracle 或SnapManager for SAP 主機執行SnapManager for Oracle 或SnapManager for SAP CLI 命令（例如暫停計劃的命令）。
+. 在SnapManager for Oracle 或SnapManager for SAP 主機上執行以下命令以暫停計劃：
++
+.. 如果要暫停SnapManager for Oracle 主機上的計劃，請執行：
++
+*** `smo credential set -repository -dbname repository_database_name -host host_name -port port_number -login -username user_name_for_repository_database`
+*** `smo profile sync -repository -dbname repository_database_name -host host_name -port port_number -login -username host_user_name_for_repository_database`
+*** `smo credential set -profile -name profile_name`
++
+
+NOTE: 您必須對主機上的每個設定檔執行 smo credential set 命令。
+
+
+
+.. 如果要暫停SnapManager for SAP 主機上的計劃，請執行：
++
+*** `smsap credential set -repository -dbname repository_database_name -host host_name -port port_number -login -username user_name_for_repository_database`
+*** `smsap profile sync -repository -dbname repository_database_name -host host_name -port port_number -login -username host_user_name_for_repository_database`
+*** `smsap credential set -profile -name profile_name`
++
+
+NOTE: 您必須為主機上的每個設定檔執行 smsap credential set 指令。
+
+
+
+
+
+. 確保在執行 hostname -f 時顯示資料庫主機的完全限定網域名稱 (FQDN)。
++
+如果沒有顯示 FQDN，則必須修改 /etc/hosts 以指定主機的 FQDN。
+
+
+
+
+
+== 導入數據
+
+您可以從資料庫主機執行導入工具來匯入資料。
+
+*關於此任務*
+
+匯入後建立的SnapCenter備份策略具有不同的命名格式：
+
+* 為沒有任何操作和計劃的設定檔建立的策略具有 SM_PROFILENAME_ONLINE_FULL_DEFAULT_MIGRATED 格式。
++
+當未使用設定檔執行任何操作時，將建立相應的策略，其預設備份類型為在線，備份範圍為完整。
+
+* 為具有一個或多個操作的設定檔建立的策略具有 SM_PROFILENAME_BACKUPMODE_BACKUPSCOPE_MIGRATED 格式。
+* 為附加到設定檔的計劃所建立的策略具有 SM_PROFILENAME_SMOSCHEDULENAME_BACKUPMODE_BACKUPSCOPE_MIGRATED 格式。
+
+
+*步驟*
+
+. 登入要匯入的資料庫主機。
+. 透過執行位於 _/opt/ NetApp/snapcenter/spl/bin_ 的 sc-migrate 腳本來執行導入工具。
+. 輸入SnapCenter伺服器使用者名稱和密碼。
++
+驗證憑證後，將與SnapCenter建立連線。
+
+. 輸入SnapManager for Oracle 或SnapManager for SAP 儲存庫資料庫詳細資訊。
++
+儲存庫資料庫列出了主機上可用的資料庫。
+
+. 輸入目標資料庫詳細資訊。
++
+如果要匯入主機上的所有資料庫，則輸入all。
+
+. 如果您想要產生系統日誌或傳送失敗操作的 ASUP 訊息，則必須透過執行 _Add-SmStorageConnection_ 或 _Set-SmStorageConnection_ 命令來啟用它們。
++
+
+NOTE: 如果要取消匯入操作（無論是在執行匯入工具時還是匯入後），都必須手動刪除作為匯入作業的一部分所建立的SnapCenter原則、憑證和資源群組。
+
+
+
+*結果*
+
+SnapCenter備份策略是針對設定檔、計劃以及使用設定檔執行的操作所建立的。也為每個目標資料庫建立資源組。
+
+成功匯入資料後，與匯入的資料庫關聯的計畫將在SnapManager for Oracle 和SnapManager for SAP 中暫停。
+
+
+NOTE: 匯入後，您必須使用SnapCenter管理匯入的資料庫或檔案系統。
+
+每次執行匯入工具的日誌都會儲存在 _/var/opt/snapcenter/spl/logs_ 目錄中，名稱為 spl_migration_timestamp.log。您可以參考此日誌來查看匯入錯誤並進行故障排除。

@@ -1,0 +1,26 @@
+---
+permalink: protect-postgresql/considerations-for-determining-backup-schedules-for-postgresql.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for PostgreSQL 
+summary: 確定備份計畫的最關鍵因素是資源的變化率。您可能每小時備份一次使用頻繁的資源，而可能每天備份一次很少使用的資源。其他因素包括資源對您的組織的重要性、您的服務等級協定（SLA）和您的復原點目標（RPO）。 
+---
+= 確定 PostgreSQL 備份計畫的注意事項
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+確定備份計畫的最關鍵因素是資源的變化率。您可能每小時備份一次使用頻繁的資源，而可能每天備份一次很少使用的資源。其他因素包括資源對您的組織的重要性、您的服務等級協定 (SLA) 和您的復原點目標 (RPO)。
+
+備份計畫分為兩部分，如下所示：
+
+* 備份頻率（執行備份的頻率）
++
+備份頻率（對於某些外掛程式也稱為計畫類型）是策略配置的一部分。例如，您可以將備份頻率設定為每小時、每天、每週或每月。
+
+* 備份計畫（確切執行備份的時間）
++
+備份計畫是資源或資源組配置的一部分。例如，如果您有一個資源組，該資源組的策略配置為每週備份，則可以將計劃配置為每週四晚上 10:00 進行備份
+
+

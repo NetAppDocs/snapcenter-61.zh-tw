@@ -1,0 +1,22 @@
+---
+permalink: uninstall/task_uninstall_snapcenter_plug_ins_package_for_linux_or_aix_using_command_line_interface.html 
+sidebar: sidebar 
+keywords: uninstall plug-ins, linux, aix, command-line interface, cli 
+summary: 您可以使用命令列介面卸載適用於 Linux 的SnapCenter插件包或適用於 AIX 的SnapCenter插件包。 
+---
+= 使用 CLI 卸載 Linux 或 AIX 的插件包
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以使用命令列介面卸載適用於 Linux 的SnapCenter插件包或適用於 AIX 的SnapCenter插件包。
+
+.開始之前
+* 確保已刪除計劃作業
+* 確保所有正在執行的作業都已完成。
+
+
+.步
+執行 _/custom_location/ NetApp/snapcenter/spl/installation/plugins/uninstall_ 進行卸載。

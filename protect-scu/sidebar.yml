@@ -1,0 +1,54 @@
+---
+section: protect-scu
+title: 保護 Unix 檔案系統
+entries:
+- title: Unix 檔案系統的SnapCenter插件概述
+  url: "/protect-scu/concept_overview_snapcenter_plug_in_for_UNIX_file_systems.html"
+- title: 為 Unix 檔案系統安裝SnapCenter插件
+  entries:
+  - title: 新增主機並安裝 Linux 插件包的先決條件
+    url: "/protect-scu/reference_prerequisites_for_adding_hosts_and_installing_snapcenter_plug_ins_package_for_linux.html"
+  - title: 新增主機並安裝Linux插件包
+    url: "/protect-scu/task_add_hosts_and_install_the_snapcenter_plug_ins_package_for_linux.html"
+  - title: 配置SnapCenter插件Loader服務
+    url: "/protect-scu/task_configure_snapcenter_plug_in_loader_service.html"
+  - title: 使用 Linux 主機上的SnapCenter插件Loader服務來設定 CA 證書
+    url: "/protect-scu/task_configure_CA_certificate_with_SPL_on_Linux_host.html"
+  - title: 為插件啟用 CA 憑證
+    url: "/protect-scu/task_enable_ca_certificates_for_plug-ins.html"
+- title: SnapCenter Plug-in for VMware vSphere
+  url: "/protect-scu/reference_install_snapcenter_plug_in_for_vmware_vsphere.html"
+- title: 準備保護 Unix 檔案系統
+  url: "/protect-scu/reference_prepare_for_protecting_UNIX file systems.html"
+- title: 備份 Unix 檔案系統
+  entries:
+  - title: 發現 UNIX 檔案系統
+    url: "/protect-scu/task_determine_whether_unix_file_systems_are_available_for_backup.html"
+  - title: 建立備份策略
+    url: "/protect-scu/task_create_backup_policies_for_unix_file_systems.html"
+  - title: 建立資源組
+    url: "/protect-scu/task_create_resource_groups_and_attach_policies_for_unix_file_systems.html"
+  - title: 在ASA r2 系統上建立資源組並為 Unix 檔案系統啟用二級保護
+    url: "/protect-scu/create-resource-groups-secondary-protection-for-asa-r2-unix-resources.html"
+  - title: 備份 UNIX 檔案系統
+    url: "/protect-scu/task_back_up_unix_file_systems.html"
+  - title: 備份資源組
+    url: "/protect-scu/task_back_up_unix_file_systems_resource_groups.html"
+  - title: 監控備份進度
+    url: "/protect-scu/task_monitor_unix_file_systems_backup_operations.html"
+  - title: 在拓樸頁面中查看受保護的 Unix 檔案系統
+    url: "/protect-scu/view_protected_unix_file_systems_in_the_topology_page.html"
+- title: 還原和恢復 Unix 檔案系統
+  entries:
+  - title: 還原和恢復 Unix 檔案系統
+    url: "/protect-scu/task_restore_unix_file_systems.html"
+  - title: 監控 Unix 檔案系統恢復操作
+    url: "/protect-scu/task_monitor_unix_file_systems_restore_operations.html"
+- title: 克隆 Unix 檔案系統
+  entries:
+  - title: 克隆 Unix 檔案系統
+    url: "/protect-scu/task_clone_unix_file_systems_backup.html"
+  - title: 分裂克隆
+    url: "/protect-scu/task_split_a_clone.html"
+  - title: 監控 Unix 檔案系統克隆操作
+    url: "/protect-scu/task_monitor_unix_file_systems_clone_operations.html"

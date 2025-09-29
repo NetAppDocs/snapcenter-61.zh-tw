@@ -1,0 +1,46 @@
+---
+permalink: protect-scsql/task_define_a_clone_strategy_for_sql_server.html 
+sidebar: sidebar 
+keywords: clone strategy 
+summary: 定義克隆策略使您能夠成功克隆資料庫。 
+---
+= 定義 SQL Server 的克隆策略
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+定義克隆策略使您能夠成功克隆資料庫。
+
+. 查看與克隆操作相關的限制。
+. 確定您需要的克隆類型。
+
+
+
+
+== 克隆操作的限制
+
+在克隆資料庫之前，您應該了解克隆操作的限制。
+
+* 如果您使用的是 Oracle 11.2.0.4 至 12.1.0.1 中的任何版本，則執行 _renamedg_ 指令時複製操作將處於暫停狀態。您可以套用 Oracle 補丁 19544733 來修復此問題。
+* 不支援將資料庫從直接連接到主機的 LUN（例如，透過在 Windows 主機上使用 Microsoft iSCSI Initiator）複製到同一 Windows 主機或另一個 Windows 主機上的 VMDK 或 RDM LUN，反之亦然。
+* 卷掛載點的根目錄不能是共享目錄。
+* 如果將包含複製的 LUN 移至新磁碟區，則無法刪除該複製。
+
+
+
+
+== 克隆操作的類型
+
+您可以使用SnapCenter克隆 SQL Server 資料庫備份或生產資料庫。
+
+* 從資料庫備份克隆
++
+克隆的資料庫可以作為開發新應用程式的基準，並有助於隔離生產環境中發生的應用程式錯誤。克隆的資料庫也可用於從軟資料庫錯誤中復原。
+
+* 複製生命週期
++
+您可以使用SnapCenter來安排在生產資料庫不忙碌時發生的重複克隆作業。
+
+

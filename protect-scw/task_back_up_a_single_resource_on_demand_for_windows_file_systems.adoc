@@ -1,0 +1,210 @@
+---
+permalink: protect-scw/task_back_up_a_single_resource_on_demand_for_windows_file_systems.html 
+sidebar: sidebar 
+keywords: backing up 
+summary: 如果資源不在資源組中，您可以從資源頁面按需備份該資源。 
+---
+= 按需備份 Windows 檔案系統的單一資源
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+如果資源不在資源組中，您可以從資源頁面按需備份該資源。
+
+.關於此任務
+如果要備份與二級儲存具有SnapMirror關係的資源，則指派給儲存使用者的角色應包括「`snapmirror all`」權限。但是，如果您使用“vsadmin”角色，則不需要“snapmirror all”權限。
+
+
+NOTE: 備份檔案系統時， SnapCenter不會備份正在備份的檔案系統中掛載在磁碟區掛載點 (VMP) 上的 LUN。
+
+
+IMPORTANT: 如果您在 Windows 檔案系統環境中工作，請不要備份資料庫檔案。這樣做會導致備份不一致，並且在復原時可能會遺失資料。若要保護資料庫文件，必須使用適合資料庫的SnapCenter外掛程式（例如，適用於 Microsoft SQL Server 的SnapCenter外掛程式或適用於 Microsoft Exchange Server 的SnapCenter外掛程式）。
+
+[role="tabbed-block"]
+====
+.SnapCenter使用者介面
+--
+.步驟
+. 在左側導覽窗格中，按一下“*資源*”，然後從清單中選擇適當的外掛程式。
+. 在資源頁面中，選擇檔案系統資源類型，然後選擇要備份的資源。
+. 如果檔案系統 - 保護精靈沒​​有自動啟動，請按一下*保護*以啟動精靈。
++
+指定保護設置，如建立資源組任務所述。
+
+. 可選：在精靈的資源頁面中，輸入快照的自訂名稱格式。
++
+例如，customtext_resourcegroup_policy_hostname 或 resourcegroup_hostname。預設情況下，時間戳記會附加到快照名稱。
+
+. 在「策略」頁面中，執行以下任務：
++
+.. 從下拉清單中選擇一個或多個策略。
++
+您可以選擇任何現有策略，然後按一下「*詳細資料*」以確定是否可以使用該策略。
+
++
+如果沒有現有策略滿足您的要求，您可以複製現有策略並進行修改，也可以透過點擊image:../media/add_policy_from_resourcegroup.gif["從資源群組新增策略"]啟動策略精靈。如果沒有現有策略滿足您的要求，您可以複製現有策略並進行修改，也可以透過點擊image:../media/add_policy_from_resourcegroup.gif["從資源群組新增策略"]啟動策略精靈。
+
++
+所選策略列在「為所選策略配置計畫」部分的「策略」欄位中。
+
+.. 在「配置所選策略的計畫」部分中，按一下image:../media/add_policy_from_resourcegroup.gif["從資源群組新增策略"]在要設定計劃的策略的配置計劃列中。
+.. 在「為政策_policy_name_新增計劃」對話方塊中，透過指定開始日期、到期日和頻率來配置計劃，然後按一下「完成」。
++
+配置的計劃列在「為選定策略配置計劃」部分中的「已套用計劃」欄位中。
+
++
+https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/Scheduled_data_protection_operations_fail_if_the_number_of_operations_running_reaches_maximum_limit["計劃操作可能會失敗"]
+
+
+
+. 在通知頁面中，執行以下操作：
++
+|===
+| 對於這個領域... | 這樣做... 
+
+
+ a| 
+電子郵件偏好
+ a| 
+選擇“*始終*”、“*失敗時*”或“*失敗或警告時*”，在建立備份資源群組、附加原則和設定計劃後向收件者發送電子郵件。
+
+輸入 SMTP 伺服器資訊、預設電子郵件主旨行以及「收件者」和「寄件者」電子郵件地址。
+
+
+
+ a| 
+從
+ a| 
+電子郵件
+
+
+
+ a| 
+到
+ a| 
+電子郵件地址
+
+
+
+ a| 
+主題
+ a| 
+預設電子郵件主題行
+
+|===
+. 查看摘要，然後按一下「*完成*」。
++
+進入資料庫拓撲頁面。
+
+. 點選*立即備份*。
+. 在備份頁面中，執行以下步驟：
++
+.. 如果您已對資源套用了多個策略，請從策略下拉清單中選擇要用於備份的策略。
++
+如果為按需備份選擇的策略與備份計畫相關聯，則按需備份將根據為計畫類型指定的保留設定進行保留。
+
+.. 按一下“*備份*”。
+
+
+. 透過點選「*監視*」>「*作業*」來監視操作進度。
+
+
+--
+.PowerShell cmdlet
+--
+.步驟
+. 使用 Open-SmConnection cmdlet 為指定使用者啟動與SnapCenter伺服器的連線會話。
++
+[listing]
+----
+Open-smconnection  -SMSbaseurl  https://snapctr.demo.netapp.com:8146
+----
++
+顯示使用者名稱和密碼提示。
+
+. 使用 Add-SmPolicy cmdlet 建立備份策略。
++
+此範例建立一個 SQL 備份類型為 FullBackup 的新備份策略：
+
++
+[listing]
+----
+PS C:\> Add-SmPolicy -PolicyName TESTPolicy
+-PluginPolicyType SCSQL -PolicyType Backup
+-SqlBackupType FullBackup -Verbose
+----
++
+此範例建立一個新的備份策略，其 Windows 檔案系統備份類型為 CrashConsistent：
+
++
+[listing]
+----
+PS C:\> Add-SmPolicy -PolicyName FileSystemBackupPolicy
+-PluginPolicyType SCW -PolicyType Backup
+-ScwBackupType CrashConsistent -Verbose
+----
+. 使用 Get-SmResources cmdlet 來發現主機資源。
++
+此範例發現指定主機上的 Microsoft SQL 外掛程式的資源：
+
++
+[listing]
+----
+C:\PS>PS C:\> Get-SmResources -HostName vise-f6.sddev.mycompany.com
+-PluginCode SCSQL
+----
++
+此範例發現指定主機上的 Windows 檔案系統的資源：
+
++
+[listing]
+----
+C:\PS>PS C:\> Get-SmResources -HostName vise2-f6.sddev.mycompany.com
+-PluginCode SCW
+----
+. 使用 Add-SmResourceGroup cmdlet 為SnapCenter新增新的資源組。
++
+此範例使用指定的策略和資源建立一個新的 SQL 資料庫備份資源組：
+
++
+[listing]
+----
+PS C:\> Add-SmResourceGroup -ResourceGroupName AccountingResource
+-Resources @{"Host"="visef6.org.com";
+"Type"="SQL Database";"Names"="vise-f6\PayrollDatabase"}
+-Policies "BackupPolicy"
+----
++
+此範例使用指定的策略和資源建立一個新的 Windows 檔案系統備份資源群組：
+
++
+[listing]
+----
+PS C:\> Add-SmResourceGroup -ResourceGroupName EngineeringResource
+-PluginCode SCW -Resources @{"Host"="WIN-VOK20IKID5I";
+"Type"="Windows Filesystem";"Names"="E:\"}
+-Policies "EngineeringBackupPolicy"
+----
+. 使用 New-SmBackup cmdlet 啟動新的備份作業。
++
+[listing]
+----
+PS C:> New-SmBackup -ResourceGroupName PayrollDataset -Policy FinancePolicy
+----
+. 使用 Get-SmBackupReport cmdlet 查看備份作業的狀態。
++
+此範例顯示在指定日期執行的所有作業的作業摘要報表：
+
++
+[listing]
+----
+PS C:\> Get-SmJobSummaryReport -Date '1/27/2016'
+----
+
+
+可以透過執行_Get-Help command_name_來取得有關可與 cmdlet 一起使用的參數及其描述的資訊。或者，您也可以參考 https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["SnapCenter軟體 Cmdlet 參考指南"^]。
+
+--
+====

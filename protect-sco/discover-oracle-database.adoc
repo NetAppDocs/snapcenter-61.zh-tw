@@ -1,0 +1,65 @@
+---
+permalink: protect-sco/discover-oracle-database.html 
+sidebar: sidebar 
+keywords: oracle databases discover 
+summary: SnapCenter如何發現 Oracle 資料庫。 
+---
+= SnapCenter如何發現 Oracle 資料庫
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+資源是主機上由SnapCenter維護的 Oracle 資料庫。發現可用的資料庫後，您可以將這些資料庫新增至資源組以執行資料保護操作。
+
+以下部分介紹了SnapCenter用於發現不同類型和版本的 Oracle 資料庫的過程。
+
+
+
+== 對於 Oracle 版本 11__g__ 至 12__c__R1
+
+.RAC 資料庫
+RAC 資料庫僅根據 /etc/oratab 條目來發現。您應該在 /etc/oratab 檔案中擁有資料庫條目。
+
+.獨立
+僅根據 /etc/oratab 條目才能發現獨立資料庫。
+
+.自動化管理
+ASM 實例條目應該在 /etc/oratab 檔案中可用。
+
+.RAC 單節點
+RAC One Node 資料庫僅根據 /etc/oratab 條目來發現。資料庫應處於 nomount、mount 或 open 狀態。您應該在 /etc/oratab 檔案中擁有資料庫條目。
+
+如果資料庫已被發現且備份與資料庫相關聯，則 RAC One Node 資料庫狀態將被標記為重新命名或刪除。
+
+如果資料庫被重新定位，則應執行下列步驟：
+
+. 在故障轉移 RAC 節點上的 /etc/oratab 檔案中手動新增重定位的資料庫項目。
+. 手動刷新資源。
+. 從資源頁面中選擇 RAC One Node 資料庫，然後按一下資料庫設定。
+. 配置資料庫以將首選叢集節點設定為目前託管資料庫的 RAC 節點。
+. 執行SnapCenter操作。
+. 如果您已將資料庫從一個節點重新定位到另一個節點，且先前節點中的 oratab 條目未被刪除，請手動刪除 oratab 條目以避免同一個資料庫顯示兩次。
+
+
+
+
+== 適用於 Oracle 版本 12cR2 至 18c、19c 或 21c
+
+.RAC 資料庫
+使用 srvctl config 指令發現 RAC 資料庫。您應該在 /etc/oratab 檔案中擁有資料庫條目。
+
+.獨立
+獨立資料庫是根據 /etc/oratab 檔案中的條目和 srvctl config 命令的輸出發現的。
+
+.自動化管理
+ASM 實例條目不需要位於 /etc/oratab 檔案中。
+
+.RAC 單節點
+僅使用 srvctl config 指令即可發現 RAC One Node 資料庫。資料庫應處於 nomount、mount 或 open 狀態。如果資料庫已被發現且備份與資料庫相關聯，則 RAC One Node 資料庫狀態將被標記為重新命名或刪除。
+
+如果資料庫被重新定位，您應該執行以下步驟：。手動刷新資源。。從資源頁面中選擇 RAC One Node 資料庫，然後按一下資料庫設定。。配置資料庫以將首選叢集節點設定為目前託管資料庫的 RAC 節點。。執行SnapCenter操作。
+
+
+NOTE: 如果 /etc/oratab 檔案中有任何 Oracle 12__c__R2 和 18__c__ 資料庫條目，並且使用 srvctl config 指令註冊了相同的資料庫，則SnapCenter將消除重複的資料庫條目。如果存在過時的資料庫條目，則會發現該資料庫，但該資料庫將無法存取且狀態將為離線。

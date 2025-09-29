@@ -1,0 +1,68 @@
+---
+permalink: upgrade/task_upgrade_your_plug_in_packages.html 
+sidebar: sidebar 
+keywords: upgrade, upgrade plug-in packages 
+summary: 插件包作為SnapCenter升級的一部分進行分發。 
+---
+= 升級你的插件包
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+插件包作為SnapCenter升級的一部分進行分發。
+
+您不必手動將每個要升級的插件主機置於維護模式，因為升級過程會將您的 Windows、Linux 或 AIX 插件主機置於維護模式。維護模式可防止在升級期間在插件主機上執行任何計劃的作業。
+
+.開始之前
+* 如果您是可以存取 Linux 機器的非 root 用戶，則應在執行升級作業之前使用最新的校驗和值更新 _/etc/sudoers_ 檔案。
+* 預設情況下， SnapCenter從環境中偵測 JAVA_HOME。如果您想要使用固定的 JAVA_HOME，並且要在 Linux 主機上升級插件，則應在位於 _/var/opt/snapcenter/spl/etc/_ 的 _spl.properties_ 檔案中手動新增 SKIP_JAVAHOME_UPDATE 參數，並將值設為 TRUE。
++
+當外掛程式升級或SnapCenter插件載入器 (SPL) 服務重新啟動時，JAVA_HOME 的值會更新。在升級或重新啟動 SPL 之前，如果新增 SKIP_JAVAHOME_UPDATE 參數並將其值設為 TRUE，則 JAVA_HOME 的值不會更新。
+
+* 您應該已經備份了在SnapCenter伺服器主機或插件主機上修改的所有SnapCenter設定檔。
++
+SnapCenter設定檔範例：SnapDriveService.exe.config、SMCoreServiceHost.exe.config 等等。
+
+
+
+.關於此任務
+* 對於適用於 Microsoft SQL Server 的SnapCenter插件、適用於 Microsoft Exchange Server 的SnapCenter插件和適用於 Microsoft Windows 的SnapCenter插件，建議將伺服器和插件主機都升級到最新版本，以便 SCRIPTS_PATH 運作。
++
+對於策略中啟用了前置腳本和後置腳本的現有備份和驗證計劃，升級後備份作業將繼續進行。
+
++
+在*作業詳情*頁面中，一條警告訊息建議客戶將腳本複製到 SCRIPTS_PATH 並編輯策略以提供相對於 SCRIPTS_PATH 的路徑。對於複製生命週期作業，警告訊息出現在子作業層級。
+
+
+
+.步驟
+. 在左側導覽窗格中，按一下「*主機*」>「*託管主機*」。
+. 透過執行下列任務之一來升級主機：
++
+** 如果“整體狀態”列顯示其中一個外掛程式主機的“可升級”，請按一下該外掛程式主機名稱並執行下列操作：
++
+... 按一下“更多選項”。
+... 如果您不想驗證插件主機是否符合升級插件的要求，請選擇「*跳過預檢*」。
+... 點選*升級*。
+
+
+** 如果要升級多台主機，請選擇所有主機，點選image:../media/more_icon.gif["更多圖標"]，然後按一下*升級*>*確定*。
++
+在插件升級過程中，所有相關服務都會重新啟動。
+
++
+
+NOTE: 套件中的所有插件都會被選中，但只有隨早期版本的SnapCenter安裝的插件才會升級，其餘插件不會安裝。您必須使用*新增插件*選項來安裝任何新插件。
+
++
+如果您未選取「跳過預先檢查」複選框，則會驗證插件主機是否符合安裝插件的要求。如果不符合最低要求，則會顯示相應的錯誤或警告訊息。解決問題後，按一下*升級*。
+
++
+
+NOTE: 如果錯誤與磁碟空間或 RAM 有關，您可以更新位於 C:\Program Files\ NetApp\ SnapCenter WebApp 的 web.config，或位於 C:\Windows\System32\WindowsPowerShell\v1.0\Modules\ SnapCenter\ 的 PowerShell 設定檔以修改預設值。如果錯誤與剩餘參數有關，那麼您必須解決問題，然後再次驗證要求。
+
+
+
+

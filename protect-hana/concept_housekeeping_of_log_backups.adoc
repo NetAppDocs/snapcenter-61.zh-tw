@@ -1,0 +1,16 @@
+---
+permalink: protect-hana/concept_housekeeping_of_log_backups.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for SAP HANA Database 
+summary: SnapCenter管理儲存系統和檔案系統層級以及 SAP HANA 備份目錄中的日誌和資料備份。 
+---
+= SnapCenter如何管理日誌和資料備份
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenter管理儲存系統和檔案系統層級以及 SAP HANA 備份目錄中的日誌和資料備份。
+
+根據保留設定刪除主儲存或輔助儲存上的快照及其在 SAP HANA 目錄中的對應項目。在備份和資源群組刪除期間，SAP HANA 目錄條目也會被刪除。

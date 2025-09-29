@@ -1,0 +1,189 @@
+---
+permalink: install/task_install_the_snapcenter_server_using_the_install_wizard.html 
+sidebar: sidebar 
+keywords: install, snapcenter software, install wizard, features enabled 
+summary: 您可以執行SnapCenter Server 安裝程式執行檔來安裝SnapCenter Server。 
+---
+= 在 Windows 主機上安裝SnapCenter伺服器
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以執行SnapCenter Server 安裝程式執行檔來安裝SnapCenter Server。
+
+您可以選擇使用 PowerShell cmdlet 執行多個安裝和設定程序。您應該使用 PowerShell 7.4.2 或更高版本。
+
+
+NOTE: 不支援從命令列靜默安裝SnapCenter伺服器。
+
+.開始之前
+* SnapCenter伺服器主機必須保持最新的 Windows 更新，且無需重新啟動系統。
+* 您應該確保計劃安裝SnapCenter伺服器的主機上未安裝 MySQL 伺服器。
+* 您應該啟用 Windows 安裝程式偵錯。
++
+有關啟用 https://support.microsoft.com/kb/223300["Windows 安裝程式日誌記錄"^]。
+
++
+
+NOTE: 您不應在具有 Microsoft Exchange Server、Active Directory 或網域名稱伺服器的主機上安裝SnapCenter Server。
+
+
+
+.步驟
+. 從下列位置下載SnapCenter Server 安裝包 https://mysupport.netapp.com/site/products/all/details/snapcenter/downloads-tab["NetApp支援站點"^]。
+. 雙擊下載的 .exe 檔案啟動SnapCenter Server 安裝。
++
+啟動安裝後，將執行所有預檢查，如果不符合最低要求，則會顯示相應的錯誤或警告訊息。
+
++
+您可以忽略警告訊息並繼續安裝；但是，錯誤應該得到修復。
+
+. 查看SnapCenter伺服器安裝所需的預先填入值並根據需要進行修改。
++
+您不必指定 MySQL 伺服器儲存庫資料庫的密碼。在SnapCenter Server 安裝期間，密碼會自動產生。
+
++
+
+NOTE: 特殊字元“`%`" is not supported in the custom path for the repository database. If you include "` %`”，則安裝失敗。
+
+. 按一下“立即安裝”。
++
+如果您指定的任何值無效，則會顯示相應的錯誤訊息。您應該重新輸入這些值，然後啟動安裝。
+
++
+
+NOTE: 如果點選*取消*按鈕，正在執行的步驟將會完成，然後開始回溯操作。  SnapCenter伺服器將從主機中完全刪除。
+
++
+但是，如果在執行“SnapCenter Server 網站重新啟動”或“等待SnapCenter Server 啟動”操作時按一下“*取消*”，則安裝將繼續進行而不會取消操作。
+
++
+日誌檔案始終列在管理員使用者的 %temp% 資料夾中（最早的在前）。如果要重新導向日誌位置，請透過執行下列命令從命令提示字元啟動SnapCenter Server 安裝：``C:\installer_location\installer_name.exe /log"C:\"``
+
+
+
+
+
+== 安裝期間在 Windows 主機上啟用的功能
+
+SnapCenter Server 安裝程式在安裝期間在 Windows 主機上啟用 Windows 功能和角色。這些可能對故障排除和維護主機系統有用。
+
+|===
+| 類別 | 特徵 
+
+
+ a| 
+Web 伺服器
+ a| 
+* 網路資訊服務
+* 萬維網服務
+* 常見 HTTP 功能
++
+** 預設文檔
+** 目錄瀏覽
+** HTTP 錯誤
+** HTTP 重新導向
+** 靜態內容
+** WebDAV 發布
+
+
+* 健康與診斷
++
+** 自訂日誌
+** HTTP 日誌記錄
+** 測井工具
+** 請求監控
+** 追蹤
+
+
+* 性能特點
++
+** 靜態內容壓縮
+
+
+* 安全
++
+** IP 安全
+** 基本驗證
+** 集中式 SSL 憑證支持
+** 用戶端憑證對應認證
+** IIS 用戶端憑證對應驗證
+** IP 和網域限制
+** 請求過濾
+** URL 授權
+** Windows 驗證
+
+
+* 應用程式開發功能
++
+** .NET 擴充性 4.5
+** 應用程式初始化
+** ASP.NET Core Runtime 8.0.12（以及所有後續 8.0.x 修補程式）託管包
+** 伺服器端包含
+** WebSocket 協議
+
+
+* 管理工具
++
+** IIS 管理控制台
+
+
+
+
+
+
+ a| 
+IIS 管理腳本和工具
+ a| 
+* IIS 管理服務
+* Web管理工具
+
+
+
+
+ a| 
++.NET Framework 8.0.12 功能+
+ a| 
+* ASP.NET Core Runtime 8.0.12（以及所有後續 8.0.x 修補程式）託管包
+* Windows Communication Foundation (WCF) HTTP 啟動45
++
+** TCP 啟用設定
+** HTTP 啟用設定
+
+
+
+
+有關 .NET 特定的故障排除信息，請參閱 https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/SnapCenter_upgrade_or_install_fails_with_%22This_KB_is_not_related_to_the_OS%22["對於沒有 Internet 連線的傳統系統， SnapCenter升級或安裝失敗"^]。
+
+
+
+ a| 
+訊息佇列
+ a| 
+* 訊息隊列服務
++
+
+NOTE: 確保沒有其他應用程式使用SnapCenter建立和管理的 MSMQ 服務。
+
+* RabbitMQ
+* Erlang
+
+
+
+
+ a| 
+Windows 進程啟動服務
+ a| 
+* 流程模型
+
+
+
+
+ a| 
+配置 API
+ a| 
+全部
+
+|===

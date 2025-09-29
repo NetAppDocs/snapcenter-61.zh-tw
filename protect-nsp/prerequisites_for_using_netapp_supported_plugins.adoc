@@ -1,0 +1,32 @@
+---
+permalink: protect-nsp/prerequisites_for_using_netapp_supported_plugins.html 
+sidebar: sidebar 
+keywords: Credentials 
+summary: 在使用SnapCenter NetApp支援的插件之前， SnapCenter管理員必須安裝和設定SnapCenter伺服器並執行先決條件任務。 
+---
+= 使用NetApp支援的插件的先決條件
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+在使用SnapCenter NetApp支援的插件之前， SnapCenter管理員必須安裝和設定SnapCenter伺服器並執行先決條件任務。
+
+* 安裝並配置SnapCenter伺服器。
+* 登入SnapCenter伺服器。
+* 透過新增儲存系統連接和建立憑證（如果適用）來配置SnapCenter環境。
+* 新增主機，並安裝和上傳插件。
+* 如果適用，請在外掛程式主機上安裝 Java 11。
+* 如果您有多個資料路徑 (LIF) 或 dNFS 配置，則可以使用資料庫主機上的SnapCenter CLI 執行下列操作：
++
+** 預設情況下，資料庫主機的所有 IP 位址都會新增至複製磁碟區的儲存虛擬機器 (SVM) 中的 NFS 儲存匯出原則。如果您想要特定的 IP 位址或限制為 IP 位址的子集，請執行 Set-PreferredHostIPsInStorageExportPolicy CLI。
+** 如果 SVM 中有多個資料路徑 (LIF)， SnapCenter會選擇適當的資料路徑 (LIF) 來掛載 NFS 複製磁碟區。但是，如果要指定特定的資料路徑 (LIF)，則必須執行 Set-SvmPreferredDataPath CLI。可以透過執行_Get-Help command_name_來取得有關可與命令一起使用的參數及其描述的資訊。或者，您也可以參考 https://library.netapp.com/ecm/ecm_download_file/ECMLP3337666["SnapCenter軟體命令參考指南"^]。
+
+
+* 如果您想要備份複製，請設定SnapMirror和SnapVault。
+* 確保連接埠 9090 未被主機上的任何其他應用程式使用。
++
+除了SnapCenter所需的其他連接埠外，還必須保留連接埠 9090 以供NetApp支援的插件使用。
+
+

@@ -1,0 +1,43 @@
+---
+permalink: protect-nsp/what_you_can_do_with_the_netapp_supported_plugins.html 
+sidebar: sidebar 
+keywords: NetApp supported plug-ins 
+summary: 您可以使用NetApp支援的插件進行資料保護操作。 
+---
+= NetApp支援的插件可以做什麼
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以使用NetApp支援的插件（如 MongoDB、ORASCPM、Oracle 應用程式、SAP ASE、SAP MaxDB 和儲存插件）進行資料保護作業。
+
+* 新增資料庫、執行個體、文件或表空間等資源。
+* 建立備份。
+* 從備份中復原。
+* 克隆備份。
+* 安排備份作業。
+* 監控備份、復原和克隆作業。
+* 查看備份、復原和克隆作業的報告。
+
+
+您可以使用NetApp支援的插件進行資料保護操作。
+
+* 對ONTAP叢集中的儲存磁碟區進行一致性群組快照。
+* 使用內建的預先腳本和後腳本框架備份自訂應用程式
++
+您可以備份ONTAP磁碟區、LUN 或 Qtree。
+
+* 利用現有的複製關係（ SnapVault/ SnapMirror/統一複製）並使用SnapCenter策略將主伺服器上拍攝的快照更新到ONTAP輔助伺服器上
++
+ONTAP主伺服器和輔助伺服器可以是ONTAP FAS、 AFF、 ASA、 ONTAP Select或Cloud Volumes ONTAP。
+
+* 還原完整的ONTAP磁碟區、LUN 或檔案。
++
+您應該手動提供相應的文件路徑，因為瀏覽或索引功能並未內建於產品中。
+
++
+不支援 Qtree 或目錄還原，但如果備份範圍是在 Qtree 層級定義的，則您只能複製和匯出 Qtree。
+
+

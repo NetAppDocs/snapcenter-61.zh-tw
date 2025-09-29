@@ -1,0 +1,27 @@
+---
+permalink: protect-sce/concept_requirements_for_restoring_an_exchange_database.html 
+sidebar: sidebar 
+keywords: restoring an Exchange database 
+summary: 從適用於 Microsoft Exchange Server 備份的SnapCenter外掛程式還原 Exchange Server 資料庫之前，必須確保符合幾個要求。 
+---
+= 還原 Exchange 資料庫的要求
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+從適用於 Microsoft Exchange Server 備份的SnapCenter外掛程式還原 Exchange Server 資料庫之前，必須確保符合幾個要求。
+
+
+NOTE: 若要完全使用還原功能，必須將SnapCenter伺服器和SnapCenter Plug-in for Exchange 資料庫都升級到 4.6。
+
+* 在復原資料庫之前，Exchange Server 必須處於線上狀態並且正在執行。
+* 資料庫必須存在於 Exchange Server 上。
++
+
+NOTE: 不支援恢復已刪除的資料庫。
+
+* 必須暫停資料庫的SnapCenter方案。
+* SnapCenter伺服器和適用於 Microsoft Exchange Server 主機的SnapCenter插件必須連接到包含要還原的備份的主儲存和輔助儲存。
+

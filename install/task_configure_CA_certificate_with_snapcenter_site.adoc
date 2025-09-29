@@ -1,0 +1,37 @@
+---
+permalink: install/task_configure_CA_certificate_with_snapcenter_site.html 
+sidebar: sidebar 
+keywords: SnapCenter, configure, CA certificate 
+summary: 您應該在 Windows 主機上使用SnapCenter網站設定 CA 憑證。 
+---
+= 使用SnapCenter站點配置 CA 證書
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您應該在 Windows 主機上使用SnapCenter網站設定 CA 憑證。
+
+*步驟*
+
+. 在安裝了SnapCenter的 Windows Server 上開啟 IIS 管理員。
+. 在左側導覽窗格中，按一下「*連線*」。
+. 展開伺服器的名稱和*網站*。
+. 選擇要安裝 SSL 憑證的SnapCenter網站。
+. 導覽至*操作* > *編輯網站*，按一下*綁定*。
+. 在綁定頁面中，選擇「https 綁定」。
+. 按一下“*編輯*”。
+. 從 SSL 憑證下拉清單中，選擇最近匯入的 SSL 憑證。
+. 按一下“*確定*”。
++
+
+NOTE: SnapCenter Scheduler 網站（預設連接埠：8154，HTTPS）配置了自簽名憑證。此連接埠在SnapCenter Server 主機內進行通信，且不需要使用 CA 憑證進行設定。但是，如果您的環境要求您使用 CA 證書，請使用SnapCenter Scheduler 網站重複步驟 5 到 9。
+
+
+
+
+NOTE: 如果下拉式選單中未列出最近部署的 CA 證書，請檢查該 CA 證書是否與私鑰相關聯。
+
+
+IMPORTANT: 確保使用下列路徑新增憑證：*控制台根 > 憑證 - 本機 > 受信任的根憑證授權單位 > 憑證*。

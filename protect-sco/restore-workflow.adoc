@@ -1,0 +1,18 @@
+---
+permalink: protect-sco/restore-workflow.html 
+sidebar: sidebar 
+keywords: restore, workflow 
+summary: 復原工作流程包括規劃、執行復原操作和監控操作。 
+---
+= 復原工作流程
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+復原工作流程包括規劃、執行復原操作和監控操作。
+
+以下工作流程顯示了執行還原作業必須遵循的順序：
+
+image::../media/all_plug_ins_restore_workflow.gif[所有插件恢復工作流程]

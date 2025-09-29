@@ -1,0 +1,183 @@
+---
+permalink: protect-sce/reference_prerequisites_to_add_hosts_and_install_snapcenter_plug_in_for_microsoft_exchange_server.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for Microsoft Exchange Server 
+summary: 在新增主機和安裝插件包之前，您必須完成所有要求。 
+---
+= 新增主機並安裝適用於 Microsoft Exchange Server 的SnapCenter外掛程式的先決條件
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+在新增主機和安裝插件包之前，您必須完成所有要求。
+
+* 如果您正在使用 iSCSI，則 iSCSI 服務必須正在執行。
+* 您必須擁有具有本機管理員權限的網域用戶，並在遠端主機上擁有本機登入權限。
+* 您必須使用 Microsoft Exchange Server 2013、2016 或 2019 進行獨立和資料庫可用性群組配置。
+* 在 Windows 主機上安裝插件時，如果指定非內建的憑證或使用者屬於本機工作群組用戶，則必須在主機上停用 UAC。
+* 如果您在SnapCenter中管理叢集節點，則必須擁有對叢集中所有節點具有管理權限的使用者。
+* 您必須擁有在 Exchange Server 上具有管理權限的使用者。
+* 如果已安裝SnapManager for Microsoft Exchange Server 和SnapDrive for Windows，則必須先取消註冊SnapDrive for Windows 使用的 VSS 硬體提供程序，然後再在同一 Exchange Server 上安裝 Plug-in for Exchange，以確保使用SnapCenter成功保護資料。
+* 如果SnapManager for Microsoft Exchange Server 和 Plug-in for Exchange 安裝在同一台伺服器上，則必須從 Windows 排程器中暫停或刪除由SnapManager for Microsoft Exchange Server 建立的所有計畫。
+* 主機必須能夠解析為伺服器的完全限定網域名稱 (FQDN)。如果修改了 hosts 檔案以使其可解析，並且在 hosts 檔案中指定了短名稱和 FQDN，則在SnapCenter hosts 檔案中以下列格式建立一個項目：_<ip_address> <host_fqdn> <host_name>_。
+* 確保防火牆未封鎖以下端口，否則添加主機操作將失敗。若要解決此問題，您必須配置動態連接埠範圍。有關更多信息，請參閱 https://docs.microsoft.com/en-us/troubleshoot/windows-server/networking/configure-rpc-dynamic-port-allocation-with-firewalls["Microsoft 文件"^] 。
++
+** Windows 2016 和 Exchange 2016 的連接埠範圍為 50000 - 51000
+** Windows 2012 R2 和 Exchange 2013 的連接埠範圍為 6000 - 6500
+** Windows 2019 的連接埠範圍為 49152 - 65536
+
+
+
+
+[NOTE]
+====
+若要識別連接埠範圍，請執行下列命令：
+
+* netsh int ipv4 顯示動態連接埠 tcp
+* netsh int ipv4 顯示動態連接埠 udp
+* netsh int ipv6 顯示動態連接埠 tcp
+* netsh int ipv6 顯示動態連接埠 udp
+
+
+====
+
+
+== 安裝適用於 Windows 的SnapCenter插件包的主機需求
+
+在安裝適用於 Windows 的SnapCenter插件包之前，您應該熟悉一些基本的主機系統空間需求和大小需求。
+
+|===
+| 物品 | 要求 
+
+
+ a| 
+作業系統
+ a| 
+微軟 Windows
+
+有關受支援版本的最新信息，請參閱 https://imt.netapp.com/imt/imt.jsp?components=134502;&solution=1258&isHWU&src=IMT["NetApp互通性表工具"^]。
+
+
+
+ a| 
+主機上SnapCenter插件的最小 RAM
+ a| 
+1GB
+
+
+
+ a| 
+主機上SnapCenter插件的最小安裝和日誌空間
+ a| 
+5GB
+
+
+NOTE: 您應該分配足夠的磁碟空間並監控日誌資料夾的儲存消耗。所需的日誌空間取決於要保護的實體的數量和資料保護操作的頻率。如果沒有足夠的磁碟空間，則不會為最近執行的操作建立日誌。
+
+
+
+ a| 
+所需軟體包
+ a| 
+* ASP.NET Core Runtime 8.0.12（以及所有後續 8.0.x 修補程式）託管包
+* PowerShell 核心 7.4.2
+* Java 11 Oracle Java 與 OpenJDK
++
+Java 11 Oracle Java 和 OpenJDK 僅適用於 SAP HANA、IBM Db2、PostgreSQL、MySQL、 NetApp支援的插件以及可安裝在 Windows 主機上的其他自訂應用程式。
+
+
+
+有關受支援版本的最新信息，請參閱 https://imt.netapp.com/matrix/imt.jsp?components=121074;&solution=1257&isHWU&src=IMT["NetApp互通性表工具"^]。
+
+有關 .NET 特定的故障排除信息，請參閱 https://kb.netapp.com/mgmt/SnapCenter/SnapCenter_upgrade_or_install_fails_with_This_KB_is_not_related_to_the_OS["對於沒有網路連線的傳統系統， SnapCenter升級或安裝將會失敗。"]
+
+|===
+
+
+== 需要 Exchange Server 權限
+
+若要讓SnapCenter能夠新增 Exchange Server 或 DAG，並在主機或 DAG 上安裝適用於 Microsoft Exchange Server 的SnapCenter插件，您必須使用具有最低限度特權和權限的使用者憑證來設定SnapCenter 。
+
+您必須擁有具有本機管理員權限的網域用戶，並且具有遠端 Exchange 主機上的本機登入權限以及 DAG 中所有節點上的管理權限。網域使用者需要以下最低權限：
+
+* 新增郵箱資料庫副本
+* 解除安裝資料庫
+* 取得廣告伺服器設置
+* 取得資料庫可用性群組
+* 取得 ExchangeServer
+* 取得郵箱資料庫
+* 取得郵箱資料庫複製狀態
+* 取得郵件伺服器
+* 獲取郵箱統計信息
+* 取得公共資料夾資料庫
+* 行動活動信箱資料庫
+* 行動資料庫路徑-ConfigurationOnly:$true
+* 掛載資料庫
+* 新郵件資料庫
+* 新公用資料夾資料庫
+* 刪除郵件資料庫
+* 刪除-MailboxDatabaseCopy
+* 刪除公用資料夾資料庫
+* 履歷-郵件資料庫副本
+* 設定廣告伺服器設定
+* 設定郵件資料庫-allowfilerestore:$true
+* 設定郵箱資料庫副本
+* 設定公用資料夾資料庫
+* 暫停郵箱資料庫複製
+* 更新郵箱資料庫副本
+
+
+
+
+== 安裝適用於 Windows 的SnapCenter插件包的主機需求
+
+在安裝適用於 Windows 的SnapCenter插件包之前，您應該熟悉一些基本的主機系統空間需求和大小需求。
+
+|===
+| 物品 | 要求 
+
+
+ a| 
+作業系統
+ a| 
+微軟 Windows
+
+有關受支援版本的最新信息，請參閱 https://imt.netapp.com/imt/imt.jsp?components=134502;&solution=1258&isHWU&src=IMT["NetApp互通性表工具"^]。
+
+
+
+ a| 
+主機上SnapCenter插件的最小 RAM
+ a| 
+1GB
+
+
+
+ a| 
+主機上SnapCenter插件的最小安裝和日誌空間
+ a| 
+5GB
+
+
+NOTE: 您應該分配足夠的磁碟空間並監控日誌資料夾的儲存消耗。所需的日誌空間取決於要保護的實體的數量和資料保護操作的頻率。如果沒有足夠的磁碟空間，則不會為最近執行的操作建立日誌。
+
+
+
+ a| 
+所需軟體包
+ a| 
+* ASP.NET Core Runtime 8.0.12（以及所有後續 8.0.x 修補程式）託管包
+* PowerShell 核心 7.4.2
+* Java 11 Oracle Java 與 OpenJDK
++
+Java 11 Oracle Java 和 OpenJDK 僅適用於 SAP HANA、IBM Db2、PostgreSQL、MySQL、 NetApp支援的插件以及可安裝在 Windows 主機上的其他自訂應用程式。
+
+
+
+有關受支援版本的最新信息，請參閱 https://imt.netapp.com/matrix/imt.jsp?components=121074;&solution=1257&isHWU&src=IMT["NetApp互通性表工具"^]。
+
+有關 .NET 特定的故障排除信息，請參閱 https://kb.netapp.com/mgmt/SnapCenter/SnapCenter_upgrade_or_install_fails_with_This_KB_is_not_related_to_the_OS["對於沒有網路連線的傳統系統， SnapCenter升級或安裝將會失敗。"]
+
+|===

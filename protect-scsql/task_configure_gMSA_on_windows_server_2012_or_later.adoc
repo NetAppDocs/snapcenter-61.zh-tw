@@ -1,0 +1,73 @@
+---
+permalink: protect-scsql/task_configure_gMSA_on_windows_server_2012_or_later.html 
+sidebar: sidebar 
+keywords: gMSA 
+summary: 'Windows Server 2016 或更高版本可讓您建立群組託管服務帳戶 (gMSA)，該帳戶會從託管網域帳戶提供自動服務帳戶密碼管理。' 
+---
+= 在 Windows Server 2016 或更高版本上設定 gMSA
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Windows Server 2016 或更高版本可讓您建立群組託管服務帳戶 (gMSA)，該帳戶會從託管網域帳戶提供自動服務帳戶密碼管理。
+
+.開始之前
+* 您應該擁有 Windows Server 2016 或更高版本的網域控制站。
+* 您應該擁有一個 Windows Server 2016 或更高版本的主機，它是網域的成員。
+
+
+.步驟
+. 建立 KDS 根金鑰來為 gMSA 中的每個物件產生唯一的密碼。
+. 對於每個網域，從 Windows 網域控制站執行以下命令：Add-KDSRootKey -EffectiveImmediately
+. 建立並配置 gMSA：
++
+.. 建立用戶群組帳號，格式如下：
++
+ domainName\accountName$
+.. 將電腦物件新增至群組。
+.. 使用您剛剛建立的使用者群組來建立 gMSA。
++
+例如，
+
++
+ New-ADServiceAccount -name <ServiceAccountName> -DNSHostName <fqdn> -PrincipalsAllowedToRetrieveManagedPassword <group> -ServicePrincipalNames <SPN1,SPN2,…>
+.. 跑步 `Get-ADServiceAccount`命令來驗證服務帳戶。
+
+
+. 在您的主機上設定 gMSA：
++
+.. 在要使用 gMSA 帳號的主機上啟用 Windows PowerShell 的 Active Directory 模組。
++
+為此，請從 PowerShell 執行以下命令：
+
++
+[listing]
+----
+PS C:\> Get-WindowsFeature AD-Domain-Services
+
+Display Name                           Name                Install State
+------------                           ----                -------------
+[ ] Active Directory Domain Services   AD-Domain-Services  Available
+
+
+PS C:\> Install-WindowsFeature AD-DOMAIN-SERVICES
+
+Success Restart Needed Exit Code      Feature Result
+------- -------------- ---------      --------------
+True    No             Success        {Active Directory Domain Services, Active ...
+WARNING: Windows automatic updating is not enabled. To ensure that your newly-installed role or feature is
+automatically updated, turn on Windows Update.
+----
+.. 重新啟動主機。
+.. 透過從 PowerShell 命令提示字元執行以下命令在主機上安裝 gMSA： `Install-AdServiceAccount <gMSA>`
+.. 透過執行以下命令驗證你的 gMSA 帳戶： `Test-AdServiceAccount <gMSA>`
+
+
+. 將管理權限指派給主機上配置的 gMSA。
+. 透過在SnapCenter伺服器中指定配置的 gMSA 帳戶來新增 Windows 主機。
++
+SnapCenter Server 將在主機上安裝選定的插件，並且指定的 gMSA 將在插件安裝期間用作服務登入帳戶。
+
+

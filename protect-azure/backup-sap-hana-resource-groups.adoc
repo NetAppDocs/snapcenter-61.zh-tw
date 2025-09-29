@@ -1,0 +1,30 @@
+---
+permalink: protect-azure/backup-sap-hana-resource-groups.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for SAP HANA Database, back up, resource groups 
+summary: 資源組是主機上的資源的集合。資源組上的備份作業會針對資源組中定義的所有資源執行。 
+---
+= 備份 SAP HANA 資源組
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+資源組是主機上的資源的集合。資源組上的備份作業會針對資源組中定義的所有資源執行。
+
+.步驟
+. 在左側導覽窗格中，選擇*資源*，然後從清單中選擇適當的外掛程式。
+. 在資源頁面中，從*視圖*清單中選擇*資源組*。
+. 在資源組頁面中，選擇要備份的資源組，然後選擇*立即備份*。
+. 在備份頁面中，執行以下步驟：
++
+.. 如果多個策略與資源組關聯，請從「*策略*」下拉清單中選擇要用於備份的策略。
++
+如果為按需備份選擇的策略與備份計畫相關聯，則按需備份將根據為計畫類型指定的保留設定進行保留。
+
+.. 選擇*備份*。
+
+
+. 透過選擇 *Monitor* > *Jobs* 來監控操作進度。
+

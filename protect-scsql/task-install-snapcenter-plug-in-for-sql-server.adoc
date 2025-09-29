@@ -1,0 +1,52 @@
+---
+permalink: protect-scsql/task-install-snapcenter-plug-in-for-sql-server.html 
+sidebar: sidebar 
+keywords: credentials 
+summary: 提供安裝適用於 Microsoft SQL Server 的SnapCenter外掛程式的說明。 
+---
+= 為 Microsoft SQL Server 安裝SnapCenter插件
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+提供適用於 Microsoft SQL Server 的SnapCenter外掛程式的簡明安裝說明。
+
+
+
+== 步驟 1：設定運作方式憑證以安裝 Microsoft SQL Server 插件
+
+. 在左側窗格中，按一下「設定」>「憑證」>「新建」。
+. 輸入憑證。
++
+對於內建網域管理員使用者名稱格式，請使用：_NetBIOS\<使用者名稱>_ 或 _<使用者名稱>@<網域>_ 或 _<DomainFQDN>\<使用者名稱>_。
+
++
+對於內建本機管理員使用者名稱格式，請使用 _<username>_。
+
+
+
+
+
+== 步驟 2：新增主機並安裝 Microsoft SQL Server 插件
+
+. 在SnapCenter GUI 左窗格中，按一下「主機」>「託管主機」>「新增」。
+. 在精靈的「主機」頁面中，執行下列操作：
++
+.. 主機類型：選擇 Windows 主機類型。
+.. 主機名稱：使用 SQL 主機或指定專用 Windows 主機的 FQDN。
+.. 憑證：選擇您建立的主機的有效憑證名稱或建立新憑證。
+
+
+. 在選擇要安裝的外掛程式部分中，選擇 *Microsoft SQL Server*。
+. 按一下「更多選項」以指定以下詳細資訊：
++
+.. 連接埠：保留預設連接埠號碼或指定連接埠號碼。
+.. 安裝路徑：預設路徑為_C:\Program Files\ NetApp\SnapCenter_。您可以選擇自訂路徑。
+.. 新增叢集中的所有主機：如果您在 WSFC 中使用 SQL，請選取此核取方塊。
+.. 跳過預先安裝檢查：如果您已經手動安裝了插件或不想驗證主機是否符合安裝插件的要求，請選取此核取方塊。
+
+
+. 點選“*提交*”。
+

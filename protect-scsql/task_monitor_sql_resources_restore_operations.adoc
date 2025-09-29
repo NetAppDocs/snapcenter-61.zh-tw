@@ -1,0 +1,46 @@
+---
+permalink: protect-scsql/task_monitor_sql_resources_restore_operations.html 
+sidebar: sidebar 
+keywords: restore 
+summary: 您可以使用「作業」頁面監控不同SnapCenter還原作業的進度。您可能想要檢查操作的進度以確定操作何時完成或是否有問題。 
+---
+= 監視 SQL 資源恢復操作
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以使用「作業」頁面監控不同SnapCenter還原作業的進度。您可能想要檢查操作的進度以確定操作何時完成或是否有問題。
+
+.關於此任務
+還原後狀態描述了還原作業之後資源的狀況以及您可以採取的任何進一步還原作業。
+
+以下圖示出現在「作業」頁面上，指示操作的狀態：
+
+* image:../media/progress_icon.gif["正在進行圖示"]進行中
+* image:../media/success_icon.gif["完成的圖標"]成功完成
+* image:../media/failed_icon.gif["失敗圖示"]失敗的
+* image:../media/warning_icon.gif["已完成，帶有警告圖標"]已完成但有警告，或因警告而無法啟動
+* image:../media/verification_job_in_queue.gif["驗證作業已排隊"]排隊
+* image:../media/cancel_icon.gif["取消圖示"]取消
+
+
+.步驟
+. 在左側導覽窗格中，按一下「*監控*」。
+. 在「*監控*」頁面中，按一下「*作業*」。
+. 在 *Jobs* 頁面中，執行下列步驟：
++
+.. 點選image:../media/filter_icon.gif["篩選圖標"]過濾清單以便僅列出恢復操作。
+.. 指定開始和結束日期。
+.. 從“*類型*”下拉清單中，選擇“*恢復*”。
+.. 從*狀態*下拉清單中，選擇恢復狀態。
+.. 按一下「*應用*」以查看已成功完成的操作。
+
+
+. 選擇恢復作業，然後按一下「*詳細資料*」以查看作業詳細資料。
+. 在「作業詳情」頁面中，按一下「檢視日誌」。
++
+*查看日誌*按鈕顯示所選操作的詳細日誌。
+
+

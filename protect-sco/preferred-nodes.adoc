@@ -1,0 +1,42 @@
+---
+permalink: protect-sco/preferred-nodes.html 
+sidebar: sidebar 
+keywords: oracle databases discover 
+summary: SnapCenter如何發現 Oracle 資料庫。 
+---
+= RAC 設定中的首選節點
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+在 Oracle Real Application Clusters (RAC) 設定中，您可以指定SnapCenter用於執行備份作業的首選節點。如果您未指定首選節點， SnapCenter會自動指派節點作為首選節點，並在該節點上建立備份。
+
+首選節點可能是 RAC 資料庫執行個體所在的叢集節點之一或所有叢集節點。備份操作僅在這些優先節點上按照優先順序觸發。
+
+.例子
+RAC 資料庫 cdbrac 有三個實例：節點 1 上的 cdbrac1、節點 2 上的 cdbrac2 和節點 3 上的 cdbrac3。
+
+node1 和 node2 實例被配置為首選節點，其中 node2 為第一首選，node1 為第二首選。執行備份作業時，首先在 node2 上嘗試執行該操作，因為它是第一個首選節點。
+
+如果 node2 未處於備份狀態，這可能是由於多種原因造成的，例如插件代理未在主機上執行、主機上的資料庫執行個體未處於指定備份類型所需的狀態，或 FlexASM 配置中 node2 上的資料庫執行個體未由本機 ASM 執行個體提供服務；然後將在 node1 上嘗試執行該操作。
+
+由於 node3 不在首選節點清單中，因此不會用於備份。
+
+
+
+== Flex ASM 設定
+
+在 Flex ASM 設定中，如果基數小於 RAC 叢集中的節點數，則葉節點將不會被列為首選節點。如果 Flex ASM 叢集節點角色有任何變化，您應該手動發現以便刷新首選節點。
+
+
+
+== 所需的資料庫狀態
+
+首選節點上的 RAC 資料庫執行個體必須處於所需狀態才能成功完成備份：
+
+* 配置的首選節點中的一個 RAC 資料庫執行個體必須處於開啟狀態才能建立線上備份。
+* 配置的首選節點中的一個 RAC 資料庫執行個體必須處於掛載狀態，且所有其他執行個體（包括其他首選節點）必須處於掛載狀態或更低狀態才能建立離線掛載備份。
+* RAC 資料庫實例可以處於任何狀態，但必須指定首選節點來建立離線關閉備份。
+

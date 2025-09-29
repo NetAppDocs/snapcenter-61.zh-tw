@@ -1,0 +1,266 @@
+---
+permalink: install/enable_multifactor_authentication_using_RestAPI_PowerShell_SCCLI.html 
+sidebar: sidebar 
+keywords: mfa, authentication, multifactor authentication 
+summary: 您可以使用 Rest API、PowerShell 和 SCCLI 介面來管理 MFA。 
+---
+= 使用 Rest API、PowerShell 和 SCCLI 管理多重驗證 (MFA)
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+支援透過瀏覽器、REST API、PowerShell 和 SCCLI 進行 MFA 登入。 MFA 透過 AD FS 身份管理器支援。您可以從 GUI、REST API、PowerShell 和 SCCLI 啟用 MFA、停用 MFA 和設定 MFA。
+
+
+
+== 將 AD FS 設定為 OAuth/OIDC
+
+*使用 Windows GUI 精靈設定 AD FS*
+
+. 導覽至 *伺服器管理員儀表板* > *工具* > *ADFS 管理*。
+. 導覽至 *ADFS* > *應用程式群組*。
++
+.. 右鍵點選“*應用程式群組*”。
+.. 選擇*新增應用程式群組*並輸入*應用程式名稱*。
+.. 選擇*伺服器應用程式*。
+.. 按一下“下一步”。
+
+
+. 複製*客戶端識別碼*。
++
+這是客戶端 ID。 ..在重新導向 URL 中新增回呼 URL（SnapCenter伺服器 URL）。 ..按一下“下一步”。
+
+. 選擇*產生共享金鑰*。
++
+複製秘密值。這是客戶的秘密。 ..按一下“下一步”。
+
+. 在「*摘要*」頁面上，按一下「*下一步*」。
++
+.. 在*完成*頁面上，按一下*關閉*。
+
+
+. 右鍵點選新新增的*應用程式群組*並選擇*屬性*。
+. 從應用程式屬性中選擇*新增應用程式*。
+. 點擊“新增應用程式”。
++
+選擇 Web API 並按一下「下一步」。
+
+. 在設定 Web API 頁面上，將上一個步驟建立的SnapCenter伺服器 URL 和用戶端識別碼輸入到識別碼部分。
++
+.. 按一下“*新增*”。
+.. 按一下“下一步”。
+
+
+. 在*選擇存取控制策略*頁面上，根據您的要求選擇控制策略（例如，允許所有人並要求 MFA），然後按一下*下一步*。
+. 在*配置應用程式權限*頁面，預設選擇openid作為範圍，點擊*下一步*。
+. 在「*摘要*」頁面上，按一下「*下一步*」。
++
+在*完成*頁面上，按一下*關閉*。
+
+. 在「範例應用程式屬性」頁面上，按一下「確定」。
+. JWT 令牌由授權伺服器（AD FS）頒發，供資源使用。
++
+此令牌的「aud」或受眾聲明必須與資源或 Web API 的識別碼相符。
+
+. 編輯選定的 WebAPI 並檢查回呼 URL（SnapCenter伺服器 URL）和用戶端識別碼是否正確新增。
++
+配置 OpenID Connect 以提供使用者名稱作為聲明。
+
+. 開啟位於伺服器管理員右上角*工具*選單下的*AD FS 管理*工具。
++
+.. 從左側邊欄中選擇“*應用程式群組*”資料夾。
+.. 選擇 Web API 並點選 *EDIT*。
+.. 前往發行轉換規則標籤
+
+
+. 按一下“新增規則”。
++
+.. 在聲明規則範本下拉選單中選擇*將 LDAP 屬性作為聲明傳送*。
+.. 按一下“下一步”。
+
+
+. 輸入*聲明規則*名稱。
++
+.. 在屬性儲存下拉選單中選擇*Active Directory*。
+.. 在 *LDAP Attribute* 下拉選單中選擇 *User-Principal-Name*，在 O*utgoing Claim Type* 下拉選單中選擇 *UPN*。
+.. 按一下“完成”。
+
+
+
+
+
+
+== 使用 PowerShell 命令建立應用程式群組
+
+您可以使用 PowerShell 命令建立應用程式群組、Web API 並新增範圍和聲明。這些命令以自動腳本格式提供。欲了解更多信息，請參閱<連結至知識庫文章>。
+
+. 使用以下命令在 AD FS 中建立新的應用程式組。
++
+`New-AdfsApplicationGroup -Name $ClientRoleIdentifier -ApplicationGroupIdentifier $ClientRoleIdentifier`
+
++
+`ClientRoleIdentifier`您的應用程式群組的名稱
+
++
+`redirectURL`授權後重定向的有效 URL
+
+. 建立 AD FS 伺服器應用程式並產生客戶端機密。
++
+`Add-AdfsServerApplication -Name "$ClientRoleIdentifier - Server app" -ApplicationGroupIdentifier` `$ClientRoleIdentifier -RedirectUri $redirectURL  -Identifier $identifier -GenerateClientSecret`
+
+. 建立 ADFS Web API 應用程式並配置其應使用的策略名稱。
++
+`$identifier = (New-Guid).Guid`
+
++
+`Add-AdfsWebApiApplication -ApplicationGroupIdentifier $ClientRoleIdentifier  -Name "App Web API"`
+
++
+`-Identifier $identifier -AccessControlPolicyName "Permit everyone"`
+
+. 從以下命令的輸出中取得客戶端 ID 和客戶端金鑰，因為它只顯示一次。
++
+`"client_id = $identifier"`
+
++
+`"client_secret: "$($ADFSApp.ClientSecret)`
+
+. 授予 AD FS 應用程式 allatclaims 和 openid 權限。
++
+`Grant-AdfsApplicationPermission -ClientRoleIdentifier $identifier -ServerRoleIdentifier $identifier -ScopeNames @('openid')`
+
++
+`$transformrule = @"`
+
++
+`@RuleTemplate = "LdapClaims"`
+
++
+`@RuleName = "AD User properties and Groups"`
+
++
+`c:[Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/windowsaccountname", Issuer ==`
+
++
+`"AD AUTHORITY"]`
+
++
+`=> issue(store = "Active Directory", types = ("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/upn"), query = ";userPrincipalName;{0}", param = c.Value);`
+
++
+`"@`
+
+. 寫出轉換規則檔。
++
+`$transformrule |Out-File -FilePath .\issueancetransformrules.tmp -force -Encoding ascii`
+`$relativePath = Get-Item .\issueancetransformrules.tmp`
+
+. 命名 Web API 應用程式並使用外部文件定義其頒發轉換規則。
++
+`Set-AdfsWebApiApplication -Name "$ClientRoleIdentifier - Web API" -TargetIdentifier`
+
++
+`$identifier -Identifier $identifier,$redirectURL -IssuanceTransformRulesFile`
+
++
+`$relativePath`
+
+
+
+
+
+== 更新訪問令牌到期時間
+
+您可以使用 PowerShell 指令更新存取權杖的到期時間。
+
+*關於此任務*
+
+* 存取令牌只能用於使用者、用戶端和資源的特定組合。存取令牌不能被撤銷，並且在到期前有效。
+* 預設情況下，存取令牌的有效期為 60 分鐘。此最短到期時間足夠且可擴充。您必須提供足夠的價值以避免任何正在進行的關鍵業務工作。
+
+
+*步*
+
+若要更新應用程式群組 WebApi 的存取權杖到期時間，請在 AD FS 伺服器中使用下列命令。
+
++ 
+`Set-AdfsWebApiApplication -TokenLifetime 3600 -TargetName "<Web API>"`
+
+
+
+== 從 AD FS 取得持有者令牌
+
+您應該在任何 REST 用戶端（如 Postman）中填寫下面提到的參數，它會提示您填寫使用者憑證。此外，您應該輸入第二因素身份驗證（您擁有的東西和您是的東西）來獲取承載令牌。
+
++ 持有者令牌的有效性可根據應用程式從 AD FS 伺服器進行配置，預設有效期為 60 分鐘。
+
+|===
+
+
+| 場地 | 價值 
+
+
+ a| 
+資助類型
+ a| 
+授權碼
+
+
+
+ a| 
+回調URL
+ a| 
+如果您沒有回調 URL，請輸入應用程式的基本 URL。
+
+
+
+ a| 
+授權網址
+ a| 
+[adfs 網域]/adfs/oauth2/授權
+
+
+
+ a| 
+訪問令牌 URL
+ a| 
+[adfs 網域]/adfs/oauth2/token
+
+
+
+ a| 
+客戶端 ID
+ a| 
+輸入 AD FS 用戶端 ID
+
+
+
+ a| 
+客戶端機密
+ a| 
+輸入 AD FS 用戶端機密
+
+
+
+ a| 
+範圍
+ a| 
+OpenID
+
+
+
+ a| 
+客戶端身份驗證
+ a| 
+作為基本 AUTH 標頭發送
+
+
+
+ a| 
+資源
+ a| 
+在「進階選項」標籤中，新增與回呼 URL 具有相同值的資源字段，該字段會作為 JWT 令牌中的「aud」值出現。
+
+|===

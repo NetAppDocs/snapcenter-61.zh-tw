@@ -1,0 +1,23 @@
+---
+permalink: protect-postgresql/what-you-can-do-using-the-snapcenter-plug-in-for-postgresql.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for postgresql 
+summary: 在您的環境中安裝 PostgreSQL 外掛程式時，您可以使用SnapCenter備份、還原和複製 PostgreSQL 及其資源。您也可以執行支援這些操作的任務。 
+---
+= 使用適用於 PostgreSQL 的SnapCenter插件可以做些什麼
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+在您的環境中安裝適用於 PostgreSQL 叢集的插件時，您可以使用SnapCenter備份、還原和複製 PostgreSQL 叢集及其資源。您也可以執行支援這些操作的任務。
+
+* 新增集群。
+* 建立備份。
+* 從備份中復原。
+* 克隆備份。
+* 安排備份作業。
+* 監控備份、復原和克隆作業。
+* 查看備份、復原和克隆作業的報告。
+

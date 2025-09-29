@@ -1,0 +1,30 @@
+---
+permalink: protect-postgresql/types-of-restore-performed-for-auto-discovered-postgresql.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for postgresql 
+summary: SnapCenter支援基於磁碟區的SnapRestore \（VBSR\）、單一檔案SnapRestore以及自動發現的 PostgreSQL 叢集的連接和複製復原類型。 
+---
+= 自動發現的 PostgreSQL 的復原操作類型
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenter Plug-in for PostgreSQL 支援單一檔案SnapRestore以及自動發現的 PostgreSQL 叢集的連線和複製復原類型。
+
+
+
+== 單檔SnapRestore在 NFS 環境中針對以下場景執行：
+
+* 如果僅選擇*完整資源*選項
+* 當選擇的備份來自SnapMirror或SnapVault二級位置，並且選擇了「完整資源」選項時
+
+
+
+
+== 單一檔案SnapRestore在 SAN 環境中針對下列場景執行：
+
+* 如果僅選擇*完整資源*選項
+* 從SnapMirror或SnapVault二級位置選擇備份，並選擇「完整資源」選項時
+

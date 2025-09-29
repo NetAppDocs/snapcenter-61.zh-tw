@@ -1,0 +1,162 @@
+---
+permalink: protect-postgresql/add-hosts-and-install-plug-in-packages-on-remote-hosts-postgresql.html 
+sidebar: sidebar 
+keywords: credentials 
+summary: 您必須使用SnapCenter新增主機頁面來新增主機，然後安裝插件包。插件會自動安裝在遠端主機上。您可以為單一主機或叢集新增主機並安裝插件包。 
+---
+= 新增主機並在遠端主機上安裝插件包
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您必須使用SnapCenter新增主機頁面來新增主機，然後安裝插件包。插件會自動安裝在遠端主機上。您可以新增主機並為單一主機安裝插件包。
+
+.開始之前
+* 如果SnapCenter Server 主機的作業系統是 Windows 2019，而插件主機的作業系統是 Windows 2022，則應執行下列操作：
++
+** 升級到 Windows Server 2019（作業系統內部版本 17763.5936）或更高版本
+** 升級到 Windows Server 2022（作業系統內部版本 20348.2402）或更高版本
+
+
+* 您必須是分配有插件安裝和卸載權限的角色的用戶，例如SnapCenter管理員角色。
+* 在 Windows 主機上安裝插件時，如果指定非內建的憑證，或使用者屬於本機工作群組用戶，則必須在主機上停用 UAC。
+* 您應該確保訊息佇列服務正在運行。
+* 管理文件包含有關管理主機的資訊。
+* 如果您使用群組託管服務帳戶 (gMSA)，則應使用管理權限設定 gMSA。
++
+link:../protect-postgresql/configure-gMSA-on-windows-server-2012-or-later.html["在 Windows Server 2016 或更高版本上為 PostgreSQL 設定群組託管服務帳戶"]
+
+
+
+.關於此任務
+* 您不能將SnapCenter伺服器作為插件主機新增至另一個SnapCenter伺服器。
+
+
+.步驟
+. 在左側導覽窗格中，按一下「*主機*」。
+. 驗證頂部的「*託管主機*」標籤是否已選取。
+. 按一下“*新增*”。
+. 在「主機」頁面中，執行下列操作：
++
+|===
+| 對於這個領域... | 這樣做... 
+
+
+ a| 
+主機類型
+ a| 
+選擇主機類型：
+
+** 視窗
+** Linux
++
+
+NOTE: PostgreSQL 外掛程式安裝在 PostgreSQL 用戶端主機上，該主機可以是 Windows 系統，也可以是 Linux 系統。
+
+
+
+
+
+ a| 
+主機名稱
+ a| 
+輸入通訊主機名稱。輸入主機的完全限定網域名稱 (FQDN) 或 IP 位址。 SnapCenter依賴 DNS 的正確配置。因此，最佳做法是輸入 FQDN。
+
+
+
+ a| 
+證書
+ a| 
+選擇您建立的憑證名稱或建立新的憑證。該憑證必須具有遠端主機的管理權限。有關詳細信息，請參閱有關建立憑證的資訊。
+
+您可以將遊標放在您提供的憑證名稱上來查看有關憑證的詳細資訊。
+
+
+NOTE: 憑證驗證模式由您在新增主機精靈中指定的主機類型決定。
+
+|===
+. 在選擇要安裝的插件部分中，選擇要安裝的插件。
++
+使用 REST API 安裝 PostgreSQL 外掛程式時，必須傳遞版本為 3.0。例如，PostgreSQL:3.0
+
+. （可選）按一下“更多選項”。
++
+|===
+| 對於這個領域... | 這樣做... 
+
+
+ a| 
+港口
+ a| 
+保留預設連接埠號碼或指定連接埠號碼。預設連接埠號碼為 8145。如果SnapCenter伺服器安裝在自訂連接埠上，則該連接埠號碼將顯示為預設連接埠。
+
+
+NOTE: 如果您手動安裝了插件並指定了自訂端口，則必須指定相同的端口。否則，操作失敗。
+
+
+
+ a| 
+安裝路徑
+ a| 
+PostgreSQL 外掛程式安裝在 PostgreSQL 用戶端主機上，該主機可以是 Windows 系統，也可以是 Linux 系統。
+
+** 對於適用於 Windows 的SnapCenter插件包，預設路徑為 C:\Program Files\ NetApp\ SnapCenter。您也可以選擇自訂路徑。
+** 對於適用於 Linux 的SnapCenter插件包，預設路徑為 /opt/ NetApp/snapcenter。您也可以選擇自訂路徑。
+
+
+
+
+ a| 
+跳過預安裝檢查
+ a| 
+如果您已經手動安裝了插件並且不想驗證主機是否符合安裝插件的要求，請選取此核取方塊。
+
+
+
+ a| 
+新增叢集中的所有主機
+ a| 
+選取此複選框可新增所有叢集節點。
+
+
+
+ a| 
+使用群組託管服務帳戶 (gMSA) 執行外掛程式服務
+ a| 
+對於 Windows 主機，如果您要使用群組託管服務帳戶 (gMSA) 來執行外掛程式服務，請選取此核取方塊。
+
+
+NOTE: 以以下格式提供 gMSA 名稱：domainName\accountName$。
+
+
+NOTE: gMSA 將僅用作 Windows 服務的SnapCenter插件的登入服務帳戶。
+
+|===
+. 點選“*提交*”。
++
+如果您未選取「跳過預先檢查」複選框，則會驗證主機是否符合安裝插件的要求。系統會根據最低要求驗證磁碟空間、RAM、PowerShell 版本、.NET 版本、位置（適用於 Windows 外掛程式）和 Java 版本（適用於 Linux 外掛程式）。如果不符合最低要求，則會顯示相應的錯誤或警告訊息。
+
++
+如果錯誤與磁碟空間或 RAM 有關，您可以更新位於 C:\Program Files\ NetApp\ SnapCenter WebApp 的 web.config 檔案以修改預設值。如果錯誤與其他參數有關，則必須修復該問題。
+
++
+
+NOTE: 在 HA 設定中，如果您要更新 web.config 文件，則必須在兩個節點上更新該文件。
+
+. 如果主機類型為Linux，請驗證指紋，然後按一下*確認並提交*。
++
+在叢集設定中，您應該驗證叢集中每個節點的指紋。
+
++
+
+NOTE: 即使之前已將同一台主機新增至SnapCenter並且已確認指紋，也必須進行指紋驗證。
+
+. 監控安裝進度。
++
+** 對於 Windows 插件，安裝和升級日誌位於：_C:\Windows\ SnapCenter plugin\Install_<JOBID>\_
+** 對於 Linux 插件，安裝日誌位於：_/var/opt/snapcenter/logs/SnapCenter_Linux_Host_Plug-in_Install_<JOBID>.log_，升級日誌位於：_/var/opt/snapcenter/logs/SnapCenter_Linux_Host_Plug-JOB_grade_f.
+
+
+

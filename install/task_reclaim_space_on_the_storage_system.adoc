@@ -1,0 +1,43 @@
+---
+permalink: install/task_reclaim_space_on_the_storage_system.html 
+sidebar: sidebar 
+keywords: space, storage system, reclaim 
+summary: 儘管 NTFS 在檔案​​被刪除或修改時會追蹤 LUN 上的可用空間，但它不會將新資訊報告給儲存系統。您可以在適用於 Windows 主機的插件上執行空間回收 PowerShell cmdlet，以確保新釋放的區塊在儲存中標記為可用。 
+---
+= 回收儲存系統上的空間
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+儘管 NTFS 在檔案​​被刪除或修改時會追蹤 LUN 上的可用空間，但它不會將新資訊報告給儲存系統。您可以在適用於 Windows 主機的插件上執行空間回收 PowerShell cmdlet，以確保新釋放的區塊在儲存中標記為可用。
+
+如果您在遠端插件主機上執行 cmdlet，則必須執行 SnapCenterOpen-SMConnection cmdlet 才能開啟與SnapCenter伺服器的連線。
+
+.開始之前
+* 您必須確保在執行復原作業之前空間回收過程已完成。
+* 如果 LUN 由 Windows Server 故障轉移叢集中的主機共用，則必須在擁有該叢集群組的主機上執行空間回收。
+* 為了獲得最佳儲存效能，您應該盡可能頻繁地執行空間回收。
++
+您應該確保已掃描整個 NTFS 檔案系統。
+
+
+
+*關於此任務*
+
+* 空間回收非常耗時且佔用大量 CPU 資源，因此最好在儲存系統和 Windows 主機使用率較低時執行此操作。
+* 空間回收幾乎可以回收所有可用空間，但並非 100%。
+* 您不應在執行空間回收的同時執行磁碟碎片整理。
++
+這樣做會減慢回收過程。
+
+
+
+*步*
+
+在應用程式伺服器 PowerShell 命令提示字元下，輸入以下命令：
+
+`Invoke-SdHostVolumeSpaceReclaim -Path drive_path`
+
+drive_path 是對應到 LUN 的磁碟機路徑。

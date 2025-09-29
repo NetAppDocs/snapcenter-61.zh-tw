@@ -1,0 +1,45 @@
+---
+permalink: get-started/quick-start-snapcenter.html 
+sidebar: sidebar 
+keywords:  
+summary:  
+---
+= SnapCenter software快速入門
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+快速入門指南概述了安裝和設定SnapCenter software的基本步驟。
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-1.png["一"]準備安裝SnapCenter伺服器
+[role="quick-margin-para"]
+您應該確保滿足安裝SnapCenter伺服器的所有要求。
+
+[role="quick-margin-list"]
+* link:../install/requirements-to-install-snapcenter-server.html["要求"]
+* link:../install/register_enable_software_access.html["註冊以存取SnapCenter software"]
+* link:../install/enable_multifactor_authentication.html["啟用多因素身份驗證"]
+
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-2.png["二"]安裝SnapCenter伺服器
+[role="quick-margin-para"]
+SnapCenter伺服器可以安裝在 Windows 或 Linux 主機上。SnapCenter https://mysupport.netapp.com/site/products/all/details/snapcenter/downloads-tab["NetApp支援站點"^]並執行安裝程式。
+
+[role="quick-margin-list"]
+* link:../install/task_install_the_snapcenter_server_using_the_install_wizard.html["在 Windows 上安裝SnapCenter伺服器"]
+* link:../install/install_snapcenter_server_linux.html["在 Linux 上安裝SnapCenter伺服器"]
+
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-3.png["三"]配置SnapCenter伺服器
+[role="quick-margin-para"]
+安裝SnapCenter伺服器後，您應該根據您的環境進行設定。
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-4.png["四"]為您的應用程式安裝插件
+[role="quick-margin-para"]
+確保根據所使用的應用程式滿足安裝特定於應用程式的插件的所有要求，然後繼續安裝相應的插件。
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-5.png["五"]保護您的應用程式
+[role="quick-margin-para"]
+成功安裝SnapCenter伺服器和必要的插件後，您可以啟動應用程式備份的建立。這些備份稍後可以在需要時用於復原和複製目的。

@@ -1,0 +1,47 @@
+---
+permalink: protect-hana/task_prepare_multitenant_database_containers_for_data_protection.html 
+sidebar: sidebar 
+keywords: multitenant database containers 
+summary: '直接在SnapCenter中註冊的 SAP HANA 主機，安裝或升級 SAP HANA 資料庫的SnapCenter插件將觸發主機上資源的自動發現。安裝或升級插件後，對於位於插件主機上的每個多租戶資料庫容器 (MDC) 資源，將自動發現具有不同 GUID 格式的另一個 MDC 資源並在SnapCenter中註冊。新資源將處於「鎖定」狀態。' 
+---
+= 準備多租戶資料庫容器以進行資料保護
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+直接在SnapCenter中註冊的 SAP HANA 主機，安裝或升級 SAP HANA 資料庫的SnapCenter插件將觸發主機上資源的自動發現。安裝或升級插件後，對於位於插件主機上的每個多租戶資料庫容器 (MDC) 資源，將自動發現具有不同 GUID 格式的另一個 MDC 資源並在SnapCenter中註冊。新資源將處於「鎖定」狀態。
+
+.關於此任務
+例如，在SnapCenter 4.2 中，如果 E90 MDC 資源位於插件主機上並手動註冊，則升級到SnapCenter 4.3 後，將在SnapCenter中發現並註冊另一個具有不同 GUID 的 E90 MDC 資源。
+
+
+NOTE: 與SnapCenter 4.2 及更早版本的資源相關的備份必須保留，直到保留期到期。保留期到期後，您可以刪除舊的 MDC 資源並繼續管理新的自動發現的 MDC 資源。
+
+`Old MDC resource`是SnapCenter 4.2 或更早版本中手動新增的插件主機的 MDC 資源。
+
+執行下列步驟開始使用SnapCenter 4.3 中發現的新資源進行資料保護作業：
+
+.步驟
+. 在「資源」頁面中，選擇已將備份新增至早期SnapCenter版本的舊 MDC 資源，然後從「拓撲」頁面將其置於「維護模式」。
++
+如果資源是資源組的一部分，則將資源組置於「維護模式」。
+
+. 透過從「資源」頁面中選擇新資源來配置升級到SnapCenter 4.3 後發現的新 MDC 資源。
++
+「新 MDC 資源」是SnapCenter伺服器和插件主機升級到 4.3 後發現的新 MDC 資源。對於給定主機，新的 MDC 資源可以被識別為與舊 MDC 資源具有相同 SID 的資源，並且在資源頁面中旁邊帶有紅色掛鎖圖示。
+
+. 透過選擇保護策略、計劃和通知設定來保護升級到SnapCenter 4.3 後發現的新 MDC 資源。
+. 根據保留設定刪除在SnapCenter 4.2 或更早版本中建立的備份。
+. 從拓樸頁面中刪除資源組。
+. 從資源頁面中刪除舊的 MDC 資源。
++
+例如，如果主快照保留期為 7 天，次要快照保留期為 45 天，則 45 天結束後，刪除所有備份後，必須刪除資源組和舊的 MDC 資源。
+
+
+
+.相關資訊
+link:task_configure_hdb_user_store_key_and_hdbsql_os_user_for_the_sap_hana_database.html["為 SAP HANA 資料庫設定 HDB 用戶儲存金鑰和 HDBSQL OS 用戶"]
+
+link:task_view_sap_hana_database_backups_and_clones_in_the_topology_page_sap_hana.html["在拓樸頁面中查看 SAP HANA 資料庫備份和克隆"]

@@ -1,0 +1,69 @@
+---
+permalink: admin/concept_manage_ems_data_collection.html 
+sidebar: sidebar 
+keywords: EMS data collection 
+summary: '您可以使用 PowerShell cmdlet 安排和管理事件管理系統 (EMS) 資料收集。  EMS 資料收集涉及收集有關SnapCenter伺服器、已安裝的SnapCenter插件包、主機和類似資訊的詳細信息，然後將其發送到指定的ONTAP儲存虛擬機器 (SVM)。' 
+---
+= 管理 EMS 資料收集
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以使用 PowerShell cmdlet 安排和管理事件管理系統 (EMS) 資料收集。  EMS 資料收集涉及收集有關SnapCenter伺服器、已安裝的SnapCenter插件包、主機和類似資訊的詳細信息，然後將其發送到指定的ONTAP儲存虛擬機器 (SVM)。
+
+
+NOTE: 資料收集任務進行時系統 CPU 使用率很高。只要操作進行，無論資料大小如何，CPU 使用率都會保持在較高水準。
+
+
+
+== 停止 EMS 資料收集
+
+EMS 資料收集預設為啟用，並在安裝日期後每七天運行一次。您可以隨時使用 PowerShell cmdlet _Disable-SmDataCollectionEMS_ 停用資料收集。
+
+.步驟
+. 從 PowerShell 命令列輸入 _Open-SmConnection_ 與SnapCenter建立會話。
+. 透過輸入_Disable-SmDataCollectionEms_來停用 EMS 資料收集。
+
+
+
+
+== 開始 EMS 資料收集
+
+EMS 資料收集預設為啟用，並計劃從安裝日期起每七天運行一次。如果您已停用它，則可以使用 _Enable-SmDataCollectionEMS_ cmdlet 再次啟動 EMS 資料收集。
+
+NetApp ONTAP事件 generate-autosupport-log 權限已授予儲存虛擬機器 (SVM) 使用者。
+
+.步驟
+. 從 PowerShell 命令列輸入 _Open-SmConnection_ 與SnapCenter建立會話。
+. 透過輸入_Enable-SmDataCollectionEMS_來啟用 EMS 資料收集。
+
+
+
+
+== 更改 EMS 資料收集計劃和目標 SVM
+
+您可以使用 PowerShell cmdlet 來變更 EMS 資料收集計畫或目標儲存虛擬機器 (SVM)。
+
+.步驟
+. 從 PowerShell 命令列，若要與SnapCenter建立會話，請輸入 _Open-SmConnection_ cmdlet。
+. 若要變更 EMS 資料收集目標，請輸入 _Set-SmDataCollectionEmsTarget_ cmdlet。
+. 若要變更 EMS 資料收集計劃，請輸入 _Set-SmDataCollectionEmsSchedule_ cmdlet。
+
+
+
+
+== 監控EMS資料收集狀態
+
+您可以使用多個 PowerShell cmdlet 監控 EMS 資料收集的狀態。您可以取得有關計劃、儲存虛擬機器 (SVM) 目標和狀態的資訊。
+
+.步驟
+. 從 PowerShell 命令列輸入 _Open-SmConnection_ 與SnapCenter建立會話。
+. 透過輸入 _Get-SmDataCollectionEmsSchedule_ 檢索有關 EMS 資料收集計劃的資訊。
+. 透過輸入 _Get-SmDataCollectionEmsStatus_ 檢索有關 EMS 資料收集狀態的資訊。
+. 透過輸入 _Get-SmDataCollectionEmsTarget_ 檢索有關 EMS 資料收集目標的資訊。
+
+
+.相關資訊
+可以透過執行_Get-Help command_name_來取得有關可與 cmdlet 一起使用的參數及其描述的資訊。或者，您也可以參考 https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["SnapCenter軟體 Cmdlet 參考指南"^]。

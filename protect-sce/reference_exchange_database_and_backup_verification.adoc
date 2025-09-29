@@ -1,0 +1,23 @@
+---
+permalink: protect-sce/reference_exchange_database_and_backup_verification.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for Microsoft Exchange Server 
+summary: 適用於 Microsoft Exchange Server 的SnapCenter外掛程式不提供備份驗證；但是，您可以使用 Exchange 提供的 Eseutil 工具來驗證 Exchange 資料庫和備份。 
+---
+= Exchange 資料庫和備份驗證
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+適用於 Microsoft Exchange Server 的SnapCenter外掛程式不提供備份驗證；但是，您可以使用 Exchange 提供的 Eseutil 工具來驗證 Exchange 資料庫和備份。
+
+Microsoft Exchange Eseutil 工具是 Exchange 伺服器隨附的命令列公用程式。此實用程式可讓您執行一致性檢查以驗證 Exchange 資料庫和備份的完整性。
+
+|===
+
+
+| *最佳實務：*沒有必要對具有至少兩個副本的資料庫可用性群組 (DAG) 配置的一部分的資料庫執行一致性檢查。 
+|===
+有關更多信息，請參閱 https://docs.microsoft.com/en-us/exchange/exchange-server?view=exchserver-2019["Microsoft Exchange Server 文件"^]。

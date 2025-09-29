@@ -1,0 +1,35 @@
+---
+permalink: protect-sco/reference_requirements_for_restoring_an_oracle_database.html 
+sidebar: sidebar 
+keywords:  
+summary: 在還原 Oracle 資料庫之前，您應該確保先決條件已滿足。 
+---
+= 恢復 Oracle 資料庫的要求
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+在還原 Oracle 資料庫之前，您應該確保先決條件已滿足。
+
+* 您應該已經定義了您的復原和復原策略。
+* 如果您要將快照複製到映像或保管庫， SnapCenter管理員應該已經為來源磁碟區和目標磁碟區指派了儲存虛擬機器 (SVM)。
+* 如果將存檔日誌作為備份的一部分被修剪，則您應該手動安裝所需的存檔日誌備份。
+* 如果要復原駐留在虛擬機器磁碟 (VMDK) 上的 Oracle 資料庫，則應確保用戶端具有所需數量的可用插槽來指派複製的 VMDK。
+* 如果為該資料庫啟用了二級保護，則應確保屬於該資料庫的所有資料磁碟區和存檔日誌磁碟區都受到保護。
+* 您應該確保 RAC One Node 資料庫處於“nomount”狀態以執行控製文件或完整資料庫還原。
+* 如果您在 NFS 環境中有一個 ASM 資料庫實例，則應將 ASM 磁碟路徑 _/var/opt/snapcenter/scu/clones/*/*_ 新增至 asm_diskstring 參數中定義的現有路徑，以便成功掛載 ASM 日誌備份作為復原作業的一部分。
+* 在 asm_diskstring 參數中，如果使用 ASMFD，則應配置 _AFD:*_；如果使用 ASMLIB，則應配置 _ORCL:*_。
++
+
+NOTE: 有關如何編輯 asm_diskstring 參數的信息，請參閱 https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/Disk_paths_are_not_added_to_the_asm_diskstring_database_parameter["如何將磁碟路徑新增至 asm_diskstring"^]
+
+* 如果您已停用 OS 驗證並啟用 Oracle 資料庫驗證，並且想要還原該資料庫的資料檔案和控製文件，則應在 *listener.ora* 檔案中設定靜態偵聽器，對於非 ASM 資料庫，該檔案位於 _$ORACLE_HOME/network/admin_，對於 ASM 資料庫，該檔案位於 _$ORACLE_HOME/network/admin_，對於 ASM 資料庫，該檔案位於 _$
+* 如果資料庫大小以 TB 為單位，則應透過執行 Set-SmConfigSettings 指令來增加 SCORestoreTimeout 參數的值。
+* 您應該確保 vCenter 所需的所有授權都已安裝且是最新的。
++
+如果許可證未安裝或不是最新的，則會顯示警告訊息。如果您忽略警告並繼續，從 RDM 復原將會失敗。
+
+* 您應該確保 LUN 沒有使用由混合協定 iSCSI 和 FC 組成的 iGroup 對應到 AIX 主機。有關更多信息，請參閱 https://kb.netapp.com/mgmt/SnapCenter/SnapCenter_Plug-in_for_Oracle_operations_fail_with_error_Unable_to_discover_the_device_for_LUN_LUN_PATH["操作失敗，錯誤：無法發現 LUN 的設備"^] 。
+

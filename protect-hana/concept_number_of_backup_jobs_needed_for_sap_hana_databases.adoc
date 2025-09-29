@@ -1,0 +1,14 @@
+---
+permalink: protect-hana/concept_number_of_backup_jobs_needed_for_sap_hana_databases.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for SAP HANA Database 
+summary: '決定所需備份作業數量的因素包括資源的大小、使用的磁碟區數、資源的變化率以及服務等級協定 (SLA)。' 
+---
+= SAP HANA 資料庫所需的備份作業數量
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+決定所需備份作業數量的因素包括資源的大小、使用的磁碟區數、資源的變化率以及服務等級協定 (SLA)。

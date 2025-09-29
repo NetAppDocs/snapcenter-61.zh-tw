@@ -1,0 +1,39 @@
+---
+permalink: protect-scw/task_clean_up_the_secondary_backup_count_using_powershell_cmdlets_for_windows.html 
+sidebar: sidebar 
+keywords: backups 
+summary: 您可以使用 Remove-SmBackup cmdlet 清理沒有快照的輔助備份的備份計數。當管理副本拓撲中顯示的快照總數與輔助儲存快照保留設定不符時，您可能需要使用此 cmdlet。 
+---
+= 使用 PowerShell cmdlet 清理輔助備援計數
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以使用 Remove-SmBackup cmdlet 清理沒有快照的輔助備份的備份計數。當管理副本拓撲中顯示的快照總數與輔助儲存快照保留設定不符時，您可能需要使用此 cmdlet。
+
+您必須準備好 PowerShell 環境才能執行 PowerShell cmdlet。
+
+可以透過執行_Get-Help command_name_來取得有關可與 cmdlet 一起使用的參數及其描述的資訊。或者，您也可以參考 https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["SnapCenter軟體 Cmdlet 參考指南"^]。
+
+.步驟
+. 使用 Open-SmConnection cmdlet 為指定使用者啟動與SnapCenter伺服器的連線會話。
++
+[listing]
+----
+Open-SmConnection  -SMSbaseurl  https:\\snapctr.demo.netapp.com:8146/
+----
+. 使用 -CleanupSecondaryBackups 參數清理輔助備援計數。
++
+此範例清理沒有快照的輔助備份的備份計數：
+
++
+[listing]
+----
+Remove-SmBackup -CleanupSecondaryBackups
+Remove-SmBackup
+Are you sure want to remove the backup(s).
+[Y] Yes  [A] Yes to All  [N] No  [L] No to All  [S] Suspend  [?] Help (default is "Y"):
+----
+

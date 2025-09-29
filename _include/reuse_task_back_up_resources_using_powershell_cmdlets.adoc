@@ -1,0 +1,95 @@
+= 
+:allow-uri-read: 
+
+
+.步驟
+. 使用 Open-SmConnection cmdlet 為指定使用者啟動與SnapCenter伺服器的連線會話。
++
+[listing]
+----
+Open-smconnection  -SMSbaseurl  https://snapctr.demo.netapp.com:8146
+----
++
+顯示使用者名稱和密碼提示。
+
+. 使用 Add-SmPolicy cmdlet 建立備份策略。
++
+此範例建立一個 SQL 備份類型為 FullBackup 的新備份策略：
+
++
+[listing]
+----
+PS C:\> Add-SmPolicy -PolicyName TESTPolicy
+-PluginPolicyType SCSQL -PolicyType Backup
+-SqlBackupType FullBackup -Verbose
+----
++
+此範例建立一個新的備份策略，其 Windows 檔案系統備份類型為 CrashConsistent：
+
++
+[listing]
+----
+PS C:\> Add-SmPolicy -PolicyName FileSystemBackupPolicy
+-PluginPolicyType SCW -PolicyType Backup
+-ScwBackupType CrashConsistent -Verbose
+----
+. 使用 Get-SmResources cmdlet 來發現主機資源。
++
+此範例發現指定主機上的 Microsoft SQL 外掛程式的資源：
+
++
+[listing]
+----
+C:\PS>PS C:\> Get-SmResources -HostName vise-f6.sddev.mycompany.com
+-PluginCode SCSQL
+----
++
+此範例發現指定主機上的 Windows 檔案系統的資源：
+
++
+[listing]
+----
+C:\PS>PS C:\> Get-SmResources -HostName vise2-f6.sddev.mycompany.com
+-PluginCode SCW
+----
+. 使用 Add-SmResourceGroup cmdlet 為SnapCenter新增新的資源組。
++
+此範例使用指定的策略和資源建立一個新的 SQL 資料庫備份資源組：
+
++
+[listing]
+----
+PS C:\> Add-SmResourceGroup -ResourceGroupName AccountingResource
+-Resources @{"Host"="visef6.org.com";
+"Type"="SQL Database";"Names"="vise-f6\PayrollDatabase"}
+-Policies "BackupPolicy"
+----
++
+此範例使用指定的策略和資源建立一個新的 Windows 檔案系統備份資源群組：
+
++
+[listing]
+----
+PS C:\> Add-SmResourceGroup -ResourceGroupName EngineeringResource
+-PluginCode SCW -Resources @{"Host"="WIN-VOK20IKID5I";
+"Type"="Windows Filesystem";"Names"="E:\"}
+-Policies "EngineeringBackupPolicy"
+----
+. 使用 New-SmBackup cmdlet 啟動新的備份作業。
++
+[listing]
+----
+PS C:> New-SmBackup -ResourceGroupName PayrollDataset -Policy FinancePolicy
+----
+. 使用 Get-SmBackupReport cmdlet 查看備份作業的狀態。
++
+此範例顯示在指定日期執行的所有作業的作業摘要報表：
+
++
+[listing]
+----
+PS C:\> Get-SmJobSummaryReport -Date '1/27/2016'
+----
+
+
+可以透過執行_Get-Help command_name_來取得有關可與 cmdlet 一起使用的參數及其描述的資訊。或者，您也可以參考 https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["SnapCenter軟體 Cmdlet 參考指南"^]。

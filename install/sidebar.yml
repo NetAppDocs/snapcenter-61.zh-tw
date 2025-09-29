@@ -1,0 +1,116 @@
+---
+section: install
+title: 安裝並設定SnapCenter伺服器
+entries:
+- title: 準備安裝SnapCenter伺服器
+  entries:
+  - title: 要求
+    url: "/install/requirements-to-install-snapcenter-server.html"
+  - title: 在NetApp支援網站上註冊
+    url: "/install/register_enable_software_access.html"
+  - title: 多重身份驗證 (MFA)
+    entries:
+    - title: 管理多重身分驗證 (MFA)
+      url: "/install/enable_multifactor_authentication.html"
+    - title: 使用 Rest API、PowerShell 和 SCCLI 管理多重驗證 (MFA)
+      url: "/install/enable_multifactor_authentication_using_RestAPI_PowerShell_SCCLI.html"
+    - title: 使用 PowerShell、SCCLI 和 REST API 在SnapCenter Server 中設定 MFA
+      url: "/install/configure_mfa_using_powershell_sccli_restapi.html"
+- title: 安裝SnapCenter伺服器
+  entries:
+  - title: 在 Windows 主機上安裝SnapCenter伺服器
+    url: "/install/task_install_the_snapcenter_server_using_the_install_wizard.html"
+  - title: 在 Linux 主機上安裝SnapCenter伺服器
+    url: "/install/install_snapcenter_server_linux.html"
+  - title: 註冊SnapCenter
+    url: "/install/register-snapcenter-software.html"
+  - title: 登入SnapCenter
+    url: "/install/task_log_in_to_snapcenter.html"
+- title: 配置SnapCenter伺服器
+  entries:
+  - title: 新增並配置儲存系統
+    entries:
+    - title: 新增儲存系統
+      url: "/install/task_add_storage_systems.html"
+    - title: 儲存連接和憑證
+      url: "/install/concept_svm_connections_and_credentials.html"
+    - title: 在 Windows 主機上設定儲存
+      entries:
+      - title: 建立和管理 igroup
+        url: "/install/concept_create_and_manage_igroups.html"
+      - title: 建立和管理磁碟
+        url: "/install/task_create_and_manage_disks.html"
+      - title: 建立和管理 SMB 共享
+        url: "/install/concept_create_and_manage_smb_shares.html"
+      - title: 回收儲存系統上的空間
+        url: "/install/task_reclaim_space_on_the_storage_system.html"
+      - title: 使用 PowerShell cmdlet 設定存儲
+        url: "/install/reference_provision_storage_using_powershell_cmdlets.html"
+    - title: 在 VMware 環境中設定存儲
+      url: "/install/concept_provision_storage_in_vmware_environments.html"
+  - title: 新增基於SnapCenter Standard 控制器的許可證
+    url: "/install/concept_snapcenter_standard_controller_based_licenses.html"
+  - title: 配置高可用性
+    entries:
+    - title: 配置SnapCenter伺服器以實現高可用性
+      url: "/install/concept_configure_snapcenter_servers_for_high_availabiity_using_f5.html"
+    - title: SnapCenter MySQL 儲存庫的高可用性
+      url: "/install/concept_high_availability_for_snapcenter_mysql_repository.html"
+  - title: 配置基於角色的存取控制 (RBAC)
+    entries:
+    - title: 創建角色
+      url: "/install/task_create_a_role.html"
+    - title: 使用安全登入指令新增ONTAP RBAC 角色
+      url: "/install/task_add_an_rbac_role_using_security_login_commands.html"
+    - title: 建立具有最低權限的 SVM 角色
+      url: "/install/create-svm-roles-minimum-privileges.html"
+    - title: 為ASA r2 系統建立 SVM 角色
+      url: "/install/create-svm-roles-asa-r2-resources.html"
+    - title: 建立具有最低權限的ONTAP叢集角色
+      url: "/install/task_create_an_ontap_cluster_role_with_minimum_privileges.html"
+    - title: 為ASA r2 系統建立ONTAP叢集角色
+      url: "/install/create-cluster-roles-asa-r2-resources.html"
+    - title: 新增使用者或群組並分配角色和資產
+      url: "/install/task_add_a_user_or_group_and_assign_role_and_assets.html"
+  - title: 配置審核日誌設定
+    url: "/install/task_configure_audit_log_settings.html"
+  - title: 使用SnapCenter Server 設定安全的 MySQL 連接
+    url: "/install/concept_configure_secured_mysql_connections_with_snapcenter_server.html"
+- title: 配置基於憑證的身份驗證
+  url: "/install/configure_certificate_based_authentication.html"
+- title: 為 Windows 主機設定 CA 憑證
+  entries:
+  - title: 產生CA憑證CSR文件
+    url: "/install/reference_generate_CA_certificate_CSR_file.html"
+  - title: 匯入 CA 憑證
+    url: "/install/task_import_CA_certificates.html"
+  - title: 取得 CA 憑證指紋
+    url: "/install/task_get_the_CA_certificate_thumbprint.html"
+  - title: 使用 Windows 主機插件服務設定 CA 憑證
+    url: "/install/task_configure_CA_certificate_with_Windows_host_plug-in_services.html"
+  - title: 使用SnapCenter站點配置 CA 證書
+    url: "/install/task_configure_CA_certificate_with_snapcenter_site.html"
+  - title: 為SnapCenter伺服器啟用 CA 憑證
+    url: "/install/task_enable_ca_certificates_for_snapcenter.html"
+- title: 為Linux主機設定CA憑證
+  url: "/install/configure_ca_certificate_linux_host.html"
+- title: 在 Windows 主機上設定並啟用雙向 SSL 通信
+  entries:
+  - title: 在 Windows 主機上設定雙向 SSL 通信
+    url: "/install/task_configure_two_way_ssl.html"
+  - title: 在 Windows 主機上啟用雙向 SSL 通信
+    url: "/install/task_enable_two_way_ssl.html"
+- title: 在 Linux 主機上設定並啟用雙向 SSL 通信
+  entries:
+  - title: 在 Linux 主機上設定雙向 SSL 通信
+    url: "/install/configure_two_way_ssl_linux.html"
+  - title: 在 Linux 主機上啟用 SSL 通信
+    url: "/install/enable_two_way_ssl_linux.html"
+- title: 配置 Active Directory、LDAP 和 LDAPS
+  entries:
+  - title: 註冊不受信任的 Active Directory 網域
+    url: "/install/task_register_untrusted_active_directory_domains.html"
+  - title: 設定 IIS 應用程式集區以啟用 Active Directory 讀取權限
+    url: "/install/task_configure_iis_application_pools_to_enable_active_directory_read_permissions.html"
+  - title: 為 LDAPS 設定 CA 用戶端憑證
+    url: "/install/task_configure_CA_client_certificate_for_LDAPS.html"

@@ -1,0 +1,73 @@
+---
+permalink: protect-sce/task_define_a_restore_strategy_for_exchange_databases.html 
+sidebar: sidebar 
+keywords: SnapCenter plug-in for Exchange Server 
+summary: 定義 Exchange Server 的復原策略可讓您成功復原資料庫。 
+---
+= 定義 Exchange 資料庫的還原策略
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+定義 Exchange Server 的復原策略可讓您成功復原資料庫。
+
+
+
+== Exchange Server 中還原作業的來源
+
+您可以從主儲存體上的備份副本還原 Exchange Server 資料庫。
+
+您只能從主儲存復原資料庫。
+
+
+
+== Exchange Server 支援的還原作業類型
+
+您可以使用SnapCenter對 Exchange 資源執行不同類型的還原作業。
+
+* 恢復最新狀態
+* 恢復到之前的時間點
+
+
+
+
+=== 恢復最新狀態
+
+在最新的復原作業中，資料庫將恢復到故障點。  SnapCenter透過執行以下序列來實現此目的：
+
+. 從您選擇的完整資料庫備份還原資料庫。
+. 套用所有已備份的交易日誌以及自最近一次備份以來建立的任何新日誌。
++
+交易日誌被向前移動並應用於任何選定的資料庫。
+
++
+還原完成後，Exchange 會建立一個新的日誌鏈。
+
++
+|===
+
+
+| *最佳實務：*建議您在復原完成後執行新的完整備份和日誌備份。 
+|===
++
+最新的復原操作需要一組連續的交易日誌。
+
++
+執行最新還原後，用於還原的備份僅可用於時間點還原作業。
+
++
+如果您不需要為所有備份保留最新的還原功能，則可以透過備份原則設定係統的交易日誌備份保留。
+
+
+
+
+
+=== 恢復到之前的時間點
+
+在時間點還原作業中，資料庫僅還原到過去的特定時間。時間點還原操作發生在下列還原情況：
+
+* 資料庫還原到備份交易日誌中的給定時間。
+* 資料庫已恢復，並且僅將備份交易日誌的子集套用至該資料庫。
+

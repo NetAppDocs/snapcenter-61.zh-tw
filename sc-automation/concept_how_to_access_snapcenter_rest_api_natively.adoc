@@ -1,0 +1,14 @@
+---
+permalink: sc-automation/concept_how_to_access_snapcenter_rest_api_natively.html 
+sidebar: sidebar 
+keywords: REST APIs, swagger 
+summary: 本機存取 REST API。  REST API 透過 Swagger 網頁公開。 
+---
+= 如何在本機存取SnapCenter REST API
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以使用任何支援 REST 用戶端的程式語言直接存取SnapCenter REST API。流行的語言選擇包括 Python、PowerShell 和 Java。

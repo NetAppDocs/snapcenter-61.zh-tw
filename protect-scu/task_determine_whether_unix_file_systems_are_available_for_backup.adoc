@@ -1,0 +1,31 @@
+---
+permalink: protect-scu/task_determine_whether_unix_file_systems_are_available_for_backup.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for UNIX file systems, discovery,file systems, UNIX, Unix file systems 
+summary: 安裝Unix檔案系統外掛後，會自動發現主機上的檔案系統並顯示在資源頁面中。 
+---
+= 發現可用於備份的 UNIX 檔案系統
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+安裝外掛程式後，該主機上的所有檔案系統都會自動發現並顯示在資源頁面中。您可以將這些檔案系統新增至資源組以執行資料保護操作。
+
+.開始之前
+* 您必須完成安裝SnapCenter伺服器、新增主機和建立儲存系統連線等任務。
+* 如果檔案系統駐留在虛擬機器磁碟 (VMDK) 或原始裝置對映 (RDM) 上，則必須部署SnapCenter Plug-in for VMware vSphere並向SnapCenter註冊外掛程式。
++
+有關更多信息，請參閱 https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/scpivs44_deploy_snapcenter_plug-in_for_vmware_vsphere.html["SnapCenter Plug-in for VMware vSphere"^] 。
+
+
+
+.步驟
+. 在左側導覽窗格中，按一下“*資源*”，然後從清單中選擇適當的外掛程式。
+. 在資源頁面中，從檢視清單中選擇*路徑*。
+. 按一下“刷新資源”。
++
+檔案系統與類型、主機名稱、相關資源群組和政策以及狀態等資訊一起顯示。
+
+

@@ -1,0 +1,20 @@
+---
+permalink: install/reference_provision_storage_using_powershell_cmdlets.html 
+sidebar: sidebar 
+keywords: Provision storage, snapcenter 
+summary: 如果您不想使用SnapCenter GUI 執行主機設定和空間回收作業，則可以使用適用於 Microsoft Windows 的SnapCenter外掛程式提供的 PowerShell cmdlet。您可以直接使用 cmdlet 或將其新增至腳本。 
+---
+= 使用 PowerShell cmdlet 設定存儲
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+如果您不想使用SnapCenter GUI 執行主機設定和空間回收作業，則可以使用 PowerShell cmdlet。您可以直接使用 cmdlet 或將其新增至腳本。
+
+如果您在遠端插件主機上執行 cmdlet，則必須執行SnapCenter Open-SMConnection cmdlet 來開啟與SnapCenter伺服器的連線。
+
+可以透過執行_Get-Help command_name_來取得有關可與 cmdlet 一起使用的參數及其描述的資訊。或者，您也可以參考 https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["SnapCenter軟體 Cmdlet 參考指南"^]。
+
+如果因為從伺服器移除SnapDrive for Windows 而導致SnapCenter PowerShell cmdlet 損壞，請參閱 https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/SnapCenter_cmdlets_broken_when_SnapDrive_for_Windows_is_uninstalled["卸載SnapDrive for Windows 時SnapCenter cmdlet 損壞"^]。

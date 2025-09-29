@@ -1,0 +1,48 @@
+---
+permalink: protect-nsp/storage_types_supported_by_netapp_supported_plugins.html 
+sidebar: sidebar 
+keywords: NetApp supported plug-ins 
+summary: SnapCenter支援實體機器和虛擬機器上的多種儲存類型。在安裝NetApp支援的插件之前，您必須驗證您的儲存類型的支援。 
+---
+= NetApp支援的插件支援的儲存類型
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenter支援實體機器和虛擬機器上的多種儲存類型。在安裝NetApp支援的插件之前，您必須驗證您的儲存類型的支援。
+
+|===
+| 機器 | 儲存類型 
+
+
+ a| 
+VM 主機上的實體和 NFS 直接掛載（不支援 VMDK 和 RDM LUN。）
+ a| 
+FC 連接的 LUN
+
+
+
+ a| 
+VM 主機上的實體和 NFS 直接掛載（不支援 VMDK 和 RDM LUN。）
+ a| 
+iSCSI 連接的 LUN
+
+
+
+ a| 
+VM 主機上的實體和 NFS 直接掛載（不支援 VMDK 和 RDM LUN。）
+ a| 
+NFS 連結卷
+
+
+
+ a| 
+VMware ESXi
+ a| 
+NFS 和 SAN 上的 vVol 資料存儲
+
+vVol 資料儲存只能使用適用於 VMware vSphere 的ONTAP Tools 進行設定。
+
+|===

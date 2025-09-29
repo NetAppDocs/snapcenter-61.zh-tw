@@ -1,0 +1,50 @@
+---
+permalink: protect-nsp/install_the_netapp_supported_plugins_on_linux_hosts_using_the_command_line_interface.html 
+sidebar: sidebar 
+keywords: install, NetApp supported plug-in 
+summary: '您應該使用SnapCenter使用者介面 (UI) 安裝SnapCenter NetApp支援的插件。如果您的環境不允許從SnapCenter UI 遠端安裝插件，您可以使用命令列介面 (CLI) 以控制台模式或靜默模式安裝NetApp支援的插件。' 
+---
+= 使用命令列介面在 Linux 主機上安裝NetApp支援的插件
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您應該使用SnapCenter使用者介面 (UI) 安裝NetApp支援的插件。如果您的環境不允許從SnapCenter UI 遠端安裝插件，您可以使用命令列介面 (CLI) 以控制台模式或靜默模式安裝NetApp支援的插件。
+
+.步驟
+. 將 Linux 安裝檔 (snapcenter_linux_host_plugin.bin) 的SnapCenter插件包從 C:\ProgramData\ NetApp\ SnapCenter\Package Repository 複製到要安裝NetApp支援的插件的主機。
++
+您可以從安裝了SnapCenter伺服器的主機存取此路徑。
+
+. 從命令提示字元處，導覽至複製安裝檔案的目錄。
+. 安裝插件： `path_to_installation_bin_file/snapcenter_linux_host_plugin.bin -i silent -DPORT=port_number_for_host -DSERVER_IP=server_name_or_ip_address -DSERVER_HTTPS_PORT=port_number_for_server`
++
+** -DPORT 指定 SMCore HTTPS 通訊連接埠。
+** -DSERVER_IP 指定SnapCenter伺服器 IP 位址。
+** -DSERVER_HTTPS_PORT 指定SnapCenter伺服器 HTTPS 連接埠。
+** -DUSER_INSTALL_DIR 指定要安裝 Linux 版SnapCenter插件包的目錄。
+** _DINSTALL_LOG_NAME 指定日誌檔案的名稱。
+
+
++
+[listing]
+----
+/tmp/sc-plugin-installer/snapcenter_linux_host_plugin.bin -i silent  -DPORT=8145 -DSERVER_IP=scserver.domain.com -DSERVER_HTTPS_PORT=8146 -DUSER_INSTALL_DIR=/opt -DINSTALL_LOG_NAME=SnapCenter_Linux_Host_Plugin_Install_2.log -DCHOSEN_FEATURE_LIST=CUSTOM
+----
+. 使用 Add-Smhost cmdlet 和所需參數將主機新增至SnapCenter伺服器。
++
+可以透過執行_Get-Help command_name_來取得有關可與命令一起使用的參數及其描述的資訊。或者，您也可以參考 https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["SnapCenter軟體 Cmdlet 參考指南"^]。
+
+. 登入SnapCenter並從 UI 或使用 PowerShell cmdlet 上傳NetApp支援的插件。
++
+您可以從 UI 上傳NetApp支援的插件，參考link:add_hosts_and_install_plug_in_packages_on_remote_hosts.html["新增主機並在遠端主機上安裝插件包"]部分。
+
++
+SnapCenter cmdlet 說明和 cmdlet 參考資訊包含更多有關 PowerShell cmdlet 的資訊。
+
++
+https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["SnapCenter軟體 Cmdlet 參考指南"^] 。
+
+

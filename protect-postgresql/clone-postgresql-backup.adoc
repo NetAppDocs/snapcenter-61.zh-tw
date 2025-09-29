@@ -1,0 +1,191 @@
+---
+permalink: protect-postgresql/clone-postgresql-backup.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for PostgreSQL,run as 
+summary: 您可以使用SnapCenter克隆備份。您可以從主備份或輔助備份複製。 
+---
+= 複製 PostgreSQL 備份
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以使用SnapCenter克隆備份。您可以從主備份或輔助備份複製。
+
+.開始之前
+* 您應該已經備份資源或資源組。
+* 您應確保託管磁碟區的聚合位於儲存虛擬機器 (SVM) 的已指派聚合清單中。
+* 對於克隆前或克隆後命令，您應該從以下路徑檢查這些命令是否存在於插件主機上可用的命令清單中：
++
+** Windows 主機上的預設位置：_C:\Program Files\ NetApp\ SnapCenter\Snapcenter Plug-in Creator\etc\allowed_commands.config_
+** Linux 主機上的預設位置：_/opt/ NetApp/snapcenter/scc/etc/allowed_commands.config_
+
+
+
+
+
+NOTE: 如果命令清單中不存在該命令，則操作將失敗。
+
+.關於此任務
+* 有關FlexClone磁碟區拆分操作的信息，請參閱https://docs.netapp.com/us-en/ontap/volumes/split-flexclone-from-parent-task.html["將FlexClone磁碟區從其父卷中拆分出來"]。
+* 對於ONTAP 9.12.1 及以下版本、作為復原的一部分從SnapLock Vault 快照建立的克隆將繼承SnapLock Vault 到期時間。儲存管理員應在SnapLock到期後手動清理克隆。
+
+
+[role="tabbed-block"]
+====
+.SnapCenter使用者介面
+--
+.步驟
+. 在左側導覽窗格中，按一下“*資源*”，然後從清單中選擇適當的外掛程式。
+. 在資源頁面中，根據資源類型從*檢視*下拉清單中過濾資源。
++
+資源與類型、主機、相關資源群組和策略以及狀態等資訊一起顯示。
+
+. 選擇資源或資源組。
++
+如果選擇資源組，則必須選擇資源。
+
++
+進入資源或資源群組拓撲頁面。
+
+. 從「管理副本」檢視中，從主儲存系統或輔助儲存系統（鏡像或保管）中選擇「*備份*」。
+. 從表中選擇資料備份，然後按一下image:../media/clone_icon.gif["複製圖示"]。
+. 在位置頁面中，執行以下操作：
++
+|===
+| 對於這個領域... | 這樣做... 
+
+
+ a| 
+克隆伺服器
+ a| 
+選擇要建立克隆的主機。
+
+
+
+ a| 
+目標連接埠
+ a| 
+輸入要從現有備份複製的目標 PostgreSQL 目標連接埠。
+
+
+
+ a| 
+NFS 匯出 IP 位址
+ a| 
+輸入將會匯出複製磁碟區的 IP 位址或主機名稱。
+
+這僅適用於 NFS 儲存類型資源。
+
+
+
+ a| 
+容量池最大吞吐量（MiB/s）
+ a| 
+輸入容量池的最大吞吐量。
+
+這僅適用於 ANF 儲存類型資源。
+
+|===
+. 在腳本頁面中，執行以下步驟：
++
+
+NOTE: 腳本在插件主機上運行。
+
++
+.. 輸入分別應在克隆操作之前或之後運行的預克隆或後克隆命令。
++
+*** 克隆前命令：刪除現有的同名集群
+*** 克隆後命令：驗證叢集或啟動叢集。
+
+
+.. 輸入 mount 指令將檔案系統掛載到主機。
++
+Linux 電腦上磁碟區或 qtree 的掛載指令：
+
++
+NFS 範例： `mount VSERVER_DATA_IP:%VOLUME_NAME_Clone /mnt`
+
+
+
+. 在通知頁面中，從*電子郵件首選項*下拉清單中，選擇您想要傳送電子郵件的場景。
++
+您也必須指定寄件者和收件者的電子郵件地址以及電子郵件的主題。
+
+. 查看摘要，然後按一下「*完成*」。
+. 透過點選「*監視*」>「*作業*」來監視操作進度。
+
+
+--
+.PowerShell cmdlet
+--
+.步驟
+. 使用 Open-SmConnection cmdlet 為指定使用者啟動與SnapCenter伺服器的連線會話。
++
+[listing]
+----
+PS C:\> Open-SmConnection
+----
+. 使用 Get-SmBackup cmdlet 檢索備份以執行複製作業。
++
+此範例顯示有兩個備份可供複製：
+
++
+[listing]
+----
+ C:\PS> Get-SmBackup
+
+        BackupId                      BackupName                    BackupTime                    BackupType
+        --------                      ----------                    ----------                    ----------
+         1                     Payroll Dataset_vise-f6_08... 8/4/2015 11:02:32 AM          Full Backup
+         2                     Payroll Dataset_vise-f6_08... 8/4/2015 11:23:17 AM
+----
+. 從現有備份啟動複製操作，並指定複製磁碟區匯出到的 NFS 匯出 IP 位址。
++
+此範例顯示要複製的備份具有 NFSExportIPs 位址 10.32.212.14：
+
++
+對於 PostgreSQL 叢集：
+
++
+[listing]
+----
+PS C:\> New-SmClone -AppPluginCode PostgreSQL -BackupName " scpostgresql01_ openenglab_netapp_com_PostgreSQL_postgres_5432_06-26-2024_00_33_41_1570" -Resources @{"Host"=" 10.32.212.13";"Uid"="postgres_5432"} -port 2345 -CloneToHost 10.32.212.14
+----
++
+
+NOTE: 如果沒有指定NFSExportIPs，則預設匯出至複製目標主機。
+
+. 使用 Get-SmCloneReport cmdlet 查看複製作業詳細信息，以驗證備份是否已成功複製。
++
+您可以查看複製 ID、開始日期和時間、結束日期和時間等詳細資訊。
+
++
+[listing]
+----
+PS C:\> Get-SmCloneReport -JobId 186
+
+    SmCloneId           : 1
+    SmJobId             : 186
+    StartDateTime       : 8/3/2015 2:43:02 PM
+    EndDateTime         : 8/3/2015 2:44:08 PM
+    Duration            : 00:01:06.6760000
+    Status              : Completed
+    ProtectionGroupName : Draper
+    SmProtectionGroupId : 4
+    PolicyName          : OnDemand_Clone
+    SmPolicyId          : 4
+    BackupPolicyName    : OnDemand_Full_Log
+    SmBackupPolicyId    : 1
+    CloneHostName       : SCSPR0054212005.mycompany.com
+    CloneHostId         : 4
+    CloneName           : Draper__clone__08-03-2015_14.43.53
+    SourceResources     : {Don, Betty, Bobby, Sally}
+    ClonedResources     : {Don_DRAPER, Betty_DRAPER, Bobby_DRAPER, Sally_DRAPER}
+    SmJobError          :
+----
+
+
+--
+====

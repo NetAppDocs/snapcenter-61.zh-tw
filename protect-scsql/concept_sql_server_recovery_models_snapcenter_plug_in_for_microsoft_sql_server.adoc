@@ -1,0 +1,30 @@
+---
+permalink: protect-scsql/concept_sql_server_recovery_models_snapcenter_plug_in_for_microsoft_sql_server.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for Microsoft SQL Server 
+summary: 預設情況下，每個資料庫類型都會指派特定的復原模型。  SQL Server 資料庫管理員可以將每個資料庫重新指派到不同的復原模型。 
+---
+= SnapCenter支援的 SQL Server 復原模型
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+預設情況下，每個資料庫類型都會指派特定的復原模型。  SQL Server 資料庫管理員可以將每個資料庫重新指派到不同的復原模型。
+
+SnapCenter支援三種類型的 SQL Server 復原模型：
+
+* 簡單恢復模型
++
+當您使用簡單還原模型時，您無法備份交易日誌。
+
+* 完全恢復模型
++
+當您使用完整復原模型時，您可以將資料庫從故障點還原到先前的狀態。
+
+* 批次日誌復原模型
++
+當您使用批次日誌復原模型時，您必須手動重新執行批次日誌操作。如果在還原之前尚未備份包含作業提交記錄的交易日誌，則必須執行批次記錄作業。如果批次日誌作業在資料庫中插入了 1000 萬行數據，而資料庫在交易日誌備份之前發生故障，則還原的資料庫將不包含批次日誌作業插入的行。
+
+

@@ -1,0 +1,325 @@
+---
+permalink: protect-db2/clone-ibm-db2-backup.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for IBM Db2,run as 
+summary: 您可以使用SnapCenter克隆備份。您可以從主備份或輔助備份複製。 
+---
+= 克隆 IBM Db2 備份
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以使用SnapCenter克隆備份。您可以從主備份或輔助備份複製。
+
+.開始之前
+* 您應該已經備份資源或資源組。
+* 您應確保託管磁碟區的聚合位於儲存虛擬機器 (SVM) 的已指派聚合清單中。
+* 在備用主機上為 Db2 建立複製時，必須為複製掛載路徑建立與另一台主機上的原始掛載路徑相同的 n-1 目錄結構。掛載路徑應具有_755_執行權限。
+* 對於克隆前或克隆後命令，您應該從以下路徑檢查這些命令是否存在於插件主機上可用的命令清單中：
++
+** Windows 主機上的預設位置：_C:\Program Files\ NetApp\ SnapCenter\Snapcenter Plug-in Creator\etc\allowed_commands.config_
+** Linux 主機上的預設位置：_/opt/ NetApp/snapcenter/scc/etc/allowed_commands.config_
+
+
+
+
+
+NOTE: 如果命令清單中不存在該命令，則操作將失敗。
+
+.關於此任務
+* 有關FlexClone磁碟區拆分操作的信息，請參閱https://docs.netapp.com/us-en/ontap/volumes/split-flexclone-from-parent-task.html["將FlexClone磁碟區從其父卷中拆分出來"]。
+* 對於ONTAP 9.12.1 及以下版本、作為復原的一部分從SnapLock Vault 快照建立的克隆將繼承SnapLock Vault 到期時間。儲存管理員應在SnapLock到期後手動清理克隆。
+
+
+[role="tabbed-block"]
+====
+.SnapCenter使用者介面
+--
+.步驟
+. 在左側導覽窗格中，按一下“*資源*”，然後從清單中選擇適當的外掛程式。
+. 在資源頁面中，根據資源類型從*檢視*下拉清單中過濾資源。
++
+資源與類型、主機、相關資源群組和策略以及狀態等資訊一起顯示。
+
+. 選擇資源或資源組。
++
+如果選擇資源組，則必須選擇資源。
+
++
+進入資源或資源群組拓撲頁面。
+
+. 從「管理副本」檢視中，從主儲存系統或輔助儲存系統（鏡像或保管）中選擇「*備份*」。
+. 從表中選擇資料備份，然後按一下image:../media/clone_icon.gif["複製圖示"]。
+. 在位置頁面中，執行以下操作：
++
+|===
+| 對於這個領域... | 這樣做... 
+
+
+ a| 
+克隆伺服器
+ a| 
+選擇要建立克隆的主機。
+
+
+
+ a| 
+目標克隆實例
+ a| 
+輸入要從現有備份中複製的目標 Db2 複製實例 ID。
+
+這僅適用於 ANF 儲存類型資源。
+
+
+
+ a| 
+目標克隆名稱
+ a| 
+輸入克隆的名稱。
+
+這僅適用於 Db2 資料庫資源。
+
+
+
+ a| 
+NFS 匯出 IP 位址
+ a| 
+輸入將會匯出複製磁碟區的 IP 位址或主機名稱。
+
+這僅適用於 NFS 儲存類型資源。
+
+
+
+ a| 
+容量池最大吞吐量（MiB/s）
+ a| 
+輸入容量池的最大吞吐量。
+
+|===
+. 在腳本頁面中，執行以下步驟：
++
+
+NOTE: 腳本在插件主機上運行。
+
++
+.. 輸入分別應在克隆操作之前或之後運行的預克隆或後克隆命令。
++
+*** 克隆前指令：刪除現有的同名資料庫
+*** 克隆後指令：驗證資料庫或啟動資料庫。
+
+
+.. 輸入 mount 指令將檔案系統掛載到主機。
++
+Linux 電腦上磁碟區或 qtree 的掛載指令：
+
++
+NFS 範例： `mount VSERVER_DATA_IP:%VOLUME_NAME_Clone /mnt`
+
+
+
+. 在通知頁面中，從*電子郵件首選項*下拉清單中，選擇您想要傳送電子郵件的場景。
++
+您也必須指定寄件者和收件者的電子郵件地址以及電子郵件的主題。
+
+. 查看摘要，然後按一下「*完成*」。
+. 透過點選「*監視*」>「*作業*」來監視操作進度。
+
+
+.完成後
+克隆自動發現的 Db2 資源後，克隆的資源被標記為手動資源。按一下*刷新資源*以恢復克隆的 Db2 資源。當您刪除克隆時，儲存和主機也會被清理。
+
+如果克隆操作後不刷新資源並嘗試刪除克隆，則儲存和主機將不會被清理。您必須在 fstab 中手動刪除條目。
+
+--
+.PowerShell cmdlet
+--
+.步驟
+. 使用 Open-SmConnection cmdlet 為指定使用者啟動與SnapCenter伺服器的連線會話。
++
+[listing]
+----
+Open-SmConnection  -SMSbaseurl  https://snapctr.demo.netapp.com:8146
+----
+. 列出可以使用 Get-SmBackup 或 Get-SmResourceGroup cmdlet 克隆的備份。
++
+此範例顯示有關所有可用備份的資訊：
+
++
+[listing]
+----
+C:\PS>PS C:\> Get-SmBackup
+
+BackupId   BackupName                     BackupTime   BackupType
+--------   ----------                     ----------   ----------
+1          Payroll Dataset_vise-f6_08...  8/4/2015     Full Backup
+                                          11:02:32 AM
+
+2          Payroll Dataset_vise-f6_08...  8/4/2015
+                                          11:23:17 AM
+----
++
+此範例顯示有關指定資源組、其資源和相關策略的資訊：
+
++
+[listing]
+----
+PS C:\> Get-SmResourceGroup -ListResources –ListPolicies
+
+Description :
+CreationTime : 8/4/2015 3:44:05 PM
+ModificationTime : 8/4/2015 3:44:05 PM
+EnableEmail : False
+EmailSMTPServer :
+EmailFrom :
+EmailTo :
+EmailSubject :
+EnableSysLog : False
+ProtectionGroupType : Backup
+EnableAsupOnFailure : False
+Policies : {FinancePolicy}
+HostResourceMaping : {}
+Configuration : SMCoreContracts.SmCloneConfiguration
+LastBackupStatus :
+VerificationServer :
+EmailBody :
+EmailNotificationPreference : Never
+VerificationServerInfo : SMCoreContracts.SmVerificationServerInfo
+SchedulerSQLInstance :
+CustomText :
+CustomSnapshotFormat :
+SearchResources : False
+ByPassCredential : False
+IsCustomSnapshot :
+MaintenanceStatus : Production
+PluginProtectionGroupTypes : {SMSQL}
+Name : Payrolldataset
+Type : Group
+Id : 1
+Host :
+UserName :
+Passphrase :
+Deleted : False
+Auth : SMCoreContracts.SmAuth
+IsClone : False
+CloneLevel : 0
+ApplySnapvaultUpdate : False
+ApplyRetention : False
+RetentionCount : 0
+RetentionDays : 0
+ApplySnapMirrorUpdate : False
+SnapVaultLabel :
+MirrorVaultUpdateRetryCount : 7
+AppPolicies : {}
+Description : FinancePolicy
+PreScriptPath :
+PreScriptArguments :
+PostScriptPath :
+PostScriptArguments :
+ScriptTimeOut : 60000
+DateModified : 8/4/2015 3:43:30 PM
+DateCreated : 8/4/2015 3:43:30 PM
+Schedule : SMCoreContracts.SmSchedule
+PolicyType : Backup
+PluginPolicyType : SMSQL
+Name : FinancePolicy
+Type :
+Id : 1
+Host :
+UserName :
+Passphrase :
+Deleted : False
+Auth : SMCoreContracts.SmAuth
+IsClone : False
+CloneLevel : 0
+clab-a13-13.sddev.lab.netapp.com
+DatabaseGUID :
+SQLInstance : clab-a13-13
+DbStatus : AutoClosed
+DbAccess : eUndefined
+IsSystemDb : False
+IsSimpleRecoveryMode : False
+IsSelectable : True
+SqlDbFileGroups : {}
+SqlDbLogFiles : {}
+AppFileStorageGroups : {}
+LogDirectory :
+AgName :
+Version :
+VolumeGroupIndex : -1
+IsSecondary : False
+Name : TEST
+Type : SQL Database
+Id : clab-a13-13\TEST
+Host : clab-a13-13.sddev.mycompany.com
+UserName :
+Passphrase :
+Deleted : False
+Auth : SMCoreContracts.SmAuth
+IsClone : False
+----
+. 使用 New-SmClone cmdlet 從現有備援啟動複製作業。
++
+此範例從包含所有日誌的指定備份建立複製：
+
++
+[listing]
+----
+PS C:\> New-SmClone
+-BackupName payroll_dataset_vise-f3_08-05-2015_15.28.28.9774
+-Resources @{"Host"="vise-f3.sddev.mycompany.com";
+"Type"="SQL Database";"Names"="vise-f3\SQLExpress\payroll"}
+-CloneToInstance vise-f3\sqlexpress -AutoAssignMountPoint
+-Suffix _clonefrombackup
+-LogRestoreType All -Policy clonefromprimary_ondemand
+
+PS C:> New-SmBackup -ResourceGroupName PayrollDataset -Policy FinancePolicy
+----
++
+此範例建立指定 Microsoft SQL Server 執行個體的複製：
+
++
+[listing]
+----
+PS C:\> New-SmClone
+-BackupName "BackupDS1_NY-VM-SC-SQL_12-08-2015_09.00.24.8367"
+-Resources @{"host"="ny-vm-sc-sql";"Type"="SQL Database";
+"Names"="ny-vm-sc-sql\AdventureWorks2012_data"}
+-AppPluginCode SMSQL -CloneToInstance "ny-vm-sc-sql"
+-Suffix _CLPOSH -AssignMountPointUnderPath "C:\SCMounts"
+----
+. 使用 Get-SmCloneReport cmdlet 查看複製作業的狀態。
++
+此範例顯示指定作業 ID 的複製報表：
+
++
+[listing]
+----
+PS C:\> Get-SmCloneReport -JobId 186
+
+SmCloneId : 1
+SmJobId : 186
+StartDateTime : 8/3/2015 2:43:02 PM
+EndDateTime : 8/3/2015 2:44:08 PM
+Duration : 00:01:06.6760000
+Status : Completed
+ProtectionGroupName : Draper
+SmProtectionGroupId : 4
+PolicyName : OnDemand_Clone
+SmPolicyId : 4
+BackupPolicyName : OnDemand_Full_Log
+SmBackupPolicyId : 1
+CloneHostName : SCSPR0054212005.mycompany.com
+CloneHostId : 4
+CloneName : Draper__clone__08-03-2015_14.43.53
+SourceResources : {Don, Betty, Bobby, Sally}
+ClonedResources : {Don_DRAPER, Betty_DRAPER, Bobby_DRAPER,
+                   Sally_DRAPER}
+----
+
+
+可以透過執行_Get-Help command_name_來取得有關可與 cmdlet 一起使用的參數及其描述的資訊。或者，您也可以參考 https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["SnapCenter軟體 Cmdlet 參考指南"^]。
+
+--
+====

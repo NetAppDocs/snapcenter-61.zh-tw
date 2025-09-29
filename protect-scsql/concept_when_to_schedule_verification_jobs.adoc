@@ -1,0 +1,16 @@
+---
+permalink: protect-scsql/concept_when_to_schedule_verification_jobs.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for Microsoft SQL Server 
+summary: '儘管SnapCenter可以在建立備份後立即驗證備份，但這樣做會顯著增加完成備份作業所需的時間，並且耗費大量資源。因此，最好將驗證安排在以後的單獨工作中。例如，如果您每天下午 5:00 備份資料庫，則可以安排驗證在一小時後的下午 6:00 進行' 
+---
+= 何時安排驗證工作
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+儘管SnapCenter可以在建立備份後立即驗證備份，但這樣做會顯著增加完成備份作業所需的時間，並且耗費大量資源。因此，最好將驗證安排在以後的單獨工作中。例如，如果您每天下午 5:00 備份資料庫，則可以安排驗證在一小時後的下午 6:00 進行
+
+基於相同的原因，通常不需要在每次執行備份時都執行備份驗證。定期但頻率較低的驗證通常足以確保備份的完整性。單一驗證作業可以同時驗證多個備份。

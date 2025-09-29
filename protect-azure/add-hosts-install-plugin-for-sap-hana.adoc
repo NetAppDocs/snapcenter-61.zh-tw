@@ -1,0 +1,41 @@
+---
+permalink: protect-azure/add-hosts-install-plugin-for-sap-hana.html 
+sidebar: sidebar 
+keywords: add host, install, install plug-in, SAP HANA 
+summary: 新增主機，然後安裝插件包。 
+---
+= 為 SAP HANA 資料庫新增主機並安裝SnapCenter插件
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您必須使用SnapCenter新增主機頁面來新增主機，然後安裝插件包。插件會自動安裝在遠端主機上。
+
+.開始之前
+* 您必須是分配有插件安裝和卸載權限的角色的用戶，例如SnapCenter管理員角色。
+* 在 Windows 主機上安裝插件時，如果指定非內建的憑證，或使用者屬於本機工作群組用戶，則必須在主機上停用 UAC。
+* 如果您在集中式主機上安裝，請確保該主機上安裝了 SAP HANA 用戶端軟體，並在 SAP HANA 資料庫主機上開啟所需的連接埠以遠端執行 HDB SQL 查詢。
+
+
+.步驟
+. 在左側導覽窗格中，按一下「*主機*」。
+. 驗證是否選擇了「*託管主機*」標籤。
+. 按一下“*新增*”。
+. 在「主機」頁面中，執行下列操作：
++
+.. 在主機類型欄位中，選擇主機類型。
+.. 在主機名字段中，輸入主機的完全限定網域名稱 (FQDN) 或 IP 位址。
+.. 在憑證欄位中，輸入您建立的憑證。
+
+
+. 在選擇要安裝的插件部分中，選擇要安裝的插件。
+. （可選）點擊“更多選項”並指定詳細資訊。
+. 點選“*提交*”。
+. 如果主機類型為Linux，請驗證指紋，然後按一下*確認並提交*。
++
+在叢集設定中，您應該驗證叢集中每個節點的指紋。
+
+. 監控安裝進度。
+

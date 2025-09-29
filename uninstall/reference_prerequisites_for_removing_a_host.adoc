@@ -1,0 +1,49 @@
+---
+permalink: uninstall/reference_prerequisites_for_removing_a_host.html 
+sidebar: sidebar 
+keywords: uninstall, prerequisites, plug-in, plug-in packages 
+summary: 如果您不再想使用SnapCenter來管理其資料保護作業，則可以刪除該主機。例如，如果主機不再有需要保護的數據，您可能想要刪除它。從SnapCenter Server 中刪除主機之前，必須執行先決條件任務。 
+---
+= 刪除主機的先決條件
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您可以使用SnapCenter GUI 刪除主機並卸載單一插件或插件包。您也可以使用SnapCenter Server 主機上的命令列介面 (CLI) 或在任何主機上本機使用 Windows *解除安裝程式* 選項卸載遠端主機上的個別外掛程式或外掛程式套件。
+
+從SnapCenter Server 中刪除主機之前，您應該完成先決條件。
+
+* 您應該以管理員身分登入。
+* 您應該確保發現作業未在主機上執行。
+* 您應該被指派一個具有所需權限的角色來刪除與主機相關的所有物件。否則，刪除操作失敗。
+* 如果將主機新增至SnapCenter後修改了 SSH 金鑰，則應確認指紋。
+* 如果SnapCenter主機升級到更高版本的SnapCenter ，但插件主機仍在運行早期版本的插件，則應確認指紋。
+
+
+
+
+== 使用基於角色的存取控制刪除主機的先決條件
+
+* 您應該使用具有讀取、刪除主機、安裝、卸載插件和刪除物件權限的 RBAC 角色登入。
++
+物件可以是克隆、備份、資源群組、儲存系統等等。
+
+* 您應該已將 RBAC 使用者新增至 RBAC 角色。
+* 您應該將 RBAC 使用者指派給要刪除的主機、插件、憑證、資源群組和儲存系統（用於複製）。
+* 您應該以 RBAC 使用者身分登入SnapCenter 。
+
+
+
+
+== 刪除具有透過複製生命週期操作建立的複製的主機的先決條件
+
+* 您應該已經使用 SQL 資料庫的克隆生命週期管理建立了克隆作業。
+* 您應該已經建立了一個具有克隆讀取和刪除、資源讀取和刪除、資源組讀取和刪除、儲存讀取和刪除、配置讀取和刪除、掛載、卸載、插件安裝和卸載、主機讀取和刪除權限的 RBAC 角色。
+* 您應該已將 RBAC 使用者指派給 RBAC 角色。
+* 您應該已將 RBAC 使用者指派給主機、適用於 Microsoft SQL Server 的SnapCenter插件、憑證、複製生命週期資源群組和儲存系統。
+* 您應該以 RBAC 使用者身分登入SnapCenter 。
+
+
+有關卸載適用SnapCenter Plug-in for VMware vSphere的信息，請參閱 https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/scpivs44_remove_plugin.html["刪除SnapCenter Plug-in for VMware vSphere"^]。

@@ -1,0 +1,143 @@
+---
+permalink: tech-refresh/task_tech_refresh_storage_system.html 
+sidebar: sidebar 
+keywords: tech refresh, storage system, 
+summary: 透過將資料從舊儲存移至新存儲，將新儲存安裝到對應的主機，然後啟動資料庫來執行儲存系統的技術更新。 
+---
+= 儲存系統技術更新
+:allow-uri-read: 
+
+
+[role="lead"]
+當儲存進行技術更新時，資料將遷移到新的存儲，並且應用程式主機將安裝新的儲存。如果新儲存空間在SnapCenter中註冊， SnapCenter備份工作流程將識別新儲存空間並建立快照。
+
+您可以對儲存刷新後建立的新備份執行還原、掛載和複製。但是，當對儲存刷新之前建立的備份執行這些操作時，這些操作將會失敗，因為備份具有舊的儲存詳細資訊。您應該執行儲存技術刷新 API 或 cmdlet 來使用新的儲存詳細資料更新SnapCenter中的舊備份。
+
+以下SnapCenter插件支援技術更新：
+
+* 適用於 Microsoft SQL Server 的SnapCenter插件
+* 適用於 Windows 的SnapCenter插件
+* 適用於 Oracle 資料庫的SnapCenter插件
+* 適用於 SAP HANA 資料庫的SnapCenter插件
+* 適用於 Microsoft Exchange Server 的SnapCenter插件
+
+
+支援的用例包括：
+
+* 主儲存刷新
++
+支援儲存技術更新，以新儲存取代主儲存。您無法將現有的輔助儲存轉換為主儲存。
+
+* 二級儲存刷新
+
+
+
+
+== 更新主儲存的備份
+
+當儲存裝置進行技術刷新時，您應該執行儲存技術刷新 API 或 cmdlet 以使用新的儲存詳細資料更新SnapCenter中的舊備份。
+
+.開始之前
+由於此工作流程修改了SnapCenter儲存庫中的數據，因此建議備份SnapCenter儲存庫。如果發生任何資料問題，可以使用備份將SnapCenter儲存庫還原為舊狀態。
+
+有關更多信息，請參閱 https://docs.netapp.com/us-en/snapcenter/admin/concept_manage_the_snapcenter_server_repository.html#back-up-the-snapcenter-repository["備份SnapCenter儲存庫"] 。
+
+.步驟
+. 將資料從舊儲存遷移到新儲存。
++
+有關如何遷移的信息，請參閱：
+
++
+** https://kb.netapp.com/mgmt/SnapCenter/How_to_perform_Storage_tech_refresh["如何將資料遷移到新存儲"]
+** https://kb.netapp.com/onprem/ontap/dp/SnapMirror/How_can_I_copy_a_volume_and_preserve_all_of_the_Snapshot_copies["如何複製磁碟區並保留所有 Snapshot 副本？"]
+
+
+. 將主機置於維護模式。
+. 在對應的主機上安裝新的儲存空間並啟動資料庫。
++
+新的儲存應以與先前相同的方式連接到主機。例如，如果它是作為 SAN 連接的，則需要將其作為 SAN 連接。
+
++
+新的儲存需要安裝在與舊儲存相同的磁碟機或路徑上。
+
+. 驗證所有資源是否已啟動並正在運作。
+. 在SnapCenter中新增儲存。
++
+確保SnapCenter中各個叢集的 SVM 名稱都是唯一的。如果您在新儲存中使用相同的 SVM 名稱、並且在執行儲存刷新之前可以遷移 SVM 的所有磁碟區、則建議刪除舊叢集中的 SVM 並在SnapCenter中重新發現舊叢集、這將從快取中刪除 SVM。
+
+. 將主機置於生產模式。
+. 在SnapCenter中，建立已遷移儲存的資源的備份。  SnapCenter需要新的備份來識別最新的儲存佔用空間，並且它將用於更新現有舊備份的元資料。
++
+
+NOTE: 每當一個新的 LUN 連接到主機時，它都會有一個新的序號。在發現 Windows 檔案系統期間， SnapCenter會將每個唯一序號視為新資源。在儲存技術刷新期間，當新儲存中的 LUN 以相同的磁碟機號碼或路徑連接到主機時， SnapCenter中 Windows 檔案系統的發現會將現有資源標記為已刪除，即使它以相同的磁碟機號碼或路徑安裝，並將新 LUN 顯示為新資源。由於資源被標記為已刪除，因此SnapCenter中不會考慮對其進行儲存技術更新，並且舊資源的所有備份都會遺失。每當發生儲存刷新時，對於 Windows 檔案系統資源，在執行儲存刷新 API 或 cmdlet 之前不應執行資源發現。
+
+. 運行儲存刷新 API： `/<snapcenter_version>/techrefresh/primarystorage`或 cmdlet：_Invoke-SmTechRefreshPrimaryStorage_。
++
+
+NOTE: 如果資源配置了啟用複製的策略，則儲存刷新後的最新備份應該具有輔助儲存的詳細資訊。
+
++
+.. 如果您使用 SQL 故障轉移群集實例 (FCI) 設置，則備份將在群集層級維護。您應該提供叢集名稱作為儲存技術更新的輸入。
+.. 如果您使用 SQL 可用性群組 (AG) 設置，則備份將在節點層級維護。您應該提供節點名稱作為儲存技術更新的輸入。
+.. 如果您使用 Oracle Real Application Clusters (RAC) 來設置，則可以在任何節點上執行儲存技術刷新。
++
+_IsDryRun_ 屬性預設為 True。它將識別刷新儲存的資源。您可以透過執行 API：「<snapcenter_version>/jobs/{jobid}」或 cmdlet _Get-SmJobSummaryReport_ 來查看資源和變更的儲存詳細資訊。
+
+
+
+. 驗證儲存詳細資訊後，將 _IsDryRun_ 屬性設為 False 並執行儲存刷新 API： `/<snapcenter_version>/techrefresh/primarystorage`或 cmdlet：_Invoke-SmTechRefreshPrimaryStorage_。
++
+這將更新舊備份中的儲存詳細資訊。
+
++
+您可以在同一台主機上執行多次 API 或 cmdlet，只有在刷新儲存時它才會更新舊備份中的儲存詳細資料。
+
++
+
+NOTE: 克隆層次結構無法在ONTAP中遷移。如果正在遷移的儲存在SnapCenter中具有任何克隆元數據，則克隆的資源將被標記為獨立資源。克隆元資料的克隆將被遞歸刪除。
+
+. （可選）如果所有快照都未從舊主儲存移動到新主存儲，請執行下列 API： `/<snapcenter_version>/hosts/primarybackupsexistencecheck`或 cmdlet _Invoke-SmPrimaryBackupsExistenceCheck_。
++
+這將對新的主儲存執行快照存在性檢查，並將對應的備份標記為不可用於SnapCenter中的任何操作。
+
+
+
+
+
+== 更新輔助儲存的備份
+
+當儲存裝置進行技術刷新時，您應該執行儲存技術刷新 API 或 cmdlet 以使用新的儲存詳細資料更新SnapCenter中的舊備份。
+
+.開始之前
+由於此工作流程修改了SnapCenter儲存庫中的數據，因此建議備份SnapCenter儲存庫。如果發生任何資料問題，可以使用備份將SnapCenter儲存庫還原為舊狀態。
+
+有關更多信息，請參閱 https://docs.netapp.com/us-en/snapcenter/admin/concept_manage_the_snapcenter_server_repository.html#back-up-the-snapcenter-repository["備份SnapCenter儲存庫"] 。
+
+.步驟
+. 將資料從舊儲存遷移到新儲存。
++
+有關如何遷移的信息，請參閱：
+
++
+** https://kb.netapp.com/mgmt/SnapCenter/How_to_perform_Storage_tech_refresh["如何將資料遷移到新存儲"]
+** https://kb.netapp.com/onprem/ontap/dp/SnapMirror/How_can_I_copy_a_volume_and_preserve_all_of_the_Snapshot_copies["如何複製磁碟區並保留所有 Snapshot 副本？"]
+
+
+. 在主儲存和新的二級儲存之間建立SnapMirror關係，並確保關係狀況良好。
+. 在SnapCenter中，建立已遷移儲存的資源的備份。
++
+SnapCenter需要新的備份來識別最新的儲存佔用空間，並且它將用於更新現有舊備份的元資料。
+
++
+
+IMPORTANT: 您應該等到此操作完成。如果在完成之前繼續下一步， SnapCenter將完全遺失舊的輔助快照元資料。
+
+. 成功建立主機中所有資源的備份後，執行輔助儲存刷新 API： `/<snapcenter_version>/techrefresh/secondarystorage`或 cmdlet：_Invoke-SmTechRefreshSecondaryStorage_。
++
+這將更新給定主機中舊備份的輔助儲存詳細資訊。
+
++
+如果您想在資源層級執行此功能，請按一下每個資源的*刷新*以更新輔助儲存元資料。
+
+. 成功更新舊備份後，您可以中斷舊的輔助儲存與主儲存的關係。
+

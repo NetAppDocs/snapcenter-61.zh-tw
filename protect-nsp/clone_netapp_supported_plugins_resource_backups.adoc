@@ -1,0 +1,28 @@
+---
+permalink: protect-nsp/clone_netapp_supported_plugins_resource_backups.html 
+sidebar: sidebar 
+keywords: clone, NetApp supported plug-ins 
+summary: 克隆工作流程包括執行克隆操作和監視操作。 
+---
+= 克隆NetApp支援的外掛資源備份
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+克隆工作流程包括執行克隆操作和監視操作。
+
+.關於此任務
+您可能會因為以下原因而複製資源備份：
+
+* 在應用程式開發週期中測試必須使用目前資源結構和內容實現的功能
+* 用於填充資料倉儲時的資料擷取和操作工具
+* 恢復被錯誤刪除或更改的數據
+
+
+以下工作流程顯示了執行複製操作必須遵循的順序：
+
+image:../media/sco_scc_wfs_clone_workflow.gif["克隆工作流程"]
+
+您也可以手動或在腳本中使用 PowerShell cmdlet 來執行備份、還原和複製作業。有關 PowerShell cmdlet 的詳細信息，請使用SnapCenter cmdlet 協助或參閱 https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["SnapCenter軟體 Cmdlet 參考指南"^]。

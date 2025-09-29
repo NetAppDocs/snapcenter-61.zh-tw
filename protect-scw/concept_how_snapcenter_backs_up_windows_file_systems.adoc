@@ -1,0 +1,23 @@
+---
+permalink: protect-scw/concept_how_snapcenter_backs_up_windows_file_systems.html 
+sidebar: sidebar 
+keywords: SnapCenter 
+summary: SnapCenter使用 Snapshot 技術備份駐留在 LUN、CSV（叢集共用磁碟區）、RDM（原始裝置對應）磁碟區、Windows 叢集中的 ALM（非對稱 LUN 對應）以及基於 VMFS/NFS（使用 NFS 的 VMware 虛擬機器檔案系統）的 VMDK 上的 Windows 檔案系統資源。 
+---
+= SnapCenter如何備份 Windows 檔案系統
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenter使用 Snapshot 技術備份駐留在 LUN、CSV（叢集共用磁碟區）、RDM（原始裝置對應）磁碟區、Windows 叢集中的 ALM（非對稱 LUN 對應）以及基於 VMFS/NFS（使用 NFS 的 VMware 虛擬機器檔案系統）的 VMDK 上的 Windows 檔案系統資源。
+
+SnapCenter透過建立檔案系統的快照來建立備份。聯合備份（其中一個磁碟區包含來自多個主機的 LUN）比每個單獨的 LUN 的備份更快、更有效率，因為與每個檔案系統的單獨快照相比，只建立磁碟區的一個快照。
+
+當SnapCenter建立快照時，整個儲存系統磁碟區都會被擷取到快照中。但是，備份僅對建立備份的主機伺服器有效。
+
+如果其他主機伺服器的資料駐留在同一磁碟區上，則無法從快照還原該資料。
+
+
+NOTE: 如果 Windows 檔案系統包含資料庫，那麼備份檔案系統與備份資料庫不同。要備份資料庫，您必須使用其中一個資料庫外掛程式。

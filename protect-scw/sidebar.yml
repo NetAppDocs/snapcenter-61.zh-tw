@@ -1,0 +1,98 @@
+---
+section: protect-scw
+title: 保護 Windows 檔案系統
+entries:
+- title: 適用於 Microsoft Windows 的SnapCenter外掛概念
+  entries:
+  - title: 適用於 Microsoft Windows 的SnapCenter外掛程式概述
+    url: "/protect-scw/concept_snapcenter_plug_in_for_microsoft_windows_overview.html"
+  - title: 您可以使用適用於 Microsoft Windows 的SnapCenter外掛程式做什麼
+    url: "/protect-scw/reference_what_you_can_do_with_the_snapcenter_plug_in_for_microsoft_windows.html"
+  - title: 適用於 Windows 的SnapCenter插件功能
+    url: "/protect-scw/concept_snapcenter_plug_in_for_windows_features.html"
+  - title: SnapCenter如何備份 Windows 檔案系統
+    url: "/protect-scw/concept_how_snapcenter_backs_up_windows_file_systems.html"
+  - title: SnapCenter Plug-in for Microsoft Windows 支援的儲存類型
+    url: "/protect-scw/reference_storage_types_supported_by_snapcenter_plug_ins_for_microsoft_windows.html"
+  - title: Windows 插件所需的最低ONTAP權限
+    url: "/protect-scw/reference_minimum_ontap_privileges_required_for_windows_plug_in.html"
+  - title: 為SnapMirror和SnapVault複製準備儲存系統
+    url: "/protect-scw/reference_prepare_storage_system_for_snapmirror_and_snapvault.html"
+  - title: 定義 Windows 檔案系統的備份策略
+    url: "/protect-scw/task_define_a_backup_strategy_for_windows_file_systems.html"
+  - title: Windows 檔案系統複製的來源和目標
+    url: "/protect-scw/reference_sources_and_destinations_of_clones_for_windows_file_systems.html"
+- title: 安裝適用於 Microsoft Windows 的SnapCenter插件
+  entries:
+  - title: 適用於 Microsoft Windows 的SnapCenter外掛程式的安裝工作流程
+    url: "/protect-scw/concept_install_snapcenter_plug_in_for_microsoft_windows.html"
+  - title: 適用於 Microsoft Windows 的SnapCenter外掛程式的安裝需求
+    url: "/protect-scw/reference_installation_requirements_for_snapcenter_plug_in_for_microsoft_windows.html"
+  - title: 新增主機並安裝適用於 Microsoft Windows 的SnapCenter插件
+    url: "/protect-scw/task_add_hosts_and_install_snapcenter_plug_in_for_microsoft_windows.html"
+  - title: 使用 PowerShell cmdlet 在多個遠端主機上安裝適用於 Microsoft Windows 的SnapCenter插件
+    url: "/protect-scw/task_install_on_multiple_remote_hosts_using_powershell_cmdlets.html"
+  - title: 從命令列靜默安裝適用於 Microsoft Windows 的SnapCenter插件
+    url: "/protect-scw/task_install_the_snapcenter_plug_in_for_windows_silently_from_the_command_line.html"
+  - title: 監控SnapCenter插件包安裝狀態
+    url: "/protect-scw/task_monitor_snapcenter_plug_in_package_installation_status.html"
+  - title: 設定CA憑證
+    entries:
+    - title: 產生CA憑證CSR文件
+      url: "/protect-scw/reference_generate_CA_certificate_CSR_file.html"
+    - title: 匯入 CA 憑證
+      url: "/protect-scw/task_import_CA_certificates.html"
+    - title: 取得 CA 憑證指紋
+      url: "/protect-scw/task_get_the_CA_certificate_thumbprint.html"
+    - title: 使用 Windows 主機插件服務設定 CA 憑證
+      url: "/protect-scw/task_configure_CA_certificate_with_Windows_host_plug-in_services.html"
+    - title: 為插件啟用 CA 憑證
+      url: "/protect-scw/task_enable_ca_certificates_for_plug-ins.html"
+- title: SnapCenter Plug-in for VMware vSphere
+  url: "/protect-scw/task_install_snapcenter_plug_in_for_vmware_vsphere.html"
+- title: 備份 Windows 檔案系統
+  entries:
+  - title: 備份工作流程
+    url: "/protect-scw/reference_back_up_windows_file_systems.html"
+  - title: 確定 Windows 檔案系統的資源可用性
+    url: "/protect-scw/task_determine_resource_availability_for_windows_file_systems.html"
+  - title: 為 Windows 檔案系統建立備份策略
+    url: "/protect-scw/task_create_backup_policies_for_windows_file_systems.html"
+  - title: 為 Windows 檔案系統建立資源組
+    url: "/protect-scw/task_create_resource_groups_for_windows_file_systems.html"
+  - title: 在ASA r2 系統上建立資源組並為 Windows 檔案系統啟用二級保護
+    url: "/protect-scw/create-resource-groups-secondary-protection-for-asa-r2-windows-file-systems.html"
+  - title: 使用 PowerShell cmdlet 建立儲存系統連線和憑證
+    url: "/protect-scw/task_create_a_storage_system_connection_and_a_credential_using_powershell_cmdlets_for_windows.html"
+  - title: 按需備份 Windows 檔案系統的單一資源
+    url: "/protect-scw/task_back_up_a_single_resource_on_demand_for_windows_file_systems.html"
+  - title: 備份 Windows 檔案系統的資源組
+    url: "/protect-scw/task_back_up_resource_groups_for_windows_file_systems.html"
+  - title: 監視備份作業
+    url: "/protect-scw/task_monitor_backup_operations.html"
+  - title: 取消備份作業
+    url: "/protect-scw/task_cancel_backup_operations_for_windows_file_system.html"
+  - title: 在拓撲頁面中查看相關備份和克隆
+    url: "/protect-scw/task_view_related_backups_and_clones_in_the_topology_page.html"
+  - title: 使用 PowerShell cmdlet 清理輔助備援計數
+    url: "/protect-scw/task_clean_up_the_secondary_backup_count_using_powershell_cmdlets_for_windows.html"
+- title: 還原 Windows 檔案系統
+  entries:
+  - title: 恢復 Windows 檔案系統備份
+    url: "/protect-scw/task_restore_windows_file_system_backups.html"
+  - title: 使用 PowerShell cmdlet 還原資源
+    url: "/protect-scw/task_restore_and_recover_resources_using_powershell_cmdlets_for_windows.html"
+  - title: 監視恢復操作
+    url: "/protect-scw/task_monitor_restore_operations.html"
+  - title: 取消恢復操作
+    url: "/protect-scw/task_cancel_restore_operations.html"
+- title: 克隆 Windows 檔案系統
+  entries:
+  - title: 從 Windows 檔案系統備份克隆
+    url: "/protect-scw/task_clone_from_a_windows_file_system_backup.html"
+  - title: 監視克隆操作
+    url: "/protect-scw/task_monitor_clone_operations.html"
+  - title: 取消克隆操作
+    url: "/protect-scw/task_cancel_clone_operations.html"
+  - title: 分裂克隆
+    url: "/protect-scw/task_split_a_clone_for_windows.html"

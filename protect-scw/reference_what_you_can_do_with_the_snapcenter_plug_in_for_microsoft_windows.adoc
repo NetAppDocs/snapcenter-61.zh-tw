@@ -1,0 +1,25 @@
+---
+permalink: protect-scw/reference_what_you_can_do_with_the_snapcenter_plug_in_for_microsoft_windows.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for Microsoft Windows 
+summary: 當您的環境中安裝了適用於 Windows 的插件後，您可以使用SnapCenter備份、還原和複製 Windows 檔案系統。您也可以執行支援這些操作的任務。 
+---
+= 您可以使用適用於 Microsoft Windows 的SnapCenter外掛程式做什麼
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+當您的環境中安裝了適用於 Windows 的插件後，您可以使用SnapCenter備份、還原和複製 Windows 檔案系統。您也可以執行支援這些操作的任務。
+
+* 發現資源
+* 備份 Windows 檔案系統
+* 安排備份作業
+* 恢復檔案系統備份
+* 克隆檔案系統備份
+* 監控備份、復原和複製操作
+
+
+
+NOTE: Windows 外掛程式不支援 SMB 共用上的檔案系統的備份和還原。

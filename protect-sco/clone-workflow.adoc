@@ -1,0 +1,25 @@
+---
+permalink: protect-sco/clone-workflow.html 
+sidebar: sidebar 
+keywords: clone operation, clone, workflow 
+summary: 克隆工作流程包括規劃、執行複製操作和監控操作。 
+---
+= 克隆工作流程
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+克隆工作流程包括規劃、執行複製操作和監控操作。
+
+您可能由於以下原因而克隆資料庫：
+
+* 在應用程式開發週期中測試必須使用目前資料庫結構和內容實現的功能。
+* 使用資料擷取和操作工具填充資料倉儲。
+* 恢復被錯誤刪除或更改的資料。
+
+
+以下工作流程顯示了執行複製操作必須遵循的順序：
+
+image::../media/sco_scc_wfs_clone_workflow.gif[克隆工作流程]

@@ -1,0 +1,38 @@
+---
+permalink: protect-hana/reference_types_of_restore_strategies_supported_for_auto_discovered_sap_hana_databases.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for SAP HANA Databases 
+summary: 您必須先定義一個策略，然後才能使用SnapCenter成功執行還原作業。自動發現的 SAP HANA 資料庫有兩種類型的復原策略。 
+---
+= 自動發現的 SAP HANA 資料庫支援的復原策略類型
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您必須先定義一個策略，然後才能使用SnapCenter成功執行還原作業。自動發現的 SAP HANA 資料庫有兩種類型的復原策略。
+
+
+
+== 完成資源恢復
+
+* 恢復資源的所有磁碟區、qtree 和 LUN
++
+** 應選擇“*Volume Revert*”選項來恢復整個磁碟區。
++
+
+NOTE: 如果資源包含磁碟區或 qtree，則在這些磁碟區或 qtree 上選擇還原的快照之後拍攝的快照將被刪除，且無法復原。此外，如果任何其他資源託管在相同的磁碟區或 qtree 上，則該資源也會被刪除。
+
+
+
+
+
+
+
+== 租戶資料庫
+
+* 恢復租戶資料庫
+
+
+如果選擇了「租用戶資料庫」選項，則必須使用SnapCenter外部的 HANA 工作室或 HANA 復原腳本來執行復原作業。

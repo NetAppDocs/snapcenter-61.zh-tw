@@ -1,0 +1,146 @@
+---
+permalink: protect-sco/alternate-ways-install-plug-in-linux-aix.html 
+sidebar: sidebar 
+keywords: alternate methods, install, plug-ins package, linux, aix, remote hosts, cmdlets, cluster host, silent mode, console mode 
+summary: 您可以使用其他替代方法來安裝適用於 Linux 的SnapCenter插件包或適用於 AIX 的SnapCenter插件包。 
+---
+= 安裝 Linux 或 AIX 插件包的其他方法
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+您也可以使用 cmdlet 或 CLI 手動安裝適用於 Linux 或 AIX 的插件套件。
+
+在手動安裝插件之前，您應該使用位於 _C:\ProgramData\ NetApp\ SnapCenter\Package Repository_ 的金鑰 *snapcenter_public_key.pub* 和 *snapcenter_linux_host_plugin.bin.sig* 驗證二進位套件的簽章。
+
+
+NOTE: 確保要安裝插件的主機上安裝了 *OpenSSL 1.0.2g*。
+
+透過執行以下命令驗證二進位套件的簽章：
+
+* 對於 Linux 主機： `openssl dgst -sha256 -verify snapcenter_public_key.pub -signature snapcenter_linux_host_plugin.bin.sig snapcenter_linux_host_plugin.bin`
+* 對於 AIX 主機： `openssl dgst -sha256 -verify snapcenter_public_key.pub -signature snapcenter_aix_host_plugin.bsx.sig snapcenter_aix_host_plugin.bsx`
+
+
+
+
+== 使用 cmdlet 在多個遠端主機上安裝
+
+您應該使用 _Install-SmHostPackage_ PowerShell cmdlet 在多個主機上安裝適用於 Linux 的SnapCenter插件包或適用於 AIX 的SnapCenter插件包。
+
+*您需要什麼*
+
+您應該以網域使用者身分登入SnapCenter ，並在要安裝插件包的每個主機上擁有本機管理員權限。
+
+*步驟*
+
+. 啟動 PowerShell。
+. 在SnapCenter Server 主機上，使用 _Open-SmConnection_ cmdlet 建立會話，然後輸入您的憑證。
+. 使用 _Install-SmHostPackage_ cmdlet 和所需參數安裝適用於 Linux 的SnapCenter插件包或適用於 AIX 的SnapCenter插件包。
++
+當您已經手動安裝了插件並且不想驗證主機是否符合安裝插件的要求時，可以使用_-skipprecheck_選項。
+
++
+
+NOTE: 如果防火牆拒絕規則中指定了插件連接埠防火牆狀態，則預先檢查腳本不會驗證該狀態。
+
+. 輸入您的遠端安裝憑證。
+
+
+可以透過執行_Get-Help command_name_來取得有關可與 cmdlet 一起使用的參數及其描述的資訊。或者，您也可以參考 https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["SnapCenter軟體 Cmdlet 參考指南"^]。
+
+
+
+== 在叢集主機上安裝
+
+您應該在叢集主機的兩個節點上安裝適用於 Linux 的SnapCenter插件包或適用於 AIX 的SnapCenter插件包。
+
+叢集主機的每個節點都有兩個IP。其中一個 IP 將是各個節點的公共 IP，第二個 IP 將是兩個節點之間共享的叢集 IP。
+
+*步驟*
+
+. 在叢集主機的兩個節點上安裝適用於 Linux 的SnapCenter插件包或適用於 AIX 的SnapCenter插件包。
+. 驗證位於 _/var/opt/snapcenter/spl/etc/_ 的 spl.properties 檔案中指定了 SNAPCENTER_SERVER_HOST、SPL_PORT、SNAPCENTER_SERVER_PORT 和 SPL_ENABLED_PLUGINS 參數的正確值。
++
+如果 spl.properties 中未指定 SPL_ENABLED_PLUGINS，則可以新增它並指派值 SCO,SCU。
+
+. 在SnapCenter Server 主機上，使用 _Open-SmConnection_ cmdlet 建立會話，然後輸入您的憑證。
+. 在每個節點中，使用 _Set-PreferredHostIPsInStorageExportPolicy_ sccli 指令和所需參數設定節點的首選 IP。
+. 在SnapCenter Server 主機中，在 _C:\Windows\System32\drivers\etc\hosts_ 中新增叢集 IP 和對應 DNS 名稱的項目。
+. 透過指定主機名稱的叢集 IP，使用 _Add-SmHost_ cmdlet 將節點新增至SnapCenter伺服器。
+
+
+發現節點 1 上的 Oracle 資料庫（假設叢集 IP 託管在節點 1 上）並建立資料庫的備份。如果發生故障轉移，您可以使用在節點 1 上建立的備份來還原節點 2 上的資料庫。您也可以使用在節點 1 上建立的備份在節點 2 上建立克隆。
+
+
+NOTE: 如果在執行任何其他SnapCenter作業時發生故障轉移，則會出現過時的磁碟區、目錄和鎖定檔案。
+
+
+
+== 靜默模式下安裝 Linux 插件包
+
+您可以使用命令列介面 (CLI) 以靜默模式安裝適用於 Linux 的SnapCenter插件包。
+
+*您需要什麼*
+
+* 您應該查看安裝插件包的先決條件。
+* 您應該確保未設定 DISPLAY 環境變數。
++
+如果設定了 DISPLAY 環境變量，則應執行 unset DISPLAY，然後嘗試手動安裝插件。
+
+
+
+*關於此任務*
+
+在控制台模式下安裝時，您需要提供必要的安裝信息，而在靜默模式下安裝時，您不必提供任何安裝信息。
+
+*步驟*
+
+. 從SnapCenter伺服器安裝位置下載適用於 Linux 的SnapCenter插件套件。
++
+預設安裝路徑為_C:\ProgramData\ NetApp\ SnapCenter\PackageRepository_。可以從安裝SnapCenter伺服器的主機存取此路徑。
+
+. 從命令提示字元處，導覽至下載安裝檔案的目錄。
+. 跑步
++
+`./SnapCenter_linux_host_plugin.bin-i silent-DPORT=8145-DSERVER_IP=SnapCenter_Server_FQDN-DSERVER_HTTPS_PORT=SnapCenter_Server_Port-DUSER_INSTALL_DIR==/opt/custom_path`
+
+. 編輯位於 _/var/opt/snapcenter/spl/etc/_ 的 spl.properties 檔案以新增 SPL_ENABLED_PLUGINS=SCO,SCU，然後重新啟動SnapCenter插件Loader服務。
+
+
+
+IMPORTANT: 插件包的安裝會在主機上註冊插件，而不是在SnapCenter伺服器上註冊。您應該透過使用SnapCenter GUI 或 PowerShell cmdlet 新增主機在SnapCenter伺服器上註冊插件。新增主機時，選擇“無”作為憑證。新增主機後，會自動發現已安裝的插件。
+
+
+
+== 靜默模式下安裝 AIX 插件包
+
+您可以使用命令列介面 (CLI) 以靜默模式安裝適用於 AIX 的SnapCenter插件包。
+
+*您需要什麼*
+
+* 您應該查看安裝插件包的先決條件。
+* 您應該確保未設定 DISPLAY 環境變數。
++
+如果設定了 DISPLAY 環境變量，則應執行 unset DISPLAY，然後嘗試手動安裝插件。
+
+
+
+*步驟*
+
+. 從SnapCenter伺服器安裝位置下載適用於 AIX 的SnapCenter插件包。
++
+預設安裝路徑為_C:\ProgramData\ NetApp\ SnapCenter\PackageRepository_。可以從安裝SnapCenter伺服器的主機存取此路徑。
+
+. 從命令提示字元處，導覽至下載安裝檔案的目錄。
+. 跑步
++
+`./snapcenter_aix_host_plugin.bsx-i silent-DPORT=8145-DSERVER_IP=SnapCenter_Server_FQDN-DSERVER_HTTPS_PORT=SnapCenter_Server_Port-DUSER_INSTALL_DIR==/opt/custom_path-DINSTALL_LOG_NAME=SnapCenter_AIX_Host_Plug-in_Install_MANUAL.log-DCHOSEN_FEATURE_LIST=CUSTOMDSPL_USER=install_user`
+
+. 編輯位於 _/var/opt/snapcenter/spl/etc/_ 的 spl.properties 檔案以新增 SPL_ENABLED_PLUGINS=SCO,SCU，然後重新啟動SnapCenter插件Loader服務。
+
+
+
+IMPORTANT: 插件包的安裝會在主機上註冊插件，而不是在SnapCenter伺服器上註冊。您應該透過使用SnapCenter GUI 或 PowerShell cmdlet 新增主機在SnapCenter伺服器上註冊插件。新增主機時，選擇“無”作為憑證。新增主機後，會自動發現已安裝的插件。

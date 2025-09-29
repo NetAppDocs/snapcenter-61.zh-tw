@@ -1,0 +1,76 @@
+---
+permalink: protect-sce/task_configure_snapmanager_7_x_for_exchange_and_snapcenter_plug_in_for_exchange_to_coexist.html 
+sidebar: sidebar 
+keywords: SnapCenter plug-in for Exchange Server 
+summary: 要使SnapCenter Plug-in for Microsoft Exchange Server 與SnapManager for Microsoft Exchange Server 共存，您需要在安裝了 SnapManager for Microsoft Exchange Server 的同一 Exchange Server 上安裝SnapCenter SnapManager -in for Microsoft Exchange Server，禁用SnapManager for Exchange 計劃，然後使用SnapCenter Plug-in for Microsoft Exchange Server 配置新的計劃和備份。 
+---
+= 配置SnapManager 7.x 以使 Exchange 和SnapCenter共存
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+要使SnapCenter Plug-in for Microsoft Exchange Server 與SnapManager for Microsoft Exchange Server 共存，您需要在安裝了 SnapManager for Microsoft Exchange Server 的同一 Exchange Server 上安裝SnapCenter SnapManager -in for Microsoft Exchange Server，禁用SnapManager for Exchange 計劃，然後使用SnapCenter Plug-in for Microsoft Exchange Server 配置新的計劃和備份。
+
+.開始之前
+* SnapManager for Microsoft Exchange Server 和SnapDrive for Windows 已安裝，且SnapManager for Microsoft Exchange Server 備份存在於系統和 SnapInfo 目錄中。
+* 您應該已刪除或回收不再需要的SnapManager for Microsoft Exchange Server 所建立的備份。
+* 您應該已從 Windows 排程器中暫停或刪除由SnapManager for Microsoft Exchange Server 建立的所有計畫。
+* 適用於 Microsoft Exchange Server 的SnapCenter外掛程式和適用於 Microsoft Exchange Server 的SnapManager可以共存於同一 Exchange Server 上，但無法將現有的適用於 Microsoft Exchange Server 的SnapManager安裝升級至SnapCenter。
++
+SnapCenter不提供升級選項。
+
+* SnapCenter不支援從SnapManager for Microsoft Exchange Server 備份還原 Exchange 資料庫。
++
+如果安裝SnapCenter Plug-in for Microsoft Exchange Server 後未解除安裝SnapManager for Microsoft Exchange Server，且稍後想要還原SnapManager for Microsoft Exchange Server 備份，則必須執行其他步驟。
+
+
+
+.步驟
+. 在所有 DAG 節點上使用 PowerShell，確定SnapDrive for Windows VSS 硬體提供者是否已註冊：_vssadmin list providers_
++
+[listing]
+----
+C:\Program Files\NetApp\SnapDrive>vssadmin list providers
+vssadmin 1.1 - Volume Shadow Copy Service administrative command-line tool
+(C) Copyright 2001-2013 Microsoft Corp.
+
+Provider name: 'Data ONTAP VSS Hardware Provider'
+   Provider type: Hardware
+   Provider Id: {ddd3d232-a96f-4ac5-8f7b-250fd91fd102}
+   Version: 7. 1. 4. 6845
+----
+. 從SnapDrive目錄中，從SnapDrive for Windows 取消註冊 VSS 硬體提供者：_navssprv.exe -r service –u_
+. 驗證 VSS 硬體提供者是否已被刪除：_vssadmin list providers_
+. 將 Exchange 主機新增至SnapCenter，然後安裝適用於 Microsoft Windows 的SnapCenter外掛程式和適用於 Microsoft Exchange Server 的SnapCenter外掛程式。
+. 從所有 DAG 節點上的SnapCenter Plug-in for Microsoft Windows 目錄中，驗證 VSS 硬體提供者是否已註冊：_vssadmin list providers_
++
+[listing]
+----
+[PS] C:\Windows\system32>vssadmin list providers
+vssadmin 1.1 - Volume Shadow Copy Service administrative command-line tool
+(C) Copyright 2001-2013 Microsoft Corp.
+
+Provider name: 'Data ONTAP VSS Hardware Provider'
+   Provider type: Hardware
+   Provider Id: {31fca584-72be-45b6-9419-53a3277301d1}
+   Version: 7. 0. 0. 5561
+----
+. 停止SnapManager for Microsoft Exchange Server 備份計畫。
+. 使用SnapCenter GUI，建立按需備份、設定排程備份以及設定保留設定。
+. 解除安裝適用於 Microsoft Exchange Server 的SnapManager 。
++
+如果您現在不卸載SnapManager for Microsoft Exchange Server，但稍後想要還原SnapManager for Microsoft Exchange Server 備份：
+
++
+.. 從所有 DAG 節點取消註冊適用於 Microsoft Exchange Server 的SnapCenter外掛程式：_navssprv.exe -r service -u_
++
+[listing]
+----
+C:\Program Files\NetApp\SnapCenter\SnapCenter Plug-in for Microsoft Windows>navssprv.exe -r service -u
+----
+.. 從 _C:\Program Files\ NetApp\ SnapDrive\_ 目錄中，在所有 DAG 節點上註冊SnapDrive for Windows：_navssprv.exe -r service -a hostname\\username -p password_
+
+
+

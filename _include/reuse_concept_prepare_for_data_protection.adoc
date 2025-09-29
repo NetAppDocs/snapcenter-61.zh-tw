@@ -1,0 +1,11 @@
+= 
+:allow-uri-read: 
+
+
+在執行任何資料保護操作（例如備份、複製或復原作業）之前，您必須定義策略並設定環境。您也可以設定SnapCenter伺服器以使用SnapMirror和SnapVault技術。
+
+若要利用SnapVault和SnapMirror技術，您必須在儲存裝置上設定並初始化來源磁碟區和目標磁碟區之間的資料保護關係。您可以使用 NetAppSystem Manager 或儲存控制台命令列來執行這些任務。
+
+*查找更多資訊*
+
+link:https://docs.netapp.com/us-en/ontap-automation/getting_started_with_the_rest_api.html["開始使用 REST API"]
