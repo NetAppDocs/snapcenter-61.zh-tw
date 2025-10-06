@@ -35,7 +35,7 @@ SnapCenter包括SnapCenter伺服器和輕量級插件。您可以自動將外掛
 * 在混合雲中本地保護以下內容：
 +
 ** 位於ONTAP FAS、 AFF或ASA主系統上並複製到Cloud Volumes ONTAP 的數據
-** 位於ONTAP FAS、 AFF或ASA主系統和輔助系統上並受雲端中的物件和歸檔儲存保護的資料（使用BlueXP backup and recovery整合）
+** 位於ONTAP FAS、 AFF或ASA主系統和輔助系統上的數據，使用NetApp備份和恢復整合保護到雲端中的物件和歸檔存儲
 
 
 * 在公有雲中保護以下內容：

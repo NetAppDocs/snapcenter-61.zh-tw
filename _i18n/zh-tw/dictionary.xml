@@ -1905,7 +1905,6 @@
   <block id="6e13f804ad8be111cf6ad70744afe388" category="list-text">ONTAP ASA r2 主系統和輔助系統上的數據</block>
   <block id="67387428a7e5d4e4205f94627d948f8a" category="list-text">在混合雲中本地保護以下內容：</block>
   <block id="f5c37d824040662f50cbb8a32d77182d" category="list-text">位於ONTAP FAS、 AFF或ASA主系統上並複製到Cloud Volumes ONTAP 的數據</block>
-  <block id="f7b38c62b0e74d318a255bc3094cf531" category="list-text">位於ONTAP FAS、 AFF或ASA主系統和輔助系統上並受雲端中的物件和歸檔儲存保護的資料（使用BlueXP backup and recovery整合）</block>
   <block id="ca5570a253e3c0a27562c65c06bb6125" category="list-text">在公有雲中保護以下內容：</block>
   <block id="b340c2b4a7a978a510c8ebb351622143" category="list-text">Cloud Volumes ONTAP （以前稱為ONTAP Cloud）主系統上的數據</block>
   <block id="b380e442ff5c6e48e283af8b6f99806f" category="list-text">Amazon FSX for ONTAP上的數據</block>
@@ -9557,4 +9556,6 @@
   <block id="f897b927586bd6bd028584aba8e31bfb" category="list-text">重新命名主機</block>
   <block id="1a0d33a6ceb2e17c427b7c566389891d" category="list-text">檢索所有資源</block>
   <block id="bdd6d606b70db547418beb7cef6dd4c3" category="list-text">使用金鑰檢索 Microsoft SQL Server 資源</block>
+  <block id="88d9e24753477cfb09f25b21c0a59b9e" category="paragraph">SnapCenter完成 Snapshot 作業後對SnapMirror和SnapVault執行更新。SnapMirror和SnapVault更新作為SnapCenter作業的一部分執行。如果您正在使用SnapMirror主動同步，則對於SnapMirror主動同步和非同步關係，請使用預設SnapMirror或SnapVault方案。</block>
+  <block id="ea1c96f839915f73d25b910bbc92b734" category="list-text">位於ONTAP FAS、 AFF或ASA主系統和輔助系統上的數據，使用NetApp備份和恢復整合保護到雲端中的物件和歸檔存儲</block>
 </blocks>
