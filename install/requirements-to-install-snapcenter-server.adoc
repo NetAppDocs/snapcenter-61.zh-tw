@@ -168,7 +168,7 @@ SnapCenter software需要不同的連接埠來實現不同元件之間的通訊�
 
 
  a| 
-SnapCenter端口
+SnapCenter Web 連接埠
  a| 
 8146
  a| 
