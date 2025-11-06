@@ -160,24 +160,9 @@ IIS 管理腳本和工具
 
 
  a| 
-訊息佇列
- a| 
-* 訊息隊列服務
-+
-
-NOTE: 確保沒有其他應用程式使用SnapCenter建立和管理的 MSMQ 服務。
-
-* RabbitMQ
-* Erlang
-
-
-
-
- a| 
 Windows 進程啟動服務
  a| 
-* 流程模型
-
+流程模型
 
 
 
