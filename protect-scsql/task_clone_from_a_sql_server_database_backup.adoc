@@ -162,9 +162,7 @@ NOTE: 對於電子郵件通知，您必須使用 GUI 或 PowerShell 命令 Set-S
 創建克隆後，您永遠不應對其進行重命名。
 
 .相關資訊
-https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/Clone_operation_might_fail_or_take_longer_time_to_complete_with_default_TCP_TIMEOUT_value["克隆操作可能失敗或需要更長時間才能完成，且使用預設 TCP_TIMEOUT 值"]
-
-https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/The_failover_cluster_instance_database_clone_fails["故障轉移群集實例資料庫克隆失敗"]
+https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/The_failover_cluster_instance_database_clone_fails["故障轉移群集實例資料庫克隆失敗"^]
 
 --
 .PowerShell cmdlet

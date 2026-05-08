@@ -19,7 +19,7 @@ summary: '如果您的資料庫儲存在虛擬機器 (VM) 上，或者您想要�
 
 == 部署 CA 憑證
 
-若要使用適用SnapCenter Plug-in for VMware vSphere設定 CA 證書，請參閱 https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/How_to_create_and_or_import_an_SSL_certificate_to_SnapCenter_Plug-in_for_VMware_vSphere_(SCV)["建立或匯入 SSL 憑證"^]。
+若要使用 SnapCenter Plug-in for VMware vSphere 設定 CA 憑證，請參閱 https://kb.netapp.com/data-mgmt/SnapCenter/SC_KBs/How_to_create_and_or_import_an_SSL_certificate_to_SnapCenter_Plug-in_for_VMware_vSphere["建立或匯入 SSL 憑證"^]。
 
 
 

@@ -26,5 +26,3 @@ image::../media/scsql_clone_workflow.gif[克隆工作流程圖]
 link:task_clone_from_a_sql_server_database_backup.html["從 SQL Server 資料庫備份克隆"]
 
 link:task_perform_clone_lifecycle_management.html["執行複製生命週期"]
-
-link:https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/Clone_operation_might_fail_or_take_longer_time_to_complete_with_default_TCP_TIMEOUT_value["克隆操作可能失敗或需要更長時間才能完成，且使用預設 TCP_TIMEOUT 值"]

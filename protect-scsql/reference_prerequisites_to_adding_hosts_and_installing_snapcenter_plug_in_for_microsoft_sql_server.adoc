@@ -21,7 +21,7 @@ summary: 在新增主機和安裝插件包之前，您必須完成所有要求�
 適用於 Microsoft SQL Server 的SnapCenter外掛程式使用 Microsoft VDI 框架，該框架需要係統管理員存取權。
 
 +
-https://mskb.pkisolutions.com/kb/2926557["Microsoft 支援文章 2926557：SQL Server VDI 備份與還原作業需要 Sysadmin 權限"]
+https://mskb.pkisolutions.com/kb/2926557["Microsoft 支援文章 2926557：SQL Server VDI 備份與還原作業需要 Sysadmin 權限"^]
 
 * 在 Windows 主機上安裝插件時，如果指定非內建的憑證或使用者屬於本機工作群組用戶，則必須在主機上停用 UAC。
 * 如果安裝了SnapManager for Microsoft SQL Server，則必須停止或停用該服務和計畫。
